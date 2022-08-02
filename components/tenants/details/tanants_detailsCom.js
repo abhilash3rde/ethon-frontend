@@ -244,8 +244,8 @@ function TanantsDetailsCom() {
                             <div className={layoutOption ? 'block' : 'hidden'}>
                                 <div className='grid grid-cols-3 gap-2 '>
                                     {tenants_detail?.photos?.map((item, index) =>
-                                        <div>
-                                            <div key={index} className="w-20 h-20 ">
+                                        <div key={index} >
+                                            <div className="w-20 h-20 ">
                                                 <img
                                                     src={item?.photo_src}
                                                     onClick={()=>OpenLight(item.photo_src)
