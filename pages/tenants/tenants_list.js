@@ -9,6 +9,8 @@ function TenantsList() {
 
     // const add_new = "/tenants/tenants-form"
 
+    
+
     return (
         <div className="">
             <header className="z-50 bg-[#fff] pt-4 pt-2 shadow-[1px_5px_13px_2px_#0000000d] overflow-hidden">

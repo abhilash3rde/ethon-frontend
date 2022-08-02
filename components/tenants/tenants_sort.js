@@ -1,6 +1,61 @@
+import { useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getTenants, getTenantsFilter } from "../../redux/action/tenants";
+import { filterTenantsAPI } from "../../redux/APIS/API";
 
 
 function TenantsSort() {
+
+    const [searchTitle, setSeachTitle] = useState("")
+    const [searchOption, setSeachOption] = useState("none")
+
+    const dispatch = useDispatch()
+
+    // function getData(val){
+    //     setSeachTitle(val.target.value)
+    // }
+    useEffect(() => {
+        if (searchTitle!==""||searchOption!=="none"){
+           
+            let data ={
+                posts_per_page: "100",
+                paged: "1",
+                sort_by_field: searchOption?searchOption:"",
+                search_by_keyword: searchTitle?searchTitle:""
+            
+            }
+            const delayDebounceFn=   setTimeout(() => {
+                dispatch(getTenantsFilter(data))
+            }, 2000);
+           
+          
+              return () => clearTimeout(delayDebounceFn)
+        }else {
+            dispatch(getTenants())
+        }
+      
+        
+    }, [dispatch, searchOption, searchTitle])
+  
+ 
+
+    // const Sortformik = useFormik({
+    //     initialValues: {
+    //         posts_per_page: "10",
+    //         paged: "1",
+    //         sort_by_field: '',
+    //         search_by_keyword: searchTitle
+    //     },
+    //     onSubmit: value => {
+    //         console.log(value)
+    //     }
+    // })
+
+
+
+
+
     return (
         <div className="App">
             <div className='flex justify-between items-center gap-[10px] py-2 px-4'>
@@ -9,16 +64,27 @@ function TenantsSort() {
                 </div>
 
                 <div className='w-[40%]'>
-                    <select className=" w-full border-2 text-[10px] bg-white py-2 px-[2px] rounded-[10px] focus:outline-none focus:border-theme">
-                        <option selected>Alphabetically</option>
-                        <option>Size</option>
-                        <option>Number</option>
+                    <select
+                        name='sort_by_field'
+                        id='sort_by_field'
+                        onChange={(e) => setSeachOption(e.target.value)}
+                      
+                        value={searchOption}   
+                        className=" w-full border-2 text-[10px] bg-white py-2 px-[2px] rounded-[10px] focus:outline-none focus:border-theme">
+                         <option value='none'>selectOption</option>
+                        <option value='unit'>Unit #</option>
+                        <option value='a-z'>Alphabetically</option>
+                        <option value='status'>Status</option>
                     </select>
+
                 </div>
 
                 <div className='w-[50%]'>
                     <div className='w-full'>
                         <input
+                            name='search_by_keyword'
+                            value={searchTitle}
+                             onChange={(e)=>setSeachTitle(e.target.value)}
                             className="border-2 rounded-[10px]  w-full focus:outline-none focus:border-theme 
                             text-[10px] py-2 px-2 rounded-[10px] focus:outline-none focus:border-theme "
                             placeholder="Search than Enter" />

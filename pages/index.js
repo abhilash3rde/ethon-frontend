@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import { postLoginAPI } from '../redux/APIS/API';
 import toast from 'react-hot-toast';
 import { reactLocalStorage } from 'reactjs-localstorage';
+import { useDispatch } from 'react-redux';
+import { UserActive } from '../redux/action/user-active';
 
 
 
@@ -16,6 +18,7 @@ function Login() {
     const[showpassword, setShowpassword] = useState(false);
     const router = useRouter()
 
+    const dispatch = useDispatch()
 
     const validate = (values) => {
         const errors = {};
@@ -38,14 +41,16 @@ function Login() {
             username: '',
             password: '',
           },
-        //   validate,
+          validate,
           onSubmit: async data => {
             try {
               const respon = await postLoginAPI(data)
               console.log(respon)
               reactLocalStorage.set("token",respon.data.data.token)
+              dispatch(UserActive(respon.data.data))
               toast.success(respon.data.message)
               router.push('/dashboard');
+              
             } catch (error) {
                 console.log(error)
               router.push('/auth/forget_password');
@@ -53,6 +58,8 @@ function Login() {
             }
           },
     });
+
+
 
     return (
         <div className="Login page w-full h-screen overflow-x-hidden">

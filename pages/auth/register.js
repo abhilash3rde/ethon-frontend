@@ -61,7 +61,6 @@ function Register() {
                 const respon = await postRegistationAPI(data)
                 toast.success(respon.data.message)
                 router.push('/auth/login');
-
             }
             catch (error) {
                 toast.error(error.response.data.message)

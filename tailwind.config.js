@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         'theme': '#000',
       },
+      display: ["group-hover"],
     },
   },
   plugins: [],

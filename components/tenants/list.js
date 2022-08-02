@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from "react-redux";
 import { getTenants } from "../../redux/action/tenants";
 import { getSingleTenants } from "../../redux/action/single-tenants";
+import { getTenantDetail } from "../../redux/action/tenants-detail";
 
 
 
@@ -15,56 +16,38 @@ function ListItem() {
 
     const router = useRouter();
 
-    useEffect(() => {
-        dispatch(getTenants())
-
-    }, [])
 
 
     const clients = useSelector((state) => state.tenants.tenants.data)
 
     return (
         <div className="list">
-            {/* <div className="ListHeader">
-                <div className='flex justify-between items-center gap-[10px] pt-4 px-4'>
-                    <div className="w-[20%]">
-                        <h6 className="text-sm">Unit #</h6>
-                    </div>
-                    <div className="w-[50%]">
-                        <h1 className="text-sm">Tenant Name</h1>
-                    </div>
-
-                    <div className="w-[30%]">
-                        <h1 className="text-sm">Click to call</h1>
-                    </div> 
-                </div>
-                <hr />
-            </div> */}
             <div className="body">
                 <div className="ListDetails mb-20">
                     {clients?.map((item, index) =>
                         <div key={index}>
                             <div className='flex items-start w-[100%]  gap-[3px] pt-4 px-4'>
                                 <div className="w-[20%]">
-                                    <h6 className="text-[15px] font-[500]">{item.id}</h6>
+                                    <h6 className="text-[15px] font-[500]">{item.unit}</h6>
                                 </div>
 
-                                    <div className="w-[60%]" onClick={()=>{ 
-                                        dispatch(getSingleTenants(item)),
-                                        router.push('/tenants/tenants_details')}
-                                        }>
-                                    
-                                        <div className="w-full">
-                                            <h1 className="text-[15px] font-[500]">{item.company_name}</h1>
-                                            <div className="flex opacity-50 gap-[10px] items-center ">
-                                                <span className="text-[10px] text-[#000] ">{item.status}</span>|
-                                                <span className="text-[10px] text-[#000] ">{item.complex}</span>
-                                            </div>
+                                <div className="w-[60%]" onClick={() => {
+                                    // dispatch(getSingleTenants(item)),
+                                    dispatch(getTenantDetail(item.ID)),
+                                        router.push('/tenants/tenants_details')
+                                }}>
+
+                                    <div className="w-full">
+                                        <h1 className="text-[15px] font-[500] uppercase">{item.company_name}</h1>
+                                        <div className="flex opacity-50 gap-[10px] items-center ">
+                                            <span className="text-[10px] text-[#000] uppercase ">{item.status}</span>
+                                            <span className="text-[10px] text-[#000]  uppercase">{item.complex}</span>
                                         </div>
                                     </div>
+                                </div>
 
                                 <div className="w-[20%] pl-[4%]">
-                                    <Link href={'tel:' + item.phone_number}>
+                                    <Link href={'tel:' + item.primary_phone}>
                                         <a>
                                             <IoCall className="text-xl" />
                                         </a>
@@ -74,7 +57,13 @@ function ListItem() {
                             <hr />
                         </div>
                     )}
+
                 </div>
+                {clients?.length == 0 && (<div className="flex w-full items-center justify-center p-5">
+                    <span>
+                        no data
+                    </span>
+                </div>)}
 
 
             </div>
@@ -84,3 +73,4 @@ function ListItem() {
 }
 
 export default ListItem;
+

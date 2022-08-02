@@ -2,13 +2,26 @@ import SubHeader from "../../components/tenants/header";
 import TanantsDetailsCom from "../../components/tenants/details/tanants_detailsCom";
 import NavigationButton from "../../components/tenants/details/navigation_button";
 import DeletePopup from "../../components/tenants/deletepopup";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 
 
 function TenantsDetails() {
 
     const [showPopup, setShowPopup] = useState(true);
 
+    const router = useRouter()
+
+    const open = () => {
+        setShowPopup(false)
+        console.log("false")
+    }
+
+    const close = () => {
+        setShowPopup(true)
+        console.log("true")
+    }
 
     return (
         <div className="App">
@@ -19,8 +32,13 @@ function TenantsDetails() {
 
 
             <TanantsDetailsCom />
-            <DeletePopup  datashow={showPopup? "hidden" : "block"} onClicked={()=>setShowPopup(true)} />
-            <NavigationButton BtnFirst={"Edit"} onClick={()=>setShowPopup(false)} />
+            <DeletePopup  datashow={showPopup? "hidden" : "block"} onClicked={close} />
+            <NavigationButton 
+            BtnFirst={"Edit"}  
+            BtnFirstOnclick={()=>{ 
+                router.push('/tenants/tenants_form?edit=true')
+            }}
+            SecondOnClick={open} />
 
         </div>
     )

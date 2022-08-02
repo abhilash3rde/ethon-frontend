@@ -1,16 +1,40 @@
 import React from "react";
-import { useState } from 'react';
-import {
-    IoMenu,
-    IoArrowBackOutline,
-} from "react-icons/io5";
-import Link from 'next/link';
+import {useDispatch, useSelector } from "react-redux";
+import toast from 'react-hot-toast';
+import { deleteTenantsAPI } from "../../redux/APIS/API";
+import { getTenants } from "../../redux/action/tenants";
+import { useRouter } from 'next/router';
+
+
 
 
 function DeletePopup(props) {
 
-    // const [close, setClose] = useState(false);
-    // const [customtype, setCustomtype] = useState(true);
+
+  const tanents_id = useSelector((state)=> state.tenantsDetails.tenantsDetails.data?.ID)
+
+  console.log(tanents_id)
+
+  const dispatch = useDispatch()
+
+  const router = useRouter();
+
+
+    async function deleteUser(){
+        try {
+          const respon = await deleteTenantsAPI({
+            "tenent_ids": [tanents_id]
+        })
+          console.log(respon)
+          toast.success(respon.data.message)
+          dispatch(getTenants())
+          router.push('/tenants/tenants_list');
+        } catch (error) {
+          console.log(error)
+            //router.push('/tenants/tenants_list');
+          //toast.error(error.response.data.message)
+        }
+      }
 
 
     return (
@@ -29,7 +53,7 @@ function DeletePopup(props) {
                             <div className="flex justify-center">
 
                                 <div
-                                    onClick={props.onClicked}
+                                    onClick={deleteUser}
                                     className="bg-white w-[50%] py-2 flex justify-center">
                                     <div className=" py-2 w-[100%] mx-auto w-full flex justify-center text-red-600 
                                     rounded-[10px] ">

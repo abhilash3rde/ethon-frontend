@@ -1,11 +1,16 @@
 // import NavigationButton from "../../components/tenants/details/navigation_button";
 import SubHeader from "../../components/tenants/header";
-import { useFormik } from 'formik';
-import { postTenantsAPI } from "../../redux/APIS/API";
+import { useFormik, setFieldValue } from 'formik';
+import { deleteTenantsPhotoAPI, EditTenantsAPI, postTenantsAddPhotosAPI, postTenantsAPI } from "../../redux/APIS/API";
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router'
 import Customtype from "../../components/tenants/details/customtype";
 import { useState, useEffect } from "react";
+import AddPhoto from '../../components/tenants/details/addPhotos'
+import { useDispatch, useSelector } from "react-redux";
+
+
+
 
 
 
@@ -14,159 +19,126 @@ function TanantsFrom() {
 
     const [custom, setCustom] = useState(false)
 
-    const [images, setImage] = useState();
-
-
+const [photosApi,setPhotos] = useState([])
     function Closecustom() {
         setCustom(false)
     }
 
-    // const validate = (values) => {
-    //     const errors = {};
+    const dispatch = useDispatch()
 
-    //     if (!values.company_name) {
-    //         errors.company_name = "Please Enter Company Name"
-    //     }
+    const editTenants = useSelector((state) => state.tenantsDetails.tenantsDetails.data)
 
-    //     if (!values.address) {
-    //         errors.address = "Please Enter address Name"
-    //     }
-
-    //     if (!values.unit) {
-    //         errors.unit = "Please Enter Unit"
-    //     }
+    const editTenants_id = useSelector((state) => state.tenantsDetails.tenantsDetails.data?.ID)
+    console.log(editTenants, 'Tenants_id id')
 
 
-    //     if (!values.city) {
-    //         errors.city = "Please Enter city Name"
-    //     }
-
-    //     if (!values.state) {
-    //         errors.state = "Please Enter State "
-    //     }
-
-
-    //     if (!values.zip_code) {
-    //         errors.zip_code = "Please Enter zip Code"
-    //     }
-
-    //     if (!values.title) {
-    //         errors.title = "Please Enter title "
-    //     }
-
-
-    //     if (!values.phone_number) {
-    //         errors.phone_number = "Please Enter Phone Number"
-    //     }
-
-    //     if (!values.email) {
-    //         errors.email = "Please Enter email Number"
-    //     }
-
-    //     if (!values.fname) {
-    //         errors.fname = "Please Enter fname Number"
-    //     }
-
-    //     if (!values.lname) {
-    //         errors.lname = "Please Enter lname"
-    //     }
-
-    //     if (!values.status) {
-    //         errors.status = "Please Enter Status"
-    //     }
-
-    //     if (!values.status) {
-    //         errors.status = "Please Enter Status"
-    //     }
-
-    //     if (!values.complex) {
-    //         errors.complex = "Please Enter Complex"
-    //     }
-
-
-
-
-
-    //     if (!values.contact_phone) {
-    //         errors.contact_phone = "Please Enter Contact Phone"
-    //     }
-
-    //     if (!values.contact_email) {
-    //         errors.contact_email = "Please Enter Contact Email"
-    //     }
-
-    //     if (!values.lname) {
-    //         errors.lname = "Please Enter lname"
-    //     }
-
-    //     if (!values.notes) {
-    //         errors.notes = "Please Enter Notes"
-    //     }
-
-    //     if (!values.photos) {
-    //         errors.photos = "Please Enter Photos"
-    //     }
-
-    //     if (!values.photos_details) {
-    //         errors.photos_details = "Please Enter Photos Details"
-    //     }
-
-    //     return errors;
-
-    // }
+    const userId = useSelector((state) => state.userActive.user?.id)
+    console.log(userId, 'user id')
 
 
     const router = useRouter()
+    const userEdit = router.query.edit
+
+
+
+    useEffect(() => {
+
+        if (userEdit) {
+            console.log('edit true')
+            console.log(userEdit, 'params')
+            setPhotos([...editTenants.photos])
+
+        } else {
+            router.push('/tenants/tenants_form');
+            //console.log('user id not found')
+        }
+
+    }, [])
+
 
     const TanantsFramik = useFormik({
         initialValues: {
-            company_name: "",
-            street_address: "",
-            unit: "",
-            city: "",
-            state: "",
-            zip_code: "",
-            phone_number: "",
-            phone_number_type: "",
-            primary_email: "",
-            status: "",
-            complex: "",
+            author: '' + userId,
+            company_name: editTenants?.company_name && userEdit ? editTenants?.company_name : "",
+            street_address: editTenants?.street_address && userEdit ? editTenants?.street_address : "",
+            unit: editTenants?.unit && userEdit ? editTenants?.unit : "",
+            city: editTenants?.city && userEdit ? editTenants?.city : "",
+            state: editTenants?.state && userEdit ? editTenants?.state : "",
+            zip_code: editTenants?.zip_code && userEdit ? editTenants?.zip_code : "",
+            phone_number: editTenants?.phone_number && userEdit ? editTenants?.phone_number : "",
+            phone_number_type: editTenants?.phone_number_type && userEdit ? editTenants?.phone_number_type : "",
+            primary_email: editTenants?.primary_email && userEdit ? editTenants?.primary_email : "",
+            status: editTenants?.status && userEdit ? editTenants?.status : "",
+            complex: editTenants?.complex && userEdit ? editTenants?.complex : "",
 
-            primary_fname: "",
-            primary_lname: "",
-            primary_title: "",
-            primary_phone: "",
-            primary_phone_type: "",
-            primary_second_phone: "",
-            primary_second_phone_type: "",
-            primary_contact_email: "",
+            primary_fname: editTenants?.primary_fname && userEdit ? editTenants?.primary_fname : "",
+            primary_lname: editTenants?.primary_lname && userEdit ? editTenants?.primary_lname : "",
+            primary_title: editTenants?.primary_title && userEdit ? editTenants?.primary_title : "",
+            primary_phone: editTenants?.primary_phone && userEdit ? editTenants?.primary_phone : "",
+            primary_phone_type: editTenants?.primary_phone_type && userEdit ? editTenants?.primary_phone_type : "",
+            primary_second_phone: editTenants?.primary_second_phone && userEdit ? editTenants?.primary_second_phone : "",
+            primary_second_phone_type: editTenants?.primary_second_phone_type && userEdit ? editTenants?.primary_second_phone_type : "",
+            primary_contact_email: editTenants?.primary_contact_email && userEdit ? editTenants?.primary_contact_email : "",
 
-            secondary_fname: "",
-            secondary_lname: "",
-            secondary_title: "",
-            secondary_primary_phone: "",
-            secondary_primary_phone_type: "",
-            secondary_phone: "",
-            secondary_phone_type: "",
-            secondary_contact_email: "",
+            secondary_fname: editTenants?.secondary_fname && userEdit ? editTenants?.secondary_fname : "",
+            secondary_lname: editTenants?.secondary_lname && userEdit ? editTenants?.secondary_lname : "",
+            secondary_title: editTenants?.secondary_title && userEdit ? editTenants?.secondary_title : "",
+            secondary_primary_phone: editTenants?.secondary_primary_phone && userEdit ? editTenants?.secondary_primary_phone : "",
+            secondary_primary_phone_type: editTenants?.company_name && userEdit ? editTenants?.company_name : "",
+            secondary_phone: editTenants?.secondary_phone && userEdit ? editTenants?.secondary_phone : "",
+            secondary_phone_type: editTenants?.secondary_phone_type && userEdit ? editTenants?.secondary_phone_type : "",
+            secondary_contact_email: editTenants?.secondary_contact_email && userEdit ? editTenants?.secondary_contact_email : "",
 
-            notes: "",
-
-            photos: "",
-            // photos_details: "",
-
+            notes: editTenants?.notes && userEdit ? editTenants?.notes : "",
+            photos: []
+            //photos: editTenants?.photos &&userEdit?  editTenants?.photos : "",
+            //photos_details: editTenants?.photos_details &&userEdit?  editTenants?.photos_details : "",
         },
-        // validate,
+        //  validate,
         onSubmit: async values => {
             try {
-                
-                // const respon = await postTenantsAPI(values)
-                // toast.success(respon.data.message)
-                // console.log(respon.message)
-                 console.log(values)
-                // router.push('/tenants/tenants_list')
+
+                if (userEdit === "true") {
+                    values.author = '' + userId
+                    values.tenantId = '' + editTenants_id
+                    console.log(values)
+                    const respon = await EditTenantsAPI(values)
+                    toast.success(respon.data.message)
+                    //console.log("Edit tenants screen load now")
+                    const data = {
+                        // "post_id": "12",
+                        'post_id': '' + editTenants_id,
+                        'author': '' + userId,
+                        'photos': values.photos
+                    }
+                    // console.log(data)
+                    const responsive = await postTenantsAddPhotosAPI(data)
+                    console.log(respon.data)
+                    // toast.success(respon.data.message)
+                    router.push('/tenants/tenants_list')
+                } else {
+                    console.log("add tenants screen load now")
+
+                    const respon = await postTenantsAPI(values)
+                    console.log(respon.data.data.tenant_id, "asadasdsd my data")
+                    const tenant_idasdasd = respon.data.data.tenant_id
+                    const data = {
+                        // "post_id": "12",
+                        'post_id': '' + tenant_idasdasd,
+                        'author': '' + userId,
+                        'photos': values.photos
+                    }
+                    // console.log(data)
+                    const responsive = await postTenantsAddPhotosAPI(data)
+                    console.log(responsive)
+                    toast.success(respon.data.message)
+                    //console.log(respon.message)
+                    router.push('/tenants/tenants_list')
+
+                }
 
             } catch (error) {
+                console.log(error)
                 toast.error(error.response.data.message);
                 console.log(error.response)
             }
@@ -176,7 +148,7 @@ function TanantsFrom() {
 
     useEffect(() => {
 
-        if (TanantsFramik.values.phone_number_type === 'customas') {
+        if (TanantsFramik.values.phone_number_type === 'custom') {
             setCustom('phone_number_type')
         }
 
@@ -209,13 +181,53 @@ function TanantsFrom() {
 
 
 
+    // const convertToBase64 = (file) => {
+    //     return new Promise((resolve, reject) => {
+    //         const fileReader = new FileReader();
+    //         fileReader.readAsDataURL(file);
+    //         fileReader.onload = () => {
+    //             resolve(fileReader.result);
+    //         };
+    //         fileReader.onerror = (error) => {
+    //             reject(error);
+    //         };
+    //     });
+    // };
+    // deleteTenantsPhotoAPI
+    const deletePhoto = (indexDelete) => {
+        const photos = TanantsFramik.values.photos.filter((item, index) => index !== indexDelete)
+        TanantsFramik.setFieldValue("photos", [...photos])
+    }
+    const deletePhotoapi = async (id) => {
+       try {
+        
+      
+        const data = {
 
 
+            "photo_ids": [id]
 
+
+        }
+        await deleteTenantsPhotoAPI(data)
+        const photos =  photosApi.filter((item ) => item.photo_id !== id)
+         
+        setPhotos([...photos])
+
+    }  catch (error) {
+        
+        }
+    }
     return (
         <div className="App">
             <header className="z-50 bg-[#fff] pt-2  shadow-[1px_5px_13px_2px_#0000000d] sticky top-0 overflow-hidden">
-                <SubHeader title={"Add Tenants"} backUrl={'/tenants/tenants_list'} />
+
+
+                {userEdit ?
+                    <SubHeader title={'Edit Tenants'} backUrl={'/tenants/tenants_details'} /> :
+                    <SubHeader title={'Add Tenants'} backUrl={'/tenants/tenants_list'} />
+                }
+
             </header>
 
             <div className="px-4 pb-16 pt-6 ">
@@ -242,7 +254,7 @@ function TanantsFrom() {
                                 />
                             </div>
                             {TanantsFramik.errors.company_name &&
-                                <span className='text-red-500'>{TanantsFramik.errors.company_name}</span>
+                                <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.company_name}</span>
                             }
 
                             <div className='grid grid-cols-1'>
@@ -258,7 +270,7 @@ function TanantsFrom() {
                             </div>
 
                             {TanantsFramik.errors.street_address &&
-                                <span className='text-red-500'>{TanantsFramik.errors.street_address}</span>
+                                <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.street_address}</span>
                             }
                             <div className='grid grid-cols-1'>
                                 <input
@@ -273,7 +285,7 @@ function TanantsFrom() {
                             </div>
 
                             {TanantsFramik.errors.unit &&
-                                <span className='text-red-500'>{TanantsFramik.errors.unit}</span>
+                                <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.unit}</span>
                             }
                             <div className='flex gap-2'>
                                 <div className="w-[40%]">
@@ -287,7 +299,7 @@ function TanantsFrom() {
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
                                     {TanantsFramik.errors.city &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.city}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.city}</span>
                                     }
                                 </div>
 
@@ -303,7 +315,7 @@ function TanantsFrom() {
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
                                     {TanantsFramik.errors.state &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.state}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.state}</span>
                                     }
                                 </div>
 
@@ -314,6 +326,7 @@ function TanantsFrom() {
                                         name="zip_code"
                                         id="zip_code"
                                         placeholder="Zip"
+                                        type='number'
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.zip_code}
                                         className="font-medium  w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px]
@@ -322,7 +335,7 @@ function TanantsFrom() {
 
 
                                     {TanantsFramik.errors.zip_code &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.zip_code}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.zip_code}</span>
                                     }
                                 </div>
 
@@ -337,13 +350,14 @@ function TanantsFrom() {
                                         name="phone_number"
                                         id="phone_number"
                                         placeholder="Primary Phone"
+                                        type='number'
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.phone_number}
                                         className="font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px]
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
                                     {TanantsFramik.errors.phone_number &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.phone_number}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.phone_number}</span>
                                     }
                                 </div>
 
@@ -363,7 +377,7 @@ function TanantsFrom() {
                                         <option value="Office">Office</option>
                                         <option value="Work fax">Work fax</option>
                                         <option value="Other">Other</option>
-                                        <option value='customas'>Custom</option>
+                                        <option value='custom'>Custom</option>
                                     </select>
 
                                     <Customtype
@@ -391,7 +405,7 @@ function TanantsFrom() {
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
                                     {TanantsFramik.errors.primary_email &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.primary_email}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_email}</span>
                                     }
                                 </div>
 
@@ -419,7 +433,7 @@ function TanantsFrom() {
                                     </select>
 
                                     {TanantsFramik.errors.status &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.status}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.status}</span>
                                     }
                                 </div>
 
@@ -439,7 +453,7 @@ function TanantsFrom() {
                                     </select>
 
                                     {TanantsFramik.errors.complex &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.complex}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.complex}</span>
                                     }
 
                                 </div>
@@ -469,7 +483,7 @@ function TanantsFrom() {
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
                                     {TanantsFramik.errors.primary_fname &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.primary_fname}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_fname}</span>
                                     }
                                 </div>
 
@@ -485,8 +499,8 @@ function TanantsFrom() {
                                         className="font-medium  w-full text-[13px] h-[50px] py-[10px] px-[5px] rounded-[5px]
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
-                                    {TanantsFramik.errors.lname &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.primary_lname}</span>
+                                    {TanantsFramik.errors.primary_lname &&
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_lname}</span>
                                     }
                                 </div>
                             </div>
@@ -508,7 +522,7 @@ function TanantsFrom() {
                             </div>
 
                             {TanantsFramik.errors.primary_title &&
-                                <span className='text-red-500'>{TanantsFramik.errors.primary_title}</span>
+                                <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_title}</span>
                             }
 
                             <div className='flex gap-2'>
@@ -517,6 +531,7 @@ function TanantsFrom() {
                                         name="primary_phone"
                                         id="primary_phone"
                                         placeholder="Primary Phone"
+                                        type='number'
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.primary_phone}
                                         className="font-medium w-full text-[13px] h-[50px] py-[10px] px-[5px] rounded-[5px]
@@ -524,7 +539,7 @@ function TanantsFrom() {
                                     />
 
                                     {TanantsFramik.errors.primary_phone &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.primary_phone}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_phone}</span>
                                     }
                                 </div>
 
@@ -533,6 +548,7 @@ function TanantsFrom() {
                                         name='primary_phone_type'
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.primary_phone_type}
+
                                         className="font-medium w-full text-[12px] h-[50px] py-[10px] px-[5px] rounded-[5px]
                                         bg-[#FFF] border-[#cfcfcf8f]  text-theme border-2 focus:border-theme focus:outline-none"
                                     >
@@ -544,13 +560,6 @@ function TanantsFrom() {
                                         <option value='custom'>Custom</option>
                                     </select>
 
-                                    {/* <Customtype
-                                        custom_name='primary_phone_type'
-                                        Formik={TanantsFramik.handleChange}
-                                        custom_value={TanantsFramik.values.primary_phone_type}
-                                        datashow={custom? "block" : "hidden"}
-                                        onClicked={Closecustom}
-                                    /> */}
                                 </div>
                             </div>
 
@@ -560,6 +569,7 @@ function TanantsFrom() {
                                         name="primary_second_phone"
                                         id="primary_second_phone"
                                         placeholder="Secondary Phone"
+                                        type='number'
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.primary_second_phone}
                                         className="font-medium w-full text-[13px] h-[50px] py-[10px] px-[5px] rounded-[5px]
@@ -567,7 +577,7 @@ function TanantsFrom() {
                                     />
 
                                     {TanantsFramik.errors.primary_second_phone &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.primary_second_phone}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_second_phone}</span>
                                     }
                                 </div>
 
@@ -576,6 +586,7 @@ function TanantsFrom() {
                                         name='primary_second_phone_type'
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.primary_second_phone_type}
+
                                         className="font-medium w-full text-[12px] h-[50px] py-[10px] px-[5px] rounded-[5px]
                                         bg-[#FFF] border-[#cfcfcf8f]  text-theme border-2 focus:border-theme focus:outline-none"
                                     >
@@ -586,14 +597,6 @@ function TanantsFrom() {
                                         <option value="Other">Other</option>
                                         <option value='custom'>Custom</option>
                                     </select>
-
-                                    {/* <Customtype
-                                        custom_name='primary_second_phone_type'
-                                        Formik={TanantsFramik.handleChange}
-                                        custom_value={TanantsFramik.values.primary_second_phone_type}
-                                        datashow={custom? "block" : "hidden"}
-                                        onClicked={Closecustom}
-                                    /> */}
                                 </div>
                             </div>
 
@@ -613,7 +616,7 @@ function TanantsFrom() {
 
 
                                     {TanantsFramik.errors.primary_contact_email &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.primary_contact_email}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_contact_email}</span>
                                     }
                                 </div>
 
@@ -642,7 +645,7 @@ function TanantsFrom() {
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
                                     {TanantsFramik.errors.secondary_fname &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.secondary_fname}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.secondary_fname}</span>
                                     }
                                 </div>
 
@@ -659,7 +662,7 @@ function TanantsFrom() {
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
                                     {TanantsFramik.errors.secondary_lname &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.secondary_lname}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.secondary_lname}</span>
                                     }
                                 </div>
                             </div>
@@ -681,7 +684,7 @@ function TanantsFrom() {
                             </div>
 
                             {TanantsFramik.errors.secondary_title &&
-                                <span className='text-red-500'>{TanantsFramik.errors.secondary_title}</span>
+                                <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.secondary_title}</span>
                             }
 
                             <div className='flex gap-2'>
@@ -690,6 +693,7 @@ function TanantsFrom() {
                                         name="secondary_primary_phone"
                                         id="secondary_primary_phone"
                                         placeholder="Primary Phone"
+                                        type='number'
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.secondary_primary_phone}
                                         className="font-medium w-full text-[13px] h-[50px] py-[10px] px-[5px] rounded-[5px]
@@ -697,7 +701,7 @@ function TanantsFrom() {
                                     />
 
                                     {TanantsFramik.errors.secondary_primary_phone &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.secondary_primary_phone}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.secondary_primary_phone}</span>
                                     }
                                 </div>
 
@@ -716,14 +720,6 @@ function TanantsFrom() {
                                         <option value="Other">Other</option>
                                         <option value='custom' >Custom</option>
                                     </select>
-
-                                    {/* <Customtype
-                                        custom_name='secondary_primary_phone_type'
-                                        Formik={TanantsFramik.handleChange}
-                                        custom_value={TanantsFramik.values.secondary_primary_phone_type}
-                                        datashow={custom? "block" : "hidden"}
-                                        onClicked={Closecustom}
-                                    /> */}
                                 </div>
                             </div>
 
@@ -735,12 +731,13 @@ function TanantsFrom() {
                                         placeholder="Secondary Phone"
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.secondary_phone}
+                                        type='number'
                                         className="font-medium w-full text-[13px] h-[50px] py-[10px] px-[5px] rounded-[5px]
                                          bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
 
                                     {TanantsFramik.errors.secondary_phone &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.secondary_phone}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.secondary_phone}</span>
                                     }
                                 </div>
 
@@ -760,14 +757,6 @@ function TanantsFrom() {
                                         <option value="Other">Other</option>
                                         <option value='custom' >Custom</option>
                                     </select>
-
-                                    {/* <Customtype
-                                        custom_name='secondary_phone_type'
-                                        Formik={TanantsFramik.handleChange}
-                                        custom_value={TanantsFramik.values.secondary_phone_type}
-                                        datashow={custom? "block" : "hidden"}
-                                        onClicked={Closecustom}
-                                    /> */}
                                 </div>
                             </div>
 
@@ -786,7 +775,7 @@ function TanantsFrom() {
                                     />
 
                                     {TanantsFramik.errors.secondary_contact_email &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.secondary_contact_email}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.secondary_contact_email}</span>
                                     }
                                 </div>
                             </div>
@@ -818,7 +807,7 @@ function TanantsFrom() {
 
 
                                     {TanantsFramik.errors.notes &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.notes}</span>
+                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.notes}</span>
                                     }
                                 </div>
                             </div>
@@ -835,50 +824,53 @@ function TanantsFrom() {
                                 </div>
                             </div>
 
-                            <div className='grid grid-cols-1 gap-2'>
-                                <div className="w-[100%]">
-                                    <input
-                                        name="photos"
-                                        id="photos"
-                                        type="file"
-                                        accept='image/*'
-                                        className="py-2 w-full"
-                                        // onChange={(event) => {
-                                        //     TanantsFramik.setFieldValue('photos', event.target.files[0]);
-                                        // }}
 
-                                        onChange={(event)=>setImage(event.target.files[0])}
-                                        value={TanantsFramik.photos}
+                            <AddPhoto formik={TanantsFramik} />
+
+                        </div>
+                        <div className="grid grid-cols-3 gap-1">
+                            {photosApi?.length > 0 && photosApi?.map((item, index) =>
+
+                                <div key={index} className='h-20 w-20 rounded-md group relative '>
+                                    <img
+                                        src={item.photo_src}
+                                        alt={"Photo"}
+                                        className="w-full   h-full"
                                     />
+                                    <div className={"absolute      top-1 flex items-center justify-center   right-0   rounded-md  "}>
 
+                                        <svg onClick={
+                                            () => deletePhotoapi(item.photo_id)
+                                        } xmlns="http://www.w3.org/2000/svg" className="   cursor-pointer stroke-red-500 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                            <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                                        </svg>
 
-                                    {TanantsFramik.errors.photos &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.photos}</span>
-                                    }
+                                    </div>
+
                                 </div>
 
-                                <div className="w-[100%]">
-                                    <textarea
-                                        name="photos_details"
-                                        id="photos_details"
-                                        placeholder="Enter photo details"
-                                        rows="4"
-                                        onChange={TanantsFramik.handleChange}
-                                        value={TanantsFramik.values.photos_details}
-                                        className="font-medium w-full text-[13px] py-[10px] px-[5px] rounded-[5px]
-                                        bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
-                                    >
-                                    </textarea>
+                            )}
+                            {TanantsFramik?.values?.photos?.map((item, index) =>
 
+                                <div key={index} className='h-20 w-20 rounded-md group relative '>
+                                    <img
+                                        src={item.image}
+                                        alt={"Photo"}
+                                        className="w-full   h-full"
+                                    />
+                                    <div className={"absolute      top-1 flex items-center justify-center   right-0   rounded-md  "}>
 
-                                    {TanantsFramik.errors.photos_details &&
-                                        <span className='text-red-500'>{TanantsFramik.errors.photos_details}</span>
-                                    }
+                                        <svg onClick={
+                                            () => deletePhoto(index)
+                                        } xmlns="http://www.w3.org/2000/svg" className="   cursor-pointer stroke-red-500 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                            <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                                        </svg>
+
+                                    </div>
+
                                 </div>
 
-
-                            </div>
-
+                            )}
                         </div>
 
 

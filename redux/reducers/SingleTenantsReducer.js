@@ -1,7 +1,7 @@
 import { GET_SINGLE_TANANTS } from "../action/type";
 
 const initalState = {
-    singleTenants: []
+    singleTenants: null
 }
 
 export const singleTenantsReducer = (state = initalState, action) => {
