@@ -18,7 +18,7 @@ function ListItem() {
 
 
 
-    const clients = useSelector((state) => state.tenants.tenants.data)
+    const clients = useSelector((state) => state.tenants.tenants?.data)
 
     return (
         <div className="list">

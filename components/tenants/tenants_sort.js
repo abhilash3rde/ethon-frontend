@@ -20,7 +20,7 @@ function TenantsSort() {
            
             let data ={
                 posts_per_page: "100",
-                paged: "1",
+                paged: "-1",
                 sort_by_field: searchOption?searchOption:"",
                 search_by_keyword: searchTitle?searchTitle:""
             
@@ -32,7 +32,14 @@ function TenantsSort() {
           
               return () => clearTimeout(delayDebounceFn)
         }else {
-            dispatch(getTenants())
+            let data ={
+                posts_per_page: "-1",
+                paged: "1",
+                sort_by_field: searchOption?searchOption:"",
+                search_by_keyword: searchTitle?searchTitle:""
+            }
+            dispatch(getTenantsFilter(data))
+            
         }
       
         

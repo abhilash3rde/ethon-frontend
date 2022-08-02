@@ -8,6 +8,8 @@ import Customtype from "../../components/tenants/details/customtype";
 import { useState, useEffect } from "react";
 import AddPhoto from '../../components/tenants/details/addPhotos'
 import { useDispatch, useSelector } from "react-redux";
+import DeletePhotoPopup from "../../components/tenants/details/deletePhotopopup";
+import Link from "next/link";
 
 
 
@@ -18,10 +20,18 @@ import { useDispatch, useSelector } from "react-redux";
 function TanantsFrom() {
 
     const [custom, setCustom] = useState(false)
-
-const [photosApi,setPhotos] = useState([])
+    const [showDeletePopup, setShowDeletePopup] = useState(true);
+    const [photosApi, setPhotos] = useState([])
     function Closecustom() {
         setCustom(false)
+    }
+
+    const DeleteOpen = () => {
+        setShowDeletePopup(false)
+    }
+
+    const DeleteClose = () => {
+        setShowDeletePopup(true)
     }
 
     const dispatch = useDispatch()
@@ -54,6 +64,32 @@ const [photosApi,setPhotos] = useState([])
         }
 
     }, [])
+
+
+    const validate = (values) => {
+        const errors = {};
+      
+        if (!values.primary_email) {
+          errors.primary_email = 'Please enter email';
+        }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.primary_email)) {
+            errors.primary_email = 'Invalid email address';
+        }
+
+        if (!values.primary_contact_email) {
+            errors.primary_contact_email = 'Please enter email';
+            }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.primary_contact_email)) {
+                errors.primary_contact_email = 'Invalid email address';
+        }
+
+
+        if (!values.secondary_contact_email) {
+            errors.secondary_contact_email = 'Please enter email';
+            }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.secondary_contact_email)) {
+                errors.secondary_contact_email = 'Invalid email address';
+        }
+
+        return errors;
+      };
 
 
     const TanantsFramik = useFormik({
@@ -94,7 +130,7 @@ const [photosApi,setPhotos] = useState([])
             //photos: editTenants?.photos &&userEdit?  editTenants?.photos : "",
             //photos_details: editTenants?.photos_details &&userEdit?  editTenants?.photos_details : "",
         },
-        //  validate,
+        validate,
         onSubmit: async values => {
             try {
 
@@ -197,25 +233,25 @@ const [photosApi,setPhotos] = useState([])
     const deletePhoto = (indexDelete) => {
         const photos = TanantsFramik.values.photos.filter((item, index) => index !== indexDelete)
         TanantsFramik.setFieldValue("photos", [...photos])
+        toast.success('Photo delete Successfully')
+        setShowDeletePopup(true)
     }
     const deletePhotoapi = async (id) => {
-       try {
-        
-      
-        const data = {
+        try {
 
 
-            "photo_ids": [id]
+            const data = {
+                "photo_ids": [id]
+            }
+            await deleteTenantsPhotoAPI(data)
+            const photos = photosApi.filter((item) => item.photo_id !== id)
+            toast.success('Photo delete Successfully')
+            setShowDeletePopup(true)
 
+            setPhotos([...photos])
 
-        }
-        await deleteTenantsPhotoAPI(data)
-        const photos =  photosApi.filter((item ) => item.photo_id !== id)
-         
-        setPhotos([...photos])
+        } catch (error) {
 
-    }  catch (error) {
-        
         }
     }
     return (
@@ -277,6 +313,7 @@ const [photosApi,setPhotos] = useState([])
                                     name="unit"
                                     id="unit"
                                     placeholder="Unit #"
+                                    type="number"
                                     onChange={TanantsFramik.handleChange}
                                     value={TanantsFramik.values.unit}
                                     className="font-medium text-[15px] h-[50px] py-[10px] px-[20px] rounded-[5px]
@@ -828,45 +865,59 @@ const [photosApi,setPhotos] = useState([])
                             <AddPhoto formik={TanantsFramik} />
 
                         </div>
-                        <div className="grid grid-cols-3 gap-1">
+                        <div className="grid grid-cols-2 gap-x-[2px] gap-y-[15px]">
                             {photosApi?.length > 0 && photosApi?.map((item, index) =>
 
-                                <div key={index} className='h-20 w-20 rounded-md group relative '>
+                                <div key={index} className='h-32 w-32 rounded-md group relative'>
                                     <img
                                         src={item.photo_src}
                                         alt={"Photo"}
-                                        className="w-full   h-full"
+                                        className="w-full object-cover rounded-md object-center h-full "
                                     />
-                                    <div className={"absolute      top-1 flex items-center justify-center   right-0   rounded-md  "}>
-
-                                        <svg onClick={
-                                            () => deletePhotoapi(item.photo_id)
-                                        } xmlns="http://www.w3.org/2000/svg" className="   cursor-pointer stroke-red-500 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                            <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                                        </svg>
-
+                                    <div className="hidden group-hover:block absolute bg-[#00000040] top-0 left-0 w-full h-[100%]">
+                                        <div className="grid items-center justify-item-center w-[80%] h-[100%] ml-[12px]  ">
+                                            <div
+                                                onClick={DeleteOpen}
+                                                className="bg-white border-[2px] border-red-500 text-red-500 text-[10px]  rounded-[4px] text-center py-[7px] px-[7px]   ">
+                                                Delete Photo
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <DeletePhotoPopup
+                                        deletePhoto={() =>
+                                            deletePhotoapi(item.photo_id)
+                                        }
+                                        datashow={showDeletePopup ? "hidden" : "block"}
+                                        onClicked={DeleteClose} />
 
                                 </div>
 
                             )}
                             {TanantsFramik?.values?.photos?.map((item, index) =>
 
-                                <div key={index} className='h-20 w-20 rounded-md group relative '>
+                                <div key={index} className='h-32 w-32 rounded-md group relative '>
                                     <img
                                         src={item.image}
                                         alt={"Photo"}
-                                        className="w-full   h-full"
+                                        className="w-full object-cover rounded-md object-center h-full"
                                     />
-                                    <div className={"absolute      top-1 flex items-center justify-center   right-0   rounded-md  "}>
-
-                                        <svg onClick={
-                                            () => deletePhoto(index)
-                                        } xmlns="http://www.w3.org/2000/svg" className="   cursor-pointer stroke-red-500 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                            <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                                        </svg>
-
+                                    <div className="hidden group-hover:block absolute bg-[#00000040] top-0 left-0 w-full h-[100%]">
+                                        <div className="grid items-center justify-item-center w-[80%] h-[100%] ml-[12px]  ">
+                                            <div
+                                                onClick={DeleteOpen}
+                                                className="bg-white border-[2px] border-red-500 text-red-500 text-[10px]  rounded-[4px] text-center py-[7px] px-[7px]   ">
+                                                Delete Photo
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <DeletePhotoPopup
+                                        deletePhoto={() =>
+                                            deletePhoto(index)
+                                        }
+                                        datashow={showDeletePopup ? "hidden" : "block"}
+                                        onClicked={DeleteClose} />
 
                                 </div>
 
@@ -882,13 +933,25 @@ const [photosApi,setPhotos] = useState([])
                                         <button type="submit" className="text-white px-4 py-2 w-[70%] mx-auto bg-blue-500 rounded-[10px]">Save</button>
                                     </div>
                                 </div>
-
-                                <div className=" bg-white py-2 flex justify-center">
-                                    <div className="px-4 py-2 w-[70%] mx-auto w-full flex justify-center bg-red-100 text-red-600 
+                               
+                                {userEdit ?
+                                    <Link href='/tenants/tenants_details'>
+                                    <div className=" bg-white py-2 flex justify-center" >
+                                        <div className="px-4 py-2 w-[70%] mx-auto w-full flex justify-center bg-red-100 text-red-600 
                                         rounded-[10px] ">
-                                        <span className="">CANCEL</span>
+                                            <span className="">CANCEL</span>
+                                        </div>
+                                    </div> 
+                                    </Link>:
+                                    <Link href='/tenants/tenants_list'>
+                                    <div className=" bg-white py-2 flex justify-center" >
+                                        <div className="px-4 py-2 w-[70%] mx-auto w-full flex justify-center bg-red-100 text-red-600 
+                                    rounded-[10px] ">
+                                            <span className="">CANCEL</span>
+                                        </div>
                                     </div>
-                                </div>
+                                    </Link>
+                                    }
 
                             </div>
 

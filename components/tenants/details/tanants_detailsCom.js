@@ -14,6 +14,8 @@ import {
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router'
 import AddPhotoD from "./addPhotoD";
+import TanantsLightbox from "./lightbox";
+
 
 
 
@@ -25,24 +27,36 @@ function TanantsDetailsCom() {
 
     const [layoutOption, setLayoutOption] = useState(false);
 
+    const [openLightBox, setOpenLightBox] = useState(false);
+
+    const [imageSrc, setImageSrc] = useState(true);
+
+    const OpenLight = (img) => {
+        setImageSrc(img)
+        setOpenLightBox(true);
+        console.log('popup open successFully')
+    }
+
+
+    const OffLight = () => {
+        setOpenLightBox(false);
+    }
+
+
     const router = useRouter();
 
-    // const tenants = useSelector((state) => state.singleTenants.singleTenants)
-
-    // console.log(tenants)
-
-    const tenants_detail = useSelector((state) => state.tenantsDetails.tenantsDetails.data)
+    const tenants_detail = useSelector((state) => state.tenantsDetails.tenantsDetails?.data)
 
     console.log(tenants_detail)
 
     useEffect(() => {
-      if(tenants_detail === null){
-        router.push('/tenants/tenants_list')
-      }
+        if (tenants_detail === null) {
+            router.push('/tenants/tenants_list')
+        }
     }, [tenants_detail])
 
-    
-    
+
+
 
 
     return (
@@ -144,7 +158,7 @@ function TanantsDetailsCom() {
                             <hr className="my-1 border-t-2" />
                             <div className="flex gap-4">
                                 <div className="w-[20%]">
-                                    <span className="">06/02/18</span>
+                                    <span className="">{tenants_detail?.tenant_created}</span>
                                 </div>
                                 <div className="w-[80%]">
                                     <p className="text-gray-500 text-sm ">
@@ -160,13 +174,13 @@ function TanantsDetailsCom() {
                 <div className="grid w-full py-2 px-4 ">
                     <div className="flex gap-2">
                         <div className="w-[100%]">
-                           
+
                             <div className="flex justify-between items-center">
                                 <div className="">
                                     <span className="text-[15px] text-gray-500">Photos</span>
                                 </div>
 
-                                
+
 
                                 <div className="flex w-[20%] gap-1 " >
                                     <div
@@ -187,64 +201,82 @@ function TanantsDetailsCom() {
                                 </div>
                             </div>
 
-                           
+
 
                             <hr className="my-1 border-t-2" />
 
 
-                                <AddPhotoD/>
+                            <AddPhotoD />
                             {/* list view */}
 
                             <div className={layoutOption ? 'hidden' : 'block'}>
-                                {tenants_detail?.photos?.map((item,index)=>
-                                <div key={index} className="mb-[10px] ">
-                                <div className='flex gap-2 '>
+                                {tenants_detail?.photos?.map((item, index) =>
+                                    <div key={index} className="mb-[10px] ">
+                                        <div className='flex gap-2 '>
 
-                                    <div className="w-[30%]">
-                                        <div
-                                            className="w-20 h-20 overflow-hidden "
-                                        //onClick={() => isOpen(true)}
-                                        >
-                                            <img
-                                                src={item?.photo_src}
-                                                className="h-full w-full"
-                                            />
-                                            {/* <Image
-                                                src={item?.photo_src}
-                                                width={10}
-                                                height={10}
-                                                layout="responsive"
-                                            /> */}
+                                            <div className="w-[30%]">
+                                                <div
+                                                    className="w-20 h-20 overflow-hidden "
+                                                >
+                                                    <img
+                                                        src={item?.photo_src}
+                                                        onClick={()=>OpenLight(item.photo_src)
+                                                        }
+                                                        className="h-full object-cover rounded-md object-center w-full"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="w-[70%]">
+                                                <span className="">{item?.photo_created}</span>
+                                                <p className="text-gray-500 text-sm ">{item?.photo_detail}</p>
+                                            </div>
                                         </div>
+
+                                       
+
+
                                     </div>
-                                    <div className="w-[70%]">
-                                        <span className="">6/10/22</span>
-                                        <p className="text-gray-500 text-sm ">{item?.photo_detail}</p>
-                                    </div>
-                                </div>
-                                </div>
                                 )}
+
                             </div>
 
                             {/* grid view */}
                             <div className={layoutOption ? 'block' : 'hidden'}>
                                 <div className='grid grid-cols-3 gap-2 '>
-                                {tenants_detail?.photos?.map((item,index)=> 
+                                    {tenants_detail?.photos?.map((item, index) =>
+                                        <div>
+                                            <div key={index} className="w-20 h-20 ">
+                                                <img
+                                                    src={item?.photo_src}
+                                                    onClick={()=>OpenLight(item.photo_src)
+                                                    }
+                                                    className="h-full object-cover rounded-md object-center w-full"
+                                                />
+                                            </div>
 
-                                    <div key={index} className="w-20 h-20 ">
-                                        <img
-                                        src={item?.photo_src}
-                                        className="h-full w-full"
-                                        />
-                                    </div>
+                                            
+                                        </div>
 
-                                )}
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+                                    {openLightBox &&
+                                            <TanantsLightbox
+                                                src={imageSrc}
+                                                //nextSrc={item?.photo_src[(item?.photo_id + 1) % item?.photo_src.length]}
+                                                //prevSrc={item?.photo_src[(item?.photo_id + item?.photo_src.length - 1) % item?.photo_src.length]}
+                                                datashow={openLightBox ? "block" : "hidden"}
+                                                close={() => setOpenLightBox(false)}
+                                            />
+                                        }
+
+
         </div>
     )
 

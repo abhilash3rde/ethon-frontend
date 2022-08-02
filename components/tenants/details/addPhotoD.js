@@ -40,7 +40,7 @@ const dispatch =  useDispatch()
     const router = useRouter()
 
 
-    const Tenants_id = useSelector((state) => state.tenantsDetails.tenantsDetails.data.ID)
+    const Tenants_id = useSelector((state) => state.tenantsDetails.tenantsDetails.data?.ID)
 
     console.log(Tenants_id,'Tenants_id id')
     
@@ -53,22 +53,7 @@ const dispatch =  useDispatch()
             detail: '',
         },
         validate,
-        onSubmit: async values => {
-            // try{
-            //     // const data = {
-            //     //     'photos': [values]
-            //     // }
-            //     // console.log(data)
-            //     // event.preventDefault();
-            //     // console.log(values)
-            //     props.formik.setFieldValue('photos',[...props.formik.values.photos,values])
-            //     // console.log(values)
-            //     setShowPopup(true)
-            // }catch (error){
-            //     console.log(error)
-            // }
-
-
+        onSubmit: async (values, { resetForm }) => {
             try {
                 const respon = await postTenantsAddPhotosAPI({
                     "post_id": Tenants_id,
@@ -78,6 +63,8 @@ const dispatch =  useDispatch()
                 toast.success(respon.data.message)
                 setShowPopup(true)
                 dispatch(getTenantDetail(Tenants_id))
+                resetForm();
+
                 // router.push('/tenants/tenants_list')
             } catch (error) {
                 toast.error(error.response.data.message)

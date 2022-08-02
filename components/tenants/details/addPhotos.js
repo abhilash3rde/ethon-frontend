@@ -53,8 +53,9 @@ function AddPhoto(props) {
             detail: '',
         },
         validate,
-        onSubmit: async values => {
+        onSubmit: async (values, { resetForm }) => {
             try{
+
                 // const data = {
                 //     'photos': [values]
                 // }
@@ -64,6 +65,7 @@ function AddPhoto(props) {
                 props.formik.setFieldValue('photos',[...props.formik.values.photos,values])
                 console.log(values)
                 setShowPopup(true)
+                resetForm();
             }catch (error){
                 console.log(error)
             }
@@ -82,7 +84,7 @@ function AddPhoto(props) {
             //     toast.error(error.response.data.message)
             // }
         }
-    })
+})
 
 
     const convertToBase64 = (file) => {
