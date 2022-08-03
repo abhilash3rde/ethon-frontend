@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 function DeletePopup(props) {
 
 
-  const tanents_id = useSelector((state)=> state.tenantsDetails.tenantsDetails.data?.ID)
+  const tanents_id = useSelector((state)=> state.tenantsDetails.tenantsDetails?.data?.ID)
 
   console.log(tanents_id)
 

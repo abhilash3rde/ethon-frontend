@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import AddPhoto from '../../components/tenants/details/addPhotos'
 import { useDispatch, useSelector } from "react-redux";
 import DeletePhotoPopup from "../../components/tenants/details/deletePhotopopup";
+import { IoTrashOutline } from "react-icons/io5";
 import Link from "next/link";
 
 
@@ -20,25 +21,39 @@ import Link from "next/link";
 function TanantsFrom() {
 
     const [custom, setCustom] = useState(false)
-    const [showDeletePopup, setShowDeletePopup] = useState(true);
-    const [photosApi, setPhotos] = useState([])
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [photosApi, setPhotos] = useState([]);
+    const [tenantLoader, setTenantLoader] = useState(false);
+    const [deleteID, setDeleteID] = useState(true);
+    const [deleteType, setDeleteType] = useState('');
+
+
     function Closecustom() {
         setCustom(false)
     }
 
-    const DeleteOpen = () => {
-        setShowDeletePopup(false)
+
+    const LoaderinActive = () => {
+        setTenantLoader(true)
+    }
+
+
+
+    const DeleteOpen = (id, type) => {
+        setDeleteID(id)
+        setDeleteType(type)
+        setShowDeletePopup(true)
     }
 
     const DeleteClose = () => {
-        setShowDeletePopup(true)
+        setShowDeletePopup(false)
     }
 
     const dispatch = useDispatch()
 
-    const editTenants = useSelector((state) => state.tenantsDetails.tenantsDetails.data)
+    const editTenants = useSelector((state) => state.tenantsDetails.tenantsDetails?.data)
 
-    const editTenants_id = useSelector((state) => state.tenantsDetails.tenantsDetails.data?.ID)
+    const editTenants_id = useSelector((state) => state.tenantsDetails.tenantsDetails?.data?.ID)
     console.log(editTenants, 'Tenants_id id')
 
 
@@ -68,28 +83,28 @@ function TanantsFrom() {
 
     const validate = (values) => {
         const errors = {};
-      
+
         if (!values.primary_email) {
-          errors.primary_email = 'Please enter email';
-        }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.primary_email)) {
+            errors.primary_email = 'Please enter email';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.primary_email)) {
             errors.primary_email = 'Invalid email address';
         }
 
         if (!values.primary_contact_email) {
             errors.primary_contact_email = 'Please enter email';
-            }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.primary_contact_email)) {
-                errors.primary_contact_email = 'Invalid email address';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.primary_contact_email)) {
+            errors.primary_contact_email = 'Invalid email address';
         }
 
 
         if (!values.secondary_contact_email) {
             errors.secondary_contact_email = 'Please enter email';
-            }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.secondary_contact_email)) {
-                errors.secondary_contact_email = 'Invalid email address';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.secondary_contact_email)) {
+            errors.secondary_contact_email = 'Invalid email address';
         }
 
         return errors;
-      };
+    };
 
 
     const TanantsFramik = useFormik({
@@ -135,6 +150,8 @@ function TanantsFrom() {
             try {
 
                 if (userEdit === "true") {
+
+                    setTenantLoader(true)
                     values.author = '' + userId
                     values.tenantId = '' + editTenants_id
                     console.log(values)
@@ -150,10 +167,12 @@ function TanantsFrom() {
                     // console.log(data)
                     const responsive = await postTenantsAddPhotosAPI(data)
                     console.log(respon.data)
+                    setTenantLoader(false)
                     // toast.success(respon.data.message)
                     router.push('/tenants/tenants_list')
                 } else {
                     console.log("add tenants screen load now")
+                    setTenantLoader(true)
 
                     const respon = await postTenantsAPI(values)
                     console.log(respon.data.data.tenant_id, "asadasdsd my data")
@@ -165,9 +184,10 @@ function TanantsFrom() {
                         'photos': values.photos
                     }
                     // console.log(data)
-                    const responsive = await postTenantsAddPhotosAPI(data)
+                        const responsive = await postTenantsAddPhotosAPI(data)
                     console.log(responsive)
                     toast.success(respon.data.message)
+                    setTenantLoader(false)
                     //console.log(respon.message)
                     router.push('/tenants/tenants_list')
 
@@ -177,6 +197,7 @@ function TanantsFrom() {
                 console.log(error)
                 toast.error(error.response.data.message);
                 console.log(error.response)
+                setTenantLoader(false)
             }
         }
     })
@@ -234,7 +255,7 @@ function TanantsFrom() {
         const photos = TanantsFramik.values.photos.filter((item, index) => index !== indexDelete)
         TanantsFramik.setFieldValue("photos", [...photos])
         toast.success('Photo delete Successfully')
-        setShowDeletePopup(true)
+        setShowDeletePopup(false)
     }
     const deletePhotoapi = async (id) => {
         try {
@@ -246,7 +267,7 @@ function TanantsFrom() {
             await deleteTenantsPhotoAPI(data)
             const photos = photosApi.filter((item) => item.photo_id !== id)
             toast.success('Photo delete Successfully')
-            setShowDeletePopup(true)
+            setShowDeletePopup(false)
 
             setPhotos([...photos])
 
@@ -438,8 +459,8 @@ function TanantsFrom() {
                                         placeholder="Primary Email"
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.primary_email}
-                                        className="font-medium  w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px]
-                                bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
+                                        className="font-medium  sdfsdf w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px]
+                                          bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                     />
                                     {TanantsFramik.errors.primary_email &&
                                         <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_email}</span>
@@ -874,7 +895,14 @@ function TanantsFrom() {
                                         alt={"Photo"}
                                         className="w-full object-cover rounded-md object-center h-full "
                                     />
-                                    <div className="hidden group-hover:block absolute bg-[#00000040] top-0 left-0 w-full h-[100%]">
+
+                                    <div
+                                        className="absolute bg-white shadow-lg top-1 right-1 rounded-[10px] w-[40px] h-[40px] text-center"
+                                        onClick={() => DeleteOpen(item.photo_id, 'deletePhotoapi')
+                                        }>
+                                        <IoTrashOutline className="text-[25px] text-red-500 mt-[7px] ml-[8px] " />
+                                    </div>
+                                    {/* <div className="hidden group-hover:block absolute bg-[#00000040] top-0 left-0 w-full h-[100%]">
                                         <div className="grid items-center justify-item-center w-[80%] h-[100%] ml-[12px]  ">
                                             <div
                                                 onClick={DeleteOpen}
@@ -882,14 +910,9 @@ function TanantsFrom() {
                                                 Delete Photo
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
-                                    <DeletePhotoPopup
-                                        deletePhoto={() =>
-                                            deletePhotoapi(item.photo_id)
-                                        }
-                                        datashow={showDeletePopup ? "hidden" : "block"}
-                                        onClicked={DeleteClose} />
+
 
                                 </div>
 
@@ -902,7 +925,14 @@ function TanantsFrom() {
                                         alt={"Photo"}
                                         className="w-full object-cover rounded-md object-center h-full"
                                     />
-                                    <div className="hidden group-hover:block absolute bg-[#00000040] top-0 left-0 w-full h-[100%]">
+
+                                    <div
+                                        className="absolute bg-white shadow-lg top-1 right-1 rounded-[10px] w-[40px] h-[40px] text-center"
+                                        onClick={() => DeleteOpen(index, 'deletePhoto' )
+                                        }>
+                                        <IoTrashOutline className="text-[25px] text-red-500 mt-[7px] ml-[8px] " />
+                                    </div>
+                                    {/* <div className="block absolute bg-[#00000040] top-0 left-0 w-full h-[100%]">
                                         <div className="grid items-center justify-item-center w-[80%] h-[100%] ml-[12px]  ">
                                             <div
                                                 onClick={DeleteOpen}
@@ -910,14 +940,14 @@ function TanantsFrom() {
                                                 Delete Photo
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
-                                    <DeletePhotoPopup
+                                    {/* <DeletePhotoPopup
                                         deletePhoto={() =>
                                             deletePhoto(index)
                                         }
                                         datashow={showDeletePopup ? "hidden" : "block"}
-                                        onClicked={DeleteClose} />
+                                        onClicked={DeleteClose} /> */}
 
                                 </div>
 
@@ -927,31 +957,36 @@ function TanantsFrom() {
 
                         <div className="fixed bottom-0 left-0 w-full shadow-[1px_-10px_13px_2px_#0000000d] " >
 
-                            <div className="grid grid-cols-2 gap-[1px] w-full bg-[#fff] ">
-                                <div className="py-2 bg-white flex justify-center">
-                                    <div className="w-full flex justify-center">
-                                        <button type="submit" className="text-white px-4 py-2 w-[70%] mx-auto bg-blue-500 rounded-[10px]">Save</button>
-                                    </div>
-                                </div>
-                               
+                            <div className="grid grid-cols-2 w-full bg-[#fff] ">
+                                {tenantLoader ?
+                                    <div className="flex justify-center">
+                                        <div className="w-full flex justify-center">
+                                            <span className="text-white px-4 py-2 w-full mx-auto text-center bg-blue-300">Save</span>
+                                        </div>
+                                    </div> :
+
+                                    <div className="flex justify-center">
+                                        <div className="w-full flex justify-center">
+                                            <button type="submit" className="text-white px-4 py-2 w-full mx-auto bg-blue-500">Save</button>
+                                        </div>
+                                    </div>}
+
                                 {userEdit ?
                                     <Link href='/tenants/tenants_details'>
-                                    <div className=" bg-white py-2 flex justify-center" >
-                                        <div className="px-4 py-2 w-[70%] mx-auto w-full flex justify-center bg-red-100 text-red-600 
-                                        rounded-[10px] ">
-                                            <span className="">CANCEL</span>
+                                        <div className="flex justify-center" >
+                                            <div className="px-4 py-2 w-full mx-auto w-full flex justify-center bg-red-100 text-red-600">
+                                                <span className="">CANCEL</span>
+                                            </div>
                                         </div>
-                                    </div> 
-                                    </Link>:
+                                    </Link> :
                                     <Link href='/tenants/tenants_list'>
-                                    <div className=" bg-white py-2 flex justify-center" >
-                                        <div className="px-4 py-2 w-[70%] mx-auto w-full flex justify-center bg-red-100 text-red-600 
-                                    rounded-[10px] ">
-                                            <span className="">CANCEL</span>
+                                        <div className="flex justify-center" >
+                                            <div className="px-4 py-2 w-full mx-auto w-full flex justify-center bg-red-100 text-red-600">
+                                                <span className="">CANCEL</span>
+                                            </div>
                                         </div>
-                                    </div>
                                     </Link>
-                                    }
+                                }
 
                             </div>
 
@@ -964,6 +999,21 @@ function TanantsFrom() {
 
                 </form>
             </div>
+
+            <DeletePhotoPopup
+           
+                deletePhoto={() => 
+                    {if(deleteType === 'deletePhoto'){
+                        deletePhoto(deleteID)
+                    }else{
+                        deletePhotoapi(deleteID)
+                    }
+                }
+                    
+                }
+                datashow={showDeletePopup ? "block" : "hidden"}
+                onClicked={DeleteClose} />
+                
 
         </div>
     )
