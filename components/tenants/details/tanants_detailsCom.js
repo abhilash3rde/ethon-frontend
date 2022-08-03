@@ -15,6 +15,8 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/router'
 import AddPhotoD from "./addPhotoD";
 import TanantsLightbox from "./lightbox";
+import { format } from 'date-fns'
+
 
 
 
@@ -30,33 +32,36 @@ function TanantsDetailsCom() {
     const [openLightBox, setOpenLightBox] = useState(false);
 
     const [imageSrc, setImageSrc] = useState(true);
+    const [imageDis, setImageDis] = useState(true);
 
-    const OpenLight = (img) => {
+
+    const OpenLight = (img, dis) => {
         setImageSrc(img)
+        setImageDis(dis)
         setOpenLightBox(true);
         console.log('popup open successFully')
     }
 
-
-    const OffLight = () => {
-        setOpenLightBox(false);
-    }
-
-
     const router = useRouter();
+
+    const tenants_data = useSelector((state) => state.tenantsDetails.tenantsDetails)
+
 
     const tenants_detail = useSelector((state) => state.tenantsDetails.tenantsDetails?.data)
 
     console.log(tenants_detail)
 
     useEffect(() => {
-        if (tenants_detail === null) {
+        if (tenants_data === null) {
+            console.log("null sasdas")
             router.push('/tenants/tenants_list')
         }
     }, [tenants_detail])
 
 
-
+    // const notesDate = "03/07/22"
+    //tenants_detail?.tenant_created
+    //format(new Date(tenants_detail?.tenant_created), 'MM-dd-yyyy')
 
 
     return (
@@ -64,8 +69,8 @@ function TanantsDetailsCom() {
 
             <div>
                 <div className="grid w-full py-4 px-4 ">
-                    <div className="flex w-full items-center ">
-                        <div className="w-[75%] grid">
+                    <div className="flex w-full items-center" key={tenants_detail} >
+                        <div className="w-[75%] grid" >
                             <h1 className="text-lg font-[600]">{tenants_detail?.company_name}</h1>
                             <div className="flex gap-2 ">
                                 <span className="text-[10px] ">Status: {tenants_detail?.status}</span>
@@ -157,10 +162,12 @@ function TanantsDetailsCom() {
                             <span className="text-[15px] text-gray-500">Note</span>
                             <hr className="my-1 border-t-2" />
                             <div className="flex gap-4">
-                                <div className="w-[20%]">
-                                    <span className="">{tenants_detail?.tenant_created}</span>
+                                <div className="w-[30%]">
+                                
+                                    <span className=" text-[12px]"> {tenants_detail.post_date &&   format(new Date(tenants_detail.post_date ), 'MM-dd-yyyy')  }  </span>
+
                                 </div>
-                                <div className="w-[80%]">
+                                <div className="w-[70%]">
                                     <p className="text-gray-500 text-sm ">
                                         {tenants_detail?.notes}
                                     </p>
@@ -220,19 +227,19 @@ function TanantsDetailsCom() {
                                                 >
                                                     <img
                                                         src={item?.photo_src}
-                                                        onClick={()=>OpenLight(item.photo_src)
+                                                        onClick={() => OpenLight(item?.photo_src, item?.photo_detail)
                                                         }
                                                         className="h-full object-cover rounded-md object-center w-full"
                                                     />
                                                 </div>
                                             </div>
                                             <div className="w-[70%]">
-                                                <span className="">{item?.photo_created}</span>
+                                                <span className="text-[12px]">{format(new Date(item?.photo_created), 'MM-dd-yyyy')}</span>
                                                 <p className="text-gray-500 text-sm ">{item?.photo_detail}</p>
                                             </div>
                                         </div>
 
-                                       
+
 
 
                                     </div>
@@ -248,13 +255,13 @@ function TanantsDetailsCom() {
                                             <div className="w-20 h-20 ">
                                                 <img
                                                     src={item?.photo_src}
-                                                    onClick={()=>OpenLight(item.photo_src)
+                                                    onClick={() => OpenLight(item.photo_src)
                                                     }
-                                                    className="h-full object-cover rounded-md object-center w-full"
+                                                    className="h-full object-cover shadow-lg rounded-md object-center w-full"
                                                 />
                                             </div>
 
-                                            
+
                                         </div>
 
                                     )}
@@ -266,15 +273,15 @@ function TanantsDetailsCom() {
             </div>
 
 
-                                    {openLightBox &&
-                                            <TanantsLightbox
-                                                src={imageSrc}
-                                                //nextSrc={item?.photo_src[(item?.photo_id + 1) % item?.photo_src.length]}
-                                                //prevSrc={item?.photo_src[(item?.photo_id + item?.photo_src.length - 1) % item?.photo_src.length]}
-                                                datashow={openLightBox ? "block" : "hidden"}
-                                                close={() => setOpenLightBox(false)}
-                                            />
-                                        }
+            {openLightBox &&
+                <TanantsLightbox
+                    data={imageDis}
+                    src={imageSrc}
+                    datashow={openLightBox ? "block" : "hidden"}
+                    close={() => setOpenLightBox(false)}
+                    photo_detail={imageDis}
+                />
+            }
 
 
         </div>

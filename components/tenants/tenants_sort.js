@@ -8,15 +8,12 @@ import { filterTenantsAPI } from "../../redux/APIS/API";
 function TenantsSort() {
 
     const [searchTitle, setSeachTitle] = useState("")
-    const [searchOption, setSeachOption] = useState("none")
+    const [searchOption, setSeachOption] = useState("a-z")
 
     const dispatch = useDispatch()
 
-    // function getData(val){
-    //     setSeachTitle(val.target.value)
-    // }
     useEffect(() => {
-        if (searchTitle!==""||searchOption!=="none"){
+        if (searchTitle!==""||searchOption!=="a-z"){
            
             let data ={
                 posts_per_page: "100",
@@ -47,21 +44,6 @@ function TenantsSort() {
   
  
 
-    // const Sortformik = useFormik({
-    //     initialValues: {
-    //         posts_per_page: "10",
-    //         paged: "1",
-    //         sort_by_field: '',
-    //         search_by_keyword: searchTitle
-    //     },
-    //     onSubmit: value => {
-    //         console.log(value)
-    //     }
-    // })
-
-
-
-
 
     return (
         <div className="App">
@@ -78,7 +60,7 @@ function TenantsSort() {
                       
                         value={searchOption}   
                         className=" w-full border-2 text-[10px] bg-white py-2 px-[2px] rounded-[10px] focus:outline-none focus:border-theme">
-                         <option value='none'>selectOption</option>
+                         {/* <option value='none'>selectOption</option> */}
                         <option value='unit'>Unit #</option>
                         <option value='a-z'>Alphabetically</option>
                         <option value='status'>Status</option>

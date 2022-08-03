@@ -1,23 +1,19 @@
-import Lightbox from 'react-image-lightbox';
+import Lightbox  from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 
-function TanantsLightbox(props){
-    return(
-        <div className={props.datashow + ''} >
-            {/* <div className='absolute top-0 left-0 w-full h-[100%] h-[100%] bg-[#0000006b] z-[99999]' onClick={props.close}>
+function TanantsLightbox(props) {
 
-            <div className='grid items-center h-[100%] mx-[5px]'> 
-            <img
-                className=''
-                src={props.src}
-            />
-            </div>
-            </div> */}
+    console.log(props.data, 'adasdasdsad')
+    const captions = [
+        props.photo_detail
+    ]
+
+    return (
+        <div className={props.datashow + ''} >
             <Lightbox
-            mainSrc={props.src}
-            onCloseRequest={props.close}
-            // nextSrc={props.nextSrc}
-            // prevSrc={props.prevSrc}
+                mainSrc={props.src}
+                onCloseRequest={props.close}
+                imageCaption={captions[0]}
             />
         </div>
     )

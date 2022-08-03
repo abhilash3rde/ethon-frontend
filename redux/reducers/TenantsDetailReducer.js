@@ -1,7 +1,7 @@
 import { TENANTS_DETAIL } from "../action/type";
 
 const initalState = {
-    tenantsDetails: []
+    tenantsDetails: null
 }
 
 export const tenantsDetailsReducer = (state = initalState, action) => {
