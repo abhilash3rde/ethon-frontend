@@ -5,12 +5,17 @@ import { postTenantsAddPhotosAPI } from "../../../redux/APIS/API";
 import { useDispatch, useSelector } from "react-redux";
 import { getTenantDetail } from "../../../redux/action/tenants-detail";
 import { useRouter } from "next/router";
+import { IoTrashOutline } from "react-icons/io5";
+
 
 
 
 function AddPhoto(props) {
 
     const [showPopup, setShowPopup] = useState(true);
+    const [selectedImage, setSelectedImage] = useState();
+
+    const router = useRouter()
 
     const open = () => {
         setShowPopup(false)
@@ -22,46 +27,14 @@ function AddPhoto(props) {
         console.log("true")
     }
 
-    const validate = (values) => {
-        const errors = {};
-
-        // if (!values.image) {
-        //     errors.image = "Please Select image"
-        // }
-
-        // if (!values.detail) {
-        //     errors.detail = "Please Select Photos Details"
-        // }
-
-        return errors;
-    }
-
-
-    const router = useRouter()
-
-
-    // const Tenants_id = useSelector((state) => state.tenantsDetails.tenantsDetails.data.ID)
-
-    // console.log(Tenants_id,'Tenants_id id')
-
-    // const userId = useSelector((state) => state.userActive.user?.id)
-    // console.log(userId,'Tenants_id id')
 
     const PhotoFormik = useFormik({
         initialValues: {
             image: '',
             detail: '',
         },
-        validate,
         onSubmit: async (values, { resetForm }) => {
             try {
-
-                // const data = {
-                //     'photos': [values]
-                // }
-                // console.log(data)
-                // event.preventDefault();
-                // console.log(values)
                 props.formik.setFieldValue('photos', [...props.formik.values.photos, values])
                 console.log(values)
                 setShowPopup(true)
@@ -69,20 +42,6 @@ function AddPhoto(props) {
             } catch (error) {
                 console.log(error)
             }
-
-
-            // try {
-            //     const respon = await postTenantsAddPhotosAPI({
-            //         "post_id": Tenants_id,
-            //         "author": userId,
-            //         "photos":[values]
-            //     })
-            //     toast.success(respon.data.message)
-            //     setShowPopup(true)
-            //     router.push('/tenants/tenants_list')
-            // } catch (error) {
-            //     toast.error(error.response.data.message)
-            // }
         }
     })
 
@@ -99,6 +58,16 @@ function AddPhoto(props) {
             };
         });
     };
+
+    // const previewImg = (file) => {
+    //     setSelectedImage(file)
+    //     console.log(file, 'i am groot')
+    // }
+
+          // This function will be triggered when the "Remove This Image" button is clicked
+      const removeSelectedImage = () => {
+        setSelectedImage();
+      };
 
 
     return (
@@ -142,6 +111,7 @@ function AddPhoto(props) {
                                             onChange={async (e) => {
                                                 const file = e.target.files[0];
                                                 const base64 = await convertToBase64(file);
+                                                setSelectedImage(base64)
                                                 PhotoFormik.setFieldValue('image', base64);
                                             }}
                                             value={PhotoFormik.image}
@@ -161,7 +131,9 @@ function AddPhoto(props) {
                                             id="image"
                                             onChange={async (e) => {
                                                 const file = e.target.files[0];
+                                                
                                                 const base64 = await convertToBase64(file);
+                                                setSelectedImage(base64)
                                                 PhotoFormik.setFieldValue('image', base64);
                                             }}
                                             value={PhotoFormik.image}
@@ -172,6 +144,14 @@ function AddPhoto(props) {
 
 
                                 </div>
+                                {PhotoFormik.values.image &&
+                                        <div className='h-20 w-20 rounded-md shadow-lg mb-4 group relative '>
+                                            <img
+                                                src={PhotoFormik.values.image}
+                                                className="w-full object-cover rounded-md object-center h-full"
+                                            />
+                                        </div>
+                                } 
 
                                 <textarea
                                     rows="6"
@@ -184,29 +164,32 @@ function AddPhoto(props) {
                                       bg-[#FFF] border-[#cfcfcf8f]  text-theme border-2 focus:border-theme focus:outline-none"
                                 />
 
-                                
+
                             </div>
 
                             <div className="flex justify-center mt-4">
 
-                                    <div
-                                        onClick={() => PhotoFormik.handleSubmit()}
-                                        className="bg-[#fb923c] rounded-bl-[10px] w-[50%] flex justify-center">
-                                        <button type="button" className=" py-4 w-[100%] mx-auto w-full flex justify-center text-black 
+                                <div
+                                    onClick={() => PhotoFormik.handleSubmit()}
+                                    className="bg-[#fb923c] rounded-bl-[10px] w-[50%] flex justify-center">
+                                    <button type="button" className=" py-4 w-[100%] mx-auto w-full flex justify-center text-black 
                                             rounded-[10px] ">
-                                            Add
-                                        </button >
-                                    </div>
+                                        Add
+                                    </button >
+                                </div>
 
-                                    <div
-                                        onClick={close}
-                                        className=" bg-[#9e9e9e4f] rounded-br-[10px] w-[50%]  flex justify-center">
-                                        <div className="py-4 w-[100%] mx-auto w-full flex justify-center text-black 
+                                <div
+                                    onClick={()=>{
+                                        PhotoFormik.handleReset()
+                                        setShowPopup(true)
+                                    }}
+                                    className=" bg-[#9e9e9e4f] rounded-br-[10px] w-[50%]  flex justify-center">
+                                    <div className="py-4 w-[100%] mx-auto w-full flex justify-center text-black 
                                             rounded-[10px]">
-                                            <span className="">Cancel</span>
-                                        </div>
+                                        <span className="">Cancel</span>
                                     </div>
                                 </div>
+                            </div>
                         </div>
 
                     </div>

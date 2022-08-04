@@ -159,17 +159,16 @@ function TanantsFrom() {
                     toast.success(respon.data.message)
                     //console.log("Edit tenants screen load now")
                     const data = {
-                        // "post_id": "12",
                         'post_id': '' + editTenants_id,
                         'author': '' + userId,
                         'photos': values.photos
                     }
-                    // console.log(data)
-                    const responsive = await postTenantsAddPhotosAPI(data)
+                    if(data.photos.length>0){ 
+                    const responsive = await postTenantsAddPhotosAPI(data)}
                     console.log(respon.data)
                     setTenantLoader(false)
                     // toast.success(respon.data.message)
-                    router.push('/tenants/tenants_list')
+                   router.push('/tenants/tenants_list')
                 } else {
                     console.log("add tenants screen load now")
                     setTenantLoader(true)
@@ -183,13 +182,14 @@ function TanantsFrom() {
                         'author': '' + userId,
                         'photos': values.photos
                     }
-                    // console.log(data)
-                        const responsive = await postTenantsAddPhotosAPI(data)
-                    console.log(responsive)
+
+                    if(data.photos.length>0){ 
+                    const responsive = await postTenantsAddPhotosAPI(data)}
+                    // console.log(responsive)
                     toast.success(respon.data.message)
                     setTenantLoader(false)
                     //console.log(respon.message)
-                    router.push('/tenants/tenants_list')
+                   router.push('/tenants/tenants_list')
 
                 }
 
