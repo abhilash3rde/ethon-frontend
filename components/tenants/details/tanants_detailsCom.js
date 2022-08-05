@@ -79,12 +79,7 @@ function TanantsDetailsCom() {
                 </div>
             )
         } else {
-            return (
-                <div>
-                    {tenants_detail?.notes}
-                </div>
-
-            )
+            return ''
         }
 
     }
@@ -202,20 +197,8 @@ function TanantsDetailsCom() {
                         <div className="w-[100%]">
                             <span className="text-[15px] text-gray-500">Note</span>
                             <hr className="my-1 border-t-2" />
-                            {/* <div className="flex gap-4">
-                                <div className="w-[30%]">
-                                
-                                    <span className=" text-[12px]"> {tenants_detail?.post_date &&   format(new Date(tenants_detail?.post_date ), 'MM-dd-yyyy')  }  </span>
 
-                                </div>
-                                <div className="w-[70%]">
-                                    <p className="text-gray-500 text-sm ">
-                                        {tenants_detail?.notes}
-                                    </p>
-                                </div>
-                            </div> */}
-
-                            <NotesData />
+                             <NotesData />
                         </div>
                     </div>
                 </div>
@@ -276,7 +259,7 @@ function TanantsDetailsCom() {
                                                 </div>
                                             </div>
                                             <div className="w-[70%]">
-                                                <span className="text-[12px]">{item?.photo_created && format(new Date(item?.photo_created), 'MM-dd-yyyy') }</span>
+                                                <span className="text-[12px]">{item?.photo_created && format(new Date(item?.photo_created), 'MM-dd-yyyy')}</span>
                                                 <p className="text-gray-500 text-sm ">{item?.photo_detail}</p>
                                             </div>
                                         </div>
