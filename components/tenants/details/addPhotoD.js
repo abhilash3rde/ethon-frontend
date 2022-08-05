@@ -5,12 +5,16 @@ import { postTenantsAddPhotosAPI } from "../../../redux/APIS/API";
 import { useDispatch, useSelector } from "react-redux";
 import { getTenantDetail } from "../../../redux/action/tenants-detail";
 import { useRouter } from "next/router";
+import { IoTrashOutline } from "react-icons/io5";
+
 
 
 
 function AddPhotoD() {
 
     const [showPopup, setShowPopup] = useState(true);
+    const [selectedImage, setSelectedImage] = useState();
+
     const dispatch = useDispatch()
     const open = () => {
         setShowPopup(false)
@@ -83,6 +87,11 @@ function AddPhotoD() {
     };
 
 
+    // const removeSelectedImage = () => {
+    //     setSelectedImage();
+    // };
+
+
     return (
         <div>
 
@@ -142,6 +151,7 @@ function AddPhotoD() {
                                                 onChange={async (e) => {
                                                     const file = e.target.files[0];
                                                     const base64 = await convertToBase64(file);
+                                                    // setSelectedImage(base64)
                                                     PhotoFormik.setFieldValue('image', base64);
                                                 }}
                                                 value={PhotoFormik.image}
@@ -162,6 +172,7 @@ function AddPhotoD() {
                                                 onChange={async (e) => {
                                                     const file = e.target.files[0];
                                                     const base64 = await convertToBase64(file);
+                                                    // setSelectedImage(base64)
                                                     PhotoFormik.setFieldValue('image', base64);
                                                 }}
                                                 value={PhotoFormik.image}
@@ -172,6 +183,15 @@ function AddPhotoD() {
 
 
                                     </div>
+
+                                    {PhotoFormik.values.image &&
+                                        <div className='h-20 w-20 rounded-md shadow-lg mb-4 group relative '>
+                                            <img
+                                                src={PhotoFormik.values.image}
+                                                className="w-full object-cover rounded-md object-center h-full"
+                                            />
+                                        </div>
+                                     } 
 
 
                                     <textarea
@@ -199,14 +219,19 @@ function AddPhotoD() {
                                         </button >
                                     </div>
 
-                                    <div
-                                        onClick={close}
+                                    <button
+                                        onClick={()=> {
+                                            PhotoFormik.handleReset()
+                                            setShowPopup(true)
+                                        }}
+
+                                        type='reset'
                                         className=" bg-[#9e9e9e4f] rounded-br-[10px] w-[50%]  flex justify-center">
                                         <div className=" py-4 w-[100%] mx-auto w-full flex justify-center text-black 
                                             rounded-[10px] ">
                                             <span className="">Cancel</span>
                                         </div>
-                                    </div>
+                                    </button>
                                 </div>
                             </div>
 

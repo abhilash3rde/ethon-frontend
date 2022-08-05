@@ -29,7 +29,7 @@ function BottomNavigation() {
                     <div className='grid cursor-pointer'>
                         <div className='grid justify-items-center'>
                             <IoPersonAddOutline className='text-2xl' />
-                            <h1 className='font-[500] text-[10px]' >Tanents</h1>
+                            <h1 className='font-[500] text-[10px]' >Tenants</h1>
 
                         </div>
                     </div>

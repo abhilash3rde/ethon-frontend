@@ -59,9 +59,50 @@ function TanantsDetailsCom() {
     }, [tenants_detail])
 
 
-    // const notesDate = "03/07/22"
-    //tenants_detail?.tenant_created
-    //format(new Date(tenants_detail?.tenant_created), 'MM-dd-yyyy')
+    const NotesData = () => {
+
+        if (tenants_detail?.notes !== null) {
+            return (
+                <div>
+                    <div className="flex gap-4">
+                        <div className="w-[30%]">
+
+                            <span className=" text-[12px]"> {tenants_detail?.post_date && format(new Date(tenants_detail?.post_date), 'MM-dd-yyyy')}  </span>
+
+                        </div>
+                        <div className="w-[70%]">
+                            <p className="text-gray-500 text-sm ">
+                                {tenants_detail?.notes}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    {tenants_detail?.notes}
+                </div>
+
+            )
+        }
+
+    }
+
+
+
+    <div className="flex gap-4">
+        <div className="w-[30%]">
+
+            <span className=" text-[12px]"> {tenants_detail?.post_date && format(new Date(tenants_detail?.post_date), 'MM-dd-yyyy')}  </span>
+
+        </div>
+        <div className="w-[70%]">
+            <p className="text-gray-500 text-sm ">
+                {tenants_detail?.notes}
+            </p>
+        </div>
+    </div>
 
 
     return (
@@ -161,10 +202,10 @@ function TanantsDetailsCom() {
                         <div className="w-[100%]">
                             <span className="text-[15px] text-gray-500">Note</span>
                             <hr className="my-1 border-t-2" />
-                            <div className="flex gap-4">
+                            {/* <div className="flex gap-4">
                                 <div className="w-[30%]">
                                 
-                                    <span className=" text-[12px]"> {tenants_detail.post_date &&   format(new Date(tenants_detail.post_date ), 'MM-dd-yyyy')  }  </span>
+                                    <span className=" text-[12px]"> {tenants_detail?.post_date &&   format(new Date(tenants_detail?.post_date ), 'MM-dd-yyyy')  }  </span>
 
                                 </div>
                                 <div className="w-[70%]">
@@ -172,8 +213,9 @@ function TanantsDetailsCom() {
                                         {tenants_detail?.notes}
                                     </p>
                                 </div>
+                            </div> */}
 
-                            </div>
+                            <NotesData />
                         </div>
                     </div>
                 </div>
@@ -234,7 +276,7 @@ function TanantsDetailsCom() {
                                                 </div>
                                             </div>
                                             <div className="w-[70%]">
-                                                <span className="text-[12px]">{format(new Date(item?.photo_created), 'MM-dd-yyyy')}</span>
+                                                <span className="text-[12px]">{item?.photo_created && format(new Date(item?.photo_created), 'MM-dd-yyyy') }</span>
                                                 <p className="text-gray-500 text-sm ">{item?.photo_detail}</p>
                                             </div>
                                         </div>
