@@ -163,12 +163,13 @@ function TanantsFrom() {
                         'author': '' + userId,
                         'photos': values.photos
                     }
-                    if(data.photos.length>0){ 
-                    const responsive = await postTenantsAddPhotosAPI(data)}
+                    if (data.photos.length > 0) {
+                        const responsive = await postTenantsAddPhotosAPI(data)
+                    }
                     console.log(respon.data)
                     setTenantLoader(false)
                     // toast.success(respon.data.message)
-                   router.push('/tenants/tenants_list')
+                    router.push('/tenants/tenants_list')
                 } else {
                     console.log("add tenants screen load now")
                     setTenantLoader(true)
@@ -183,13 +184,14 @@ function TanantsFrom() {
                         'photos': values.photos
                     }
 
-                    if(data.photos.length>0){ 
-                    const responsive = await postTenantsAddPhotosAPI(data)}
+                    if (data.photos.length > 0) {
+                        const responsive = await postTenantsAddPhotosAPI(data)
+                    }
                     // console.log(responsive)
                     toast.success(respon.data.message)
                     setTenantLoader(false)
                     //console.log(respon.message)
-                   router.push('/tenants/tenants_list')
+                    router.push('/tenants/tenants_list')
 
                 }
 
@@ -928,7 +930,7 @@ function TanantsFrom() {
 
                                     <div
                                         className="absolute bg-white shadow-lg top-1 right-1 rounded-[10px] w-[40px] h-[40px] text-center"
-                                        onClick={() => DeleteOpen(index, 'deletePhoto' )
+                                        onClick={() => DeleteOpen(index, 'deletePhoto')
                                         }>
                                         <IoTrashOutline className="text-[25px] text-red-500 mt-[7px] ml-[8px] " />
                                     </div>
@@ -1001,19 +1003,19 @@ function TanantsFrom() {
             </div>
 
             <DeletePhotoPopup
-           
-                deletePhoto={() => 
-                    {if(deleteType === 'deletePhoto'){
+
+                deletePhoto={() => {
+                    if (deleteType === 'deletePhoto') {
                         deletePhoto(deleteID)
-                    }else{
+                    } else {
                         deletePhotoapi(deleteID)
                     }
                 }
-                    
+
                 }
                 datashow={showDeletePopup ? "block" : "hidden"}
                 onClicked={DeleteClose} />
-                
+
 
         </div>
     )

@@ -20,7 +20,7 @@ function TenantsList() {
 
             <div className='w-full bg-slate-50 raletive'>
                 <ListItem />
-                <AddNewClient />
+                <AddNewClient href={"/tenants/tenants_form"} />
             </div>
             <BottomNavigation />
         </div>

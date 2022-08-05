@@ -4,10 +4,10 @@ import Link from 'next/link';
 
 
 
-function AddNewClient() {
+function AddNewClient(props) {
     return (
         <div className="fixed bottom-24 right-2 z-50 ">
-            <Link href="/tenants/tenants_form">
+            <Link href={props.href}>
                 <a>
                     <div
                         className="flex gap-1 items-center bg-orange-400 border-orange-400 text-white border-2 py-2 px-4 mx-2 mx-2  
