@@ -75,7 +75,6 @@ function TanantsFrom() {
 
         } else {
             router.push('/tenants/tenants_form');
-            //console.log('user id not found')
         }
 
     }, [])
@@ -142,8 +141,6 @@ function TanantsFrom() {
 
             notes: editTenants?.notes && userEdit ? editTenants?.notes : "",
             photos: []
-            //photos: editTenants?.photos &&userEdit?  editTenants?.photos : "",
-            //photos_details: editTenants?.photos_details &&userEdit?  editTenants?.photos_details : "",
         },
         validate,
         onSubmit: async values => {
@@ -240,19 +237,6 @@ function TanantsFrom() {
 
 
 
-    // const convertToBase64 = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //         const fileReader = new FileReader();
-    //         fileReader.readAsDataURL(file);
-    //         fileReader.onload = () => {
-    //             resolve(fileReader.result);
-    //         };
-    //         fileReader.onerror = (error) => {
-    //             reject(error);
-    //         };
-    //     });
-    // };
-    // deleteTenantsPhotoAPI
     const deletePhoto = (indexDelete) => {
         const photos = TanantsFramik.values.photos.filter((item, index) => index !== indexDelete)
         TanantsFramik.setFieldValue("photos", [...photos])
@@ -461,8 +445,11 @@ function TanantsFrom() {
                                         placeholder="Primary Email"
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.primary_email}
-                                        className="font-medium  sdfsdf w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px]
-                                          bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
+                                        className={TanantsFramik.errors.primary_email ?
+                                            "font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#FFF] text-[#000] border-2 border-red-500 focus:border-red-500 focus:outline-none"
+                                            :
+                                            "font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
+                                        }
                                     />
                                     {TanantsFramik.errors.primary_email &&
                                         <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.primary_email}</span>
@@ -670,8 +657,11 @@ function TanantsFrom() {
                                         placeholder="Contact Email"
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.primary_contact_email}
-                                        className="font-medium w-full text-[13px] h-[50px] py-[10px] px-[5px] rounded-[5px]
-                                bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
+                                        className={TanantsFramik.errors.primary_contact_email ?
+                                            "font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#FFF] text-[#000] border-2 border-red-500 focus:border-red-500 focus:outline-none"
+                                            :
+                                            "font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
+                                        }
                                     />
 
 
@@ -830,8 +820,11 @@ function TanantsFrom() {
                                         placeholder="Contact Email"
                                         onChange={TanantsFramik.handleChange}
                                         value={TanantsFramik.values.secondary_contact_email}
-                                        className="font-medium w-full text-[13px] h-[50px] py-[10px] px-[5px] rounded-[5px]
-                                bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
+                                        className={TanantsFramik.errors.secondary_contact_email ?
+                                            "font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#FFF] text-[#000] border-2 border-red-500 focus:border-red-500 focus:outline-none"
+                                            :
+                                            "font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
+                                        }
                                     />
 
                                     {TanantsFramik.errors.secondary_contact_email &&
@@ -904,18 +897,7 @@ function TanantsFrom() {
                                         }>
                                         <IoTrashOutline className="text-[25px] text-red-500 mt-[7px] ml-[8px] " />
                                     </div>
-                                    {/* <div className="hidden group-hover:block absolute bg-[#00000040] top-0 left-0 w-full h-[100%]">
-                                        <div className="grid items-center justify-item-center w-[80%] h-[100%] ml-[12px]  ">
-                                            <div
-                                                onClick={DeleteOpen}
-                                                className="bg-white border-[2px] border-red-500 text-red-500 text-[10px]  rounded-[4px] text-center py-[7px] px-[7px]   ">
-                                                Delete Photo
-                                            </div>
-                                        </div>
-                                    </div> */}
-
-
-
+                                   
                                 </div>
 
                             )}
@@ -934,22 +916,6 @@ function TanantsFrom() {
                                         }>
                                         <IoTrashOutline className="text-[25px] text-red-500 mt-[7px] ml-[8px] " />
                                     </div>
-                                    {/* <div className="block absolute bg-[#00000040] top-0 left-0 w-full h-[100%]">
-                                        <div className="grid items-center justify-item-center w-[80%] h-[100%] ml-[12px]  ">
-                                            <div
-                                                onClick={DeleteOpen}
-                                                className="bg-white border-[2px] border-red-500 text-red-500 text-[10px]  rounded-[4px] text-center py-[7px] px-[7px]   ">
-                                                Delete Photo
-                                            </div>
-                                        </div>
-                                    </div> */}
-
-                                    {/* <DeletePhotoPopup
-                                        deletePhoto={() =>
-                                            deletePhoto(index)
-                                        }
-                                        datashow={showDeletePopup ? "hidden" : "block"}
-                                        onClicked={DeleteClose} /> */}
 
                                 </div>
 

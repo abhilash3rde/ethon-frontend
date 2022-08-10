@@ -1,10 +1,10 @@
 import React from "react";
-// import {useDispatch, useSelector } from "react-redux";
-// import toast from 'react-hot-toast';
-// import { deleteTenantsAPI } from "../../redux/APIS/API";
-// import { getTenants } from "../../redux/action/tenants";
-// import { useRouter } from 'next/router';
+import {useDispatch, useSelector } from "react-redux";
 import toast from 'react-hot-toast';
+ import { useRouter } from 'next/router';
+import { deleteContractorsAPI } from "../../redux/APIS/API";
+import { getContractors } from "../../redux/action/contractors";
+
 
 
 
@@ -12,35 +12,32 @@ import toast from 'react-hot-toast';
 function DeletePopup(props) {
 
 
-//   const tanents_id = useSelector((state)=> state.tenantsDetails.tenantsDetails?.data?.ID)
+  const contractors_id = useSelector((state)=> state.contractorsDetail.contractorsDetail?.data?.ID)
 
-//   console.log(tanents_id)
-
-
-//   const dispatch = useDispatch()
-
-//   const router = useRouter();
+  console.log(contractors_id)
 
 
-    // async function deleteUser(){
-    //     try {
-    //       const respon = await deleteTenantsAPI({
-    //         "tenent_ids": [tanents_id]
-    //     })
-    //       console.log(respon)
-    //       toast.success(respon.data.message)
-    //       dispatch(getTenants())
-    //       router.push('/tenants/tenants_list');
-    //     } catch (error) {
-    //         //console.log(error)
-    //       router.push('/tenants/tenants_list');
-    //       toast.error(error.response.data.message)
-    //     }
-    //   }
-    function deleteUser(){
-        toast.success('Delete Successfully')
-        
-    }
+  const dispatch = useDispatch()
+
+  const router = useRouter();
+
+
+    async function deleteUser(){
+        try {
+          const respon = await deleteContractorsAPI({
+            "contractor_ids": [contractors_id]
+        })
+          console.log(respon)
+          console.log(respon.data.message)
+          toast.success(respon.data.message)
+          dispatch(getContractors())
+          router.push('/contractors/list');
+        } catch (error) {
+            //console.log(error)
+          router.push('/contractors/list');
+          toast.error(error.response.data.message)
+        }
+      }
 
     return (
         <div className={props.datashow}>
@@ -58,7 +55,7 @@ function DeletePopup(props) {
                             <div className="flex justify-center">
 
                                 <div
-                                    onClick={props.onClicked}
+                                    onClick={deleteUser}
                                     className="bg-white w-[50%] py-2 flex justify-center">
                                     <div className=" py-2 w-[100%] mx-auto w-full flex justify-center text-red-600 
                                     rounded-[10px] ">

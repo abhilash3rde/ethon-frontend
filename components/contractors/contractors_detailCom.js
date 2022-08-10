@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { format } from 'date-fns'
 import {
     IoCall,
     IoMailOutline,
@@ -9,73 +11,74 @@ function ContractorsDetailsCom() {
 
 
 
-    const contractors = [
-        {
-            title: ' Around  The Clock',
-            services: 'locksmith',
-            location: '123 Mian st., MT. Pleaseant , SC 29466',
-            account_number: '105493934',
-            phone_number: '123',
-            contact_email: 'demo@gmail.com',
+    // const contractors = [
+    //     {
+    //         title: ' Around  The Clock',
+    //         services: 'locksmith',
+    //         location: '123 Mian st., MT. Pleaseant , SC 29466',
+    //         account_number: '105493934',
+    //         phone_number: '123',
+    //         contact_email: 'demo@gmail.com',
 
-            // primary contact
-            prinamy_name: 'Trey Pourmagh',
-            prinamy_title: 'Owner',
-            prinamyfirst_number_type: 'Mobile',
-            prinamyfirst_number: '13246',
-            prinamy_secondary_number_type: 'Office',
-            prinamy_secondary_number: '132465',
-            prinamy_email: 'demo@gmail.com',
+    //         // primary contact
+    //         prinamy_name: 'Trey Pourmagh',
+    //         prinamy_title: 'Owner',
+    //         prinamyfirst_number_type: 'Mobile',
+    //         prinamyfirst_number: '13246',
+    //         prinamy_secondary_number_type: 'Office',
+    //         prinamy_secondary_number: '132465',
+    //         prinamy_email: 'demo@gmail.com',
 
-            // notes
-            notes: 'Utilities for controlling how flex and grid items are positioned along a containers cross axis.',
+    //         // notes
+    //         notes: 'Utilities for controlling how flex and grid items are positioned along a containers cross axis.',
 
-            // project
-            project: [{
-                project_id: '#1058',
-                project_date: '06/10/2022',
-                project_title: 'Change lovks on 5 units',
-                project_dis: 'Utilities for controlling how flex and grid items are positioned along a containers cross axis.',
-                // bids
-                bids_date: '06/08/22',
-                bids_price: '$500',
-                bids_action: 'Accepted',
-                photo: [
-                    {
-                        photo_id: '#01',
-                        photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/34cae27228635e16b3f13401638948b8_-1.png',
-                        photo_dis: ''
-                    },
-                    {
-                        photo_id: '#01',
-                        photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/34cae27228635e16b3f13401638948b8_-1.png',
-                        photo_dis: ''
-                    },
-                    {
-                        photo_id: '#01',
-                        photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/34cae27228635e16b3f13401638948b8_-1.png',
-                        photo_dis: ''
-                    },
-                ]
-            },
-            ]
+    //         // project
+    //         project: [{
+    //             project_id: '#1058',
+    //             project_date: '06/10/2022',
+    //             project_title: 'Change lovks on 5 units',
+    //             project_dis: 'Utilities for controlling how flex and grid items are positioned along a containers cross axis.',
+    //             // bids
+    //             bids_date: '06/08/22',
+    //             bids_price: '$500',
+    //             bids_action: 'Accepted',
+    //             photo: [
+    //                 {
+    //                     photo_id: '#01',
+    //                     photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/07/166397679c8996aeba9d27abfd13cc64_.jpg',
+    //                     photo_dis: ''
+    //                 },
+    //                 {
+    //                     photo_id: '#01',
+    //                     photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/07/166397679c8996aeba9d27abfd13cc64_.jpg',
+    //                     photo_dis: ''
+    //                 },
+    //                 {
+    //                     photo_id: '#01',
+    //                     photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/07/166397679c8996aeba9d27abfd13cc64_.jpg',
+    //                     photo_dis: ''
+    //                 },
+    //             ]
+    //         },
+    //         ]
 
-        }
+    //     }
 
-    ]
+   // ]
 
+    const item = useSelector((state)=> state.contractorsDetail.contractorsDetail?.data.data)
 
-    console.log(contractors)
+    console.log(item)
 
     return (
         <div>
             <div className="Tenants-details mb-14">
-                {contractors.map((item, index) =>
-                    <div key={index}>
+                {/* {contractors.map((item, index) => */}
+                    <div key={item}>
                         <div className="grid w-full py-4 px-4 ">
                             <div className="flex w-full items-center">
                                 <div className="w-[75%] grid" >
-                                    <h1 className="text-lg font-[600]">{item?.title}</h1>
+                                    <h1 className="text-lg font-[600]">{item?.primary_title}</h1>
                                     <div className="flex gap-2 ">
                                         <span className="text-[10px] ">Services: {item?.services}</span>
                                     </div>
@@ -84,7 +87,7 @@ function ContractorsDetailsCom() {
 
                                 </div>
                                 <div className="grid grid-cols-2 w-[25%]">
-                                    <Link href={'tel:' + item?.phone_number}>
+                                    <Link href={'tel:' + item?.company_primary_phone}>
                                         <a>
                                             <div className="w-[100%] grid justify-items-center">
                                                 <IoCall className="text-xl " />
@@ -93,12 +96,12 @@ function ContractorsDetailsCom() {
                                         </a>
                                     </Link>
 
-                                    <Link href={'mailto:' + item?.contact_email}>
+                                    <Link href={'mailto:' + item?.company_email}>
                                         <a>
                                             <div className="w-[100%] grid justify-items-center">
 
                                                 <IoMailOutline className="text-xl " />
-                                                <h6 className="text-[10px]  ">Email</h6>
+                                                <h6 className="text-[10px] ">Email</h6>
                                             </div>
                                         </a>
                                     </Link>
@@ -111,7 +114,7 @@ function ContractorsDetailsCom() {
                         <div className="grid w-full py-2 px-4 ">
                             <div className="grid gap-2">
                                 <div className="w-[100%]">
-                                    <h1 className="text-[15px] font-[600]">{item?.location}</h1>
+                                    <h1 className="text-[15px] font-[600]">{item?.street_address}</h1>
                                     <span className="text-[10px] text-gray-500">Location</span>
                                 </div>
                             </div>
@@ -137,27 +140,27 @@ function ContractorsDetailsCom() {
                             <div className="grid grid-cols-2 gap-2 px-2 ">
                                 <div className="">
                                     <span className="text-[10px] text-gray-500">Name</span>
-                                    <h1 className="text-[13px] font-[600]">{item?.prinamy_name}</h1>
+                                    <h1 className="text-[13px] font-[600]">{item?.display_name}</h1>
                                 </div>
 
                                 <div className="">
                                     <span className="text-[10px] text-gray-500">Title</span>
-                                    <h1 className="text-[15px] font-[600]">{item?.prinamy_title}</h1>
+                                    <h1 className="text-[15px] font-[600]">{item?.primary_title}</h1>
                                 </div>
 
                                 <div className="">
-                                    <span className="text-[10px] text-gray-500">Primary {item?.prinamyfirst_number_type}</span>
-                                    <h1 className="text-[15px] font-[600]">{item?.prinamyfirst_number}</h1>
+                                    <span className="text-[10px] text-gray-500">Primary {item?.primary_phone_type}</span>
+                                    <h1 className="text-[15px] font-[600]">{item?.primary_phone}</h1>
                                 </div>
 
                                 <div className="">
-                                    <span className="text-[10px] text-gray-500">Secondary {item?.prinamy_secondary_number_type}</span>
-                                    <h1 className="text-[15px] font-[600]">{item?.prinamy_secondary_number}</h1>
+                                    <span className="text-[10px] text-gray-500">Secondary {item?.primary_second_phone_type}</span>
+                                    <h1 className="text-[15px] font-[600]">{item?.primary_second_phone}</h1>
                                 </div>
 
                                 <div className="col-span-2">
                                     <span className="text-[10px] text-gray-500">Email Address</span>
-                                    <h1 className="text-[13px] font-[600]">{item?.prinamy_email}</h1>
+                                    <h1 className="text-[13px] font-[600]">{item?.primary_email}</h1>
                                 </div>
                             </div>
 
@@ -171,12 +174,12 @@ function ContractorsDetailsCom() {
                                     <hr className="my-1 border-t-2" />
 
                                     <div>
-                                        <div className="grid grid-cols-1 gap-1">
+                                        <div className="grid grid-cols-1 gap-1 w-full">
                                             <div className="w-[100%]">
-                                                <span className=" text-[12px]">06/08/2022</span>
+                                                <span className=" text-[12px]">{item?.contractor_created && format(new Date(item?.contractor_created), 'MM-dd-yyyy')}</span>
                                             </div>
-                                            <div className="w-[100%]">
-                                                <p className="text-gray-500 text-sm ">
+                                            <div className="w-[100%] grid overflow-hidden">
+                                                <p className="text-gray-500 text-sm w-[100%] grid ">
                                                     {item?.notes}
                                                 </p>
                                             </div>
@@ -186,7 +189,9 @@ function ContractorsDetailsCom() {
                             </div>
                         </div>
 
-                        <div className="grid w-full py-4 px-4 ">
+                        {/* project part  */}
+
+                        {/* <div className="grid w-full py-4 px-4 ">
                             <div className="flex gap-2">
                                 <div className="w-[100%]">
                                     <span className="text-[15px] text-gray-500">Projects</span>
@@ -250,26 +255,16 @@ function ContractorsDetailsCom() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
 
 
                     </div>
 
-                )}
+                {/* )} */}
             </div>
         </div>
     )
 }
 
 export default ContractorsDetailsCom;
-
-
-            // // primary contact
-            // prinamy_name: 'Trey Pourmaghadam',
-            // prinamy_title: 'Owner',
-            // prinamyfirst_number_type: 'Mobile',
-            // prinamyfirst_number: '13246',
-            // prinamy_secondary_number_type: 'Office',
-            // prinamy_secondary_number: '132465',
-            // prinamy_email: 'demo@gmail.com',

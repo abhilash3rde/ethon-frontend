@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 
 
 
+
 function TenantsDetails() {
 
     const [showPopup, setShowPopup] = useState(true);
@@ -23,6 +24,7 @@ function TenantsDetails() {
         console.log("true")
     }
 
+
     return (
         <div className="App">
 
@@ -38,6 +40,7 @@ function TenantsDetails() {
             BtnFirstOnclick={()=>{ 
                 router.push('/tenants/tenants_form?edit=true')
             }}
+            BtnSecond={"Delete"}
             SecondOnClick={open} />
 
         </div>
