@@ -1,4 +1,6 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import ContractorsDetailsCom from "../../components/contractors/contractors_detailCom";
 import DeletePopup from "../../components/contractors/deletepopup";
 import NavigationButton from "../../components/tenants/details/navigation_button";
@@ -9,6 +11,7 @@ import SubHeader from "../../components/tenants/header";
 
 function ContractorsDetails(){
     const [showPopup, setShowPopup] = useState(false);
+    
     const open =()=>{
         setShowPopup(true)
     }
@@ -17,6 +20,7 @@ function ContractorsDetails(){
         setShowPopup(false)
     }
 
+    const router = useRouter();
 
 
     return(
@@ -30,6 +34,9 @@ function ContractorsDetails(){
             <DeletePopup datashow={showPopup? "block" : "hidden"} onClicked={close}/>
             <NavigationButton 
              BtnFirst={"Edit"}
+             BtnFirstOnclick={()=>{ 
+                router.push('/contractors/form?edit=true')
+            }}
              BtnSecond={"Delete"}
              SecondOnClick={open}
             />

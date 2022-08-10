@@ -84,22 +84,6 @@ function TanantsDetailsCom() {
 
     }
 
-
-
-    <div className="flex gap-4">
-        <div className="w-[30%]">
-
-            <span className=" text-[12px]"> {tenants_detail?.post_date && format(new Date(tenants_detail?.post_date), 'MM-dd-yyyy')}  </span>
-
-        </div>
-        <div className="w-[70%]">
-            <p className="text-gray-500 text-sm ">
-                {tenants_detail?.notes}
-            </p>
-        </div>
-    </div>
-
-
     return (
         <div className="Tenants-details mb-14">
 

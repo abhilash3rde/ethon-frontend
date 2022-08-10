@@ -1,13 +1,14 @@
 import { combineReducers } from "redux";
-import { singleTenantsReducer } from "./SingleTenantsReducer";
 import { tenantsReducer } from "./TenantsReducer";
 import { UserActiveReducer } from "./UserActiveReducer";
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { tenantsDetailsReducer } from "./TenantsDetailReducer";
+import { contractorsReducer } from "./ContractorsReducer";
+import { contractorsDetailReducer } from "./ContractorsDetailReducer";
 
 const persistConfig = {
-  key:'persist-store',
+  key: 'persist-store',
   storage
 }
 
@@ -15,9 +16,11 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
 
-    tenants:tenantsReducer,
-    singleTenants:singleTenantsReducer,
-    tenantsDetails:tenantsDetailsReducer,
-    userActive:persistReducer(persistConfig, UserActiveReducer),
+    
+     tenants: tenantsReducer,
+     userActive: persistReducer(persistConfig, UserActiveReducer),
+     tenantsDetails: tenantsDetailsReducer,
+     contractors: contractorsReducer,
+     contractorsDetail: contractorsDetailReducer,
 
 });

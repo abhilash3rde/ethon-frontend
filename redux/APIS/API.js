@@ -27,6 +27,9 @@ export const postNewAPI = (data) => {
 }
 
 
+// tenants apis
+
+
 export const getTenantsAPI = () => {
     return axios.get(baseAPIURL + 'api/v1/tenants',
         token())
@@ -66,4 +69,29 @@ export const filterTenantsAPI = (data) => {
     token())
 }
 
+// tenants contrators apis
+export const postContratorsAPI = (data) => {
+    return axios.post(baseAPIURL + 'api/v1/contractor/create', data,
+        token())
+}
 
+export const getContractorsAPI = () => {
+    return axios.get(baseAPIURL + 'api/v1/contractors',
+    token())
+}
+
+export const getContractorsDetailAPI = (id) => {
+    return axios.get(baseAPIURL + `api/v1/contractor/detail?contractorId=${id}`,
+        token())
+}
+
+export const deleteContractorsAPI = (id) => {
+    return axios.post(baseAPIURL + `api/v1/contractor/delete`,id,
+        token())
+}
+
+
+export const EditContractorsAPI = (data) => {
+    return axios.post(baseAPIURL + 'api/v1/contractor/update', data,
+    token())
+}

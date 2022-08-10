@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { IoCall } from "react-icons/io5";
-import { useEffect } from "react";
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from "react-redux";
-import { getTenants } from "../../redux/action/tenants";
-import { getSingleTenants } from "../../redux/action/single-tenants";
 import { getTenantDetail } from "../../redux/action/tenants-detail";
 
 
@@ -20,6 +17,9 @@ function ListItem() {
 
     const clients = useSelector((state) => state.tenants.tenants?.data)
 
+
+
+
     return (
         <div className="list">
             <div className="body">
@@ -32,8 +32,7 @@ function ListItem() {
                                 </div>
 
                                 <div className="w-[60%]" onClick={() => {
-                                    // dispatch(getSingleTenants(item)),
-                                    dispatch(getTenantDetail(item.ID)),
+                                        dispatch(getTenantDetail(item.ID)),
                                         router.push('/tenants/tenants_details')
                                 }}>
 

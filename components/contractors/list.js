@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { IoCall } from "react-icons/io5";
 import { useRouter } from 'next/router'
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getContractors } from "../../redux/action/contractors";
+import { getContractorsDetail } from "../../redux/action/contractors-detail";
+
 
 
 
@@ -9,80 +14,53 @@ import { useRouter } from 'next/router'
 function ConListItem() {
 
 
-    // const dispatch = useDispatch();
+ 
+    const dispatch = useDispatch();
 
     const router = useRouter();
 
+    useEffect(() => {
+        dispatch(getContractors())
+    }, [])
+    
+
+    const contractors = useSelector((state) => state.contractors.contractors.data)
+
+    //console.log(contractors);
 
 
-    // const clients = useSelector((state) => state.tenants.tenants?.data)
 
-    const clients = [
-        {
-            title: "AAA Concrete Finishing",
-            service: "Sidewalks Repair",
-            unit: "#13264487132",
-            phone_number: "1324598"
-        },
-        {
-            title: "AAA Concrete Finishing",
-            service: "Sidewalks Repair",
-            unit: "#13264487132",
-            phone_number: "1324598"
-        },
-        {
-            title: "AAA Concrete Finishing",
-            service: "Sidewalks Repair",
-            unit: "#13264487132",
-            phone_number: "1324598"
-        },
-        {
-            title: "AAA Concrete Finishing",
-            service: "Sidewalks Repair",
-            unit: "#13264487132",
-            phone_number: "1324598"
-        },
-        {
-            title: "AAA Concrete Finishing",
-            service: "Sidewalks Repair",
-            unit: "#13264487132",
-            phone_number: "1324598"
-        },
-        {
-            title: "AAA Concrete Finishing",
-            service: "Sidewalks Repair",
-            unit: "#13264487132",
-            phone_number: "1324598"
-        },        
-    ]
+    
+    
+
  
     return (
         <div className="list">
             <div className="body">
                 <div className="ListDetails mb-20">
-                    {clients?.map((item, index) =>
+                    {contractors?.map((item, index) =>
                         <div key={index}>
                             <div className='flex items-center w-[100%] gap-[3px] pt-4 px-4'>
-                                {/* <div className="w-[20%]">
-                                    <h6 className="text-[15px] font-[500]">{item.unit}</h6>
-                                </div> */}
-
+                              
                                 <div className="w-[80%]">
 
                                     <div 
                                     className="w-full"
-                                    onClick={()=> router.push('/contractors/details')}
-                                    >
-                                        <h1 className="text-[15px] font-[500] uppercase">{item.title}</h1>
+                                    onClick={()=> {
+                                        console.log(item.ID)
+                                        dispatch(getContractorsDetail(item.ID))  
+                                        router.push('/contractors/details')
+                                    }}>  
+                                        <h1 className="text-[15px] font-[500] uppercase">{item.primary_title}</h1>
                                         <div className="flex opacity-50 gap-[10px] items-center ">
-                                            <span className="text-[10px] text-[#000] uppercase ">{item.service}</span>
-                                            <span className="text-[10px] text-[#000]  uppercase">{item.unit}</span>
+                                            <span className="text-[10px] text-[#000] uppercase ">{item.services}</span>
+                                            <span className="text-[10px] text-[#000]  uppercase">{item.account_number}</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="w-[20%] pl-[4%]">
-                                    <Link href={'tel:' + item.phone_number}>
+                                    <Link href={'tel:' + item.company_primary_phone}>
                                         <a>
                                             <IoCall className="text-xl" />
                                         </a>
