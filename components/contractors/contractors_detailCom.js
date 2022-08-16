@@ -1,74 +1,36 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { format } from 'date-fns'
+import { useEffect } from "react";
 import {
     IoCall,
     IoMailOutline,
 } from "react-icons/io5";
+import { useRouter } from "next/router";
+
 
 
 function ContractorsDetailsCom() {
 
 
+    const router = useRouter()
 
-    // const contractors = [
-    //     {
-    //         title: ' Around  The Clock',
-    //         services: 'locksmith',
-    //         location: '123 Mian st., MT. Pleaseant , SC 29466',
-    //         account_number: '105493934',
-    //         phone_number: '123',
-    //         contact_email: 'demo@gmail.com',
+    const item_status = useSelector((state)=> state.contractorsDetail.contractorsDetail)
 
-    //         // primary contact
-    //         prinamy_name: 'Trey Pourmagh',
-    //         prinamy_title: 'Owner',
-    //         prinamyfirst_number_type: 'Mobile',
-    //         prinamyfirst_number: '13246',
-    //         prinamy_secondary_number_type: 'Office',
-    //         prinamy_secondary_number: '132465',
-    //         prinamy_email: 'demo@gmail.com',
+    console.log('status',item_status)
 
-    //         // notes
-    //         notes: 'Utilities for controlling how flex and grid items are positioned along a containers cross axis.',
-
-    //         // project
-    //         project: [{
-    //             project_id: '#1058',
-    //             project_date: '06/10/2022',
-    //             project_title: 'Change lovks on 5 units',
-    //             project_dis: 'Utilities for controlling how flex and grid items are positioned along a containers cross axis.',
-    //             // bids
-    //             bids_date: '06/08/22',
-    //             bids_price: '$500',
-    //             bids_action: 'Accepted',
-    //             photo: [
-    //                 {
-    //                     photo_id: '#01',
-    //                     photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/07/166397679c8996aeba9d27abfd13cc64_.jpg',
-    //                     photo_dis: ''
-    //                 },
-    //                 {
-    //                     photo_id: '#01',
-    //                     photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/07/166397679c8996aeba9d27abfd13cc64_.jpg',
-    //                     photo_dis: ''
-    //                 },
-    //                 {
-    //                     photo_id: '#01',
-    //                     photo_src: 'http://dev.getsmiapp.com/wp-content/uploads/2022/07/166397679c8996aeba9d27abfd13cc64_.jpg',
-    //                     photo_dis: ''
-    //                 },
-    //             ]
-    //         },
-    //         ]
-
-    //     }
-
-   // ]
-
-    const item = useSelector((state)=> state.contractorsDetail.contractorsDetail?.data.data)
+    const item = useSelector((state)=> state.contractorsDetail.contractorsDetail?.data?.data)
 
     console.log(item)
+
+    useEffect(() => {
+        if(item_status === null){
+            console.log('status', item_status)
+            router.push('/contractors/list')
+        }
+      
+    }, [])
+    
 
     return (
         <div>
@@ -78,7 +40,7 @@ function ContractorsDetailsCom() {
                         <div className="grid w-full py-4 px-4 ">
                             <div className="flex w-full items-center">
                                 <div className="w-[75%] grid" >
-                                    <h1 className="text-lg font-[600]">{item?.primary_title}</h1>
+                                    <h1 className="text-lg font-[600]">{item?.company_name}</h1>
                                     <div className="flex gap-2 ">
                                         <span className="text-[10px] ">Services: {item?.services}</span>
                                     </div>
@@ -176,7 +138,8 @@ function ContractorsDetailsCom() {
                                     <div>
                                         <div className="grid grid-cols-1 gap-1 w-full">
                                             <div className="w-[100%]">
-                                                <span className=" text-[12px]">{item?.contractor_created && format(new Date(item?.contractor_created), 'MM-dd-yyyy')}</span>
+                                                <span className=" text-[12px]">{item?.contractor_created && format(new Date(item?.contractor_created), 
+                                                'MM-dd-yyyy')}</span>
                                             </div>
                                             <div className="w-[100%] grid overflow-hidden">
                                                 <p className="text-gray-500 text-sm w-[100%] grid ">

@@ -17,13 +17,11 @@ export const postRegistationAPI = (data) => {
 }
 
 export const postForgetAPI = (data) => {
-    return axios.post(baseAPIURL + 'api/v1/forget-password', data, token()
-    )
+    return axios.post(baseAPIURL + 'api/v1/forget-password', data)
 }
 
 export const postNewAPI = (data) => {
-    return axios.post(baseAPIURL + 'api/v1/new-password', data, token()
-    )
+    return axios.post(baseAPIURL + 'api/v1/new-password', data)
 }
 
 
@@ -42,6 +40,11 @@ export const getTenantDetailAPI = (id) => {
 
 export const postTenantsAPI = (data) => {
     return axios.post(baseAPIURL + 'api/v1/tenant/create', data,
+        token())
+}
+
+export const postTenantsFlagAPI = (data) => {
+    return axios.post(baseAPIURL + 'api/v1/tenant/conpany_flag', data,
         token())
 }
 
@@ -69,7 +72,7 @@ export const filterTenantsAPI = (data) => {
     token())
 }
 
-// tenants contrators apis
+// contrators apis
 export const postContratorsAPI = (data) => {
     return axios.post(baseAPIURL + 'api/v1/contractor/create', data,
         token())
@@ -79,6 +82,12 @@ export const getContractorsAPI = () => {
     return axios.get(baseAPIURL + 'api/v1/contractors',
     token())
 }
+
+export const filterContractorsAPI = (data) => {
+    return axios.post(baseAPIURL + 'api/v1/contractor/search', data,
+    token())
+}
+
 
 export const getContractorsDetailAPI = (id) => {
     return axios.get(baseAPIURL + `api/v1/contractor/detail?contractorId=${id}`,

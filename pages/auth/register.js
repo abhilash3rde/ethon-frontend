@@ -12,6 +12,7 @@ function Register() {
 
     const router = useRouter();
     const [showpassword, setShowpassword] = useState(false);
+    const [showRepassword, setShowRepassword] = useState(false);
 
     const validate = (values) => {
         const errors = {};
@@ -34,6 +35,14 @@ function Register() {
             errors.password = 'Please enter password'
         }
 
+        if (!values.re_password) {
+            errors.re_password = 'Please Re-Enter your password'
+        }
+
+        if (values.password !== values.re_password) {
+            errors.re_password = 'password not match'
+        }
+
         return errors;
     };
 
@@ -53,14 +62,23 @@ function Register() {
             lname: '',
             email: '',
             password: '',
-            user_type: 'vendor',
+            re_password: '',
         },
         validate,
-        onSubmit: async data => {
+        onSubmit: async values => {
             try {
+                
+                let data ={
+                    fname:values.fname,
+                    lname:values.lname,
+                    email:values.email,
+                    password:values.password,
+                    user_type: 'vendor',
+                }
+                // console.log(data)
                 const respon = await postRegistationAPI(data)
-                toast.success(respon.data.message)
-                router.push('/auth/login');
+               toast.success(respon.data.message)
+                router.push('/');
             }
             catch (error) {
                 toast.error(error.response.data.message)
@@ -74,7 +92,7 @@ function Register() {
     return (
 
 
-        <div className="register-page w-full flex items-center mt-16 ">
+        <div className="register-page w-full flex items-center mt-16 mb-10">
 
             <div className="w-[90%] sm:w-[50%] mx-auto">
 
@@ -137,7 +155,7 @@ function Register() {
                                 value={RegiFarmik.values.email}
                                 // required
                                 className="font-medium text-[15px] h-[50px] py-[10px] px-[20px] rounded-[5px]
-                        bg-[#FFF] border-[#cfcfcf8f] text-[#000] border-2 focus:border-theme focus:outline-none"
+                                 bg-[#FFF] border-[#cfcfcf8f] text-[#000] border-2 focus:border-theme focus:outline-none"
                             />
                             {RegiFarmik.errors.email &&
                                 <span className='text-red-500'>{RegiFarmik.errors.email}</span>
@@ -178,32 +196,35 @@ function Register() {
 
 
 
-                    {/* <div className='grid grid-cols-1 relative'>
+                    <div className='grid grid-cols-1 relative'>
 
-                        <label className="font-medium text-[15px] my-[7px]">Password</label>
-                        <div className='ralative'>
+                        <label className="font-medium text-[15px] my-[7px] ">Re-Enter Password</label>
+                        <div className='relative'>
                             <input
-                                name="password"
-                                id="password"
-                                type={showpassword ? 'text' : 'password'}
-                                // required
+                                name="re_password"
+                                id="re_password"
+                                type={showRepassword ? 'text' : 'password'}
                                 onChange={RegiFarmik.handleChange}
-                                value={RegiFarmik.values.password}
+                                value={RegiFarmik.values.re_password}
                                 placeholder="Enter Your Password"
-                                className="font-medium text-[15px] w-full h-[50px] py-[10px] px-[20px] rounded-[5px]
-                            bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme active:border-theme focus:outline-none"
+                                className="font-medium text-[15px]  w-full h-[50px] py-[10px] px-[20px] rounded-[5px]
+                                bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme active:border-theme focus:outline-none"
                             />
+
                             <span
-                                onClick={() => setShowpassword(!showpassword)}
-                                title={showpassword ? "Show Password" : "Hide Password"}
-                                class="font-mono cursor-pointer text-[1.5em] bg-white pl-2 
-                            absolute right-3 bottom-3 " >
-                                {showpassword ? <BsEye /> : <BsEyeSlash />}</span>
+                                onClick={() => setShowRepassword(!showRepassword)}
+                                title={showRepassword ? "Show Password" : "Hide Password"}
+                                className="font-mono cursor-pointer text-[1.5em] bg-white pl-2 
+                                absolute right-3 bottom-3" >
+                                {showRepassword ? <BsEye /> : <BsEyeSlash />}</span>
+
                         </div>
-                        {RegiFarmik.errors.password &&
-                            <span className='text-red-500'>{RegiFarmik.errors.password}</span>
+
+                        {RegiFarmik.errors.re_password &&
+                            <span className='text-red-500'>{RegiFarmik.errors.re_password}</span>
                         }
-                    </div> */}
+                    </div>
+
 
                     <div className='grid grid-cols-1 w-full justify-items-start'>
 
@@ -215,6 +236,12 @@ function Register() {
                     </div>
 
                 </form>
+
+                <div className="flex flex-col sm:flex-row items-left mt-6 justify-center sm:justify-between">
+                            <Link href="/">
+                                <a className="font-medium text-[#000] text-[18px] font-[600]">Have an account? Sign in</a>
+                            </Link>
+                        </div>
             </div>
         </div>
     )

@@ -1,8 +1,6 @@
 import Link from "next/link";
-import Image from 'next/image'
-import AddPhoto from './addPhotos';
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     IoCall,
     IoMailOutline,
@@ -10,13 +8,16 @@ import {
     IoList,
     IoGridOutline,
     IoGrid,
+    IoFlagSharp,
+    IoFlagOutline,
 } from "react-icons/io5";
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router'
 import AddPhotoD from "./addPhotoD";
 import TanantsLightbox from "./lightbox";
 import { format } from 'date-fns'
-
+import {  postTenantsFlagAPI } from "../../../redux/APIS/API";
+import { getTenants } from "../../../redux/action/tenants";
 
 
 
@@ -28,12 +29,9 @@ import { format } from 'date-fns'
 function TanantsDetailsCom() {
 
     const [layoutOption, setLayoutOption] = useState(false);
-
     const [openLightBox, setOpenLightBox] = useState(false);
-
     const [imageSrc, setImageSrc] = useState(true);
     const [imageDis, setImageDis] = useState(true);
-
 
     const OpenLight = (img, dis) => {
         setImageSrc(img)
@@ -43,11 +41,16 @@ function TanantsDetailsCom() {
     }
 
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const tenants_data = useSelector((state) => state.tenantsDetails.tenantsDetails)
 
 
     const tenants_detail = useSelector((state) => state.tenantsDetails.tenantsDetails?.data)
+
+    const tenantId = useSelector((state) => state.tenantsDetails.tenantsDetails?.data?.ID)
+    const author_id = useSelector((state) => state.tenantsDetails.tenantsDetails?.data?.post_author)
+    console.log(author_id, 'author_id id vaild' )
 
     console.log(tenants_detail)
 
@@ -84,6 +87,41 @@ function TanantsDetailsCom() {
 
     }
 
+
+    async function ClickIcon() {
+        try {
+            const respon = await postTenantsFlagAPI({
+                // "author": '' + author_id,
+                "tenant_id": '' + tenantId, 
+                "company_flag": "true"
+            })
+            console.log(respon.data.message)
+            toast.success(respon.data.message)
+            router.push('/tenants/tenants_list');
+            dispatch(getTenants())
+        } catch (error) {
+            //console.log(error)
+            // router.push('/tenants/tenants_list');
+            // toast.error(error.response)
+            console.log(error)
+        }
+    }
+
+    function companyFlag(){
+        const flag = tenants_detail.company_flag
+        if(flag === "true"){
+            return(
+            <IoFlagSharp className="text-lg cursor-pointer" />
+            )
+        }else{
+            return(
+               <IoFlagOutline 
+                className="text-lg cursor-pointer"
+                onClick={ClickIcon}
+                /> )
+        }
+    }
+
     return (
         <div className="Tenants-details mb-14">
 
@@ -91,16 +129,22 @@ function TanantsDetailsCom() {
                 <div className="grid w-full py-4 px-4 ">
                     <div className="flex w-full items-center" key={tenants_detail} >
                         <div className="w-[75%] grid" >
-                            <h1 className="text-lg font-[600]">{tenants_detail?.company_name}</h1>
+                            <div className="flex items-center gap-2 ">
+                                <h1 className="text-lg font-[600]">{tenants_detail?.company_name}</h1>
+                               
+                                {companyFlag()}
+                               
+                            </div>
                             <div className="flex gap-2 ">
                                 <span className="text-[10px] ">Status: {tenants_detail?.status}</span>
                                 <span className="text-[10px] ">Complex: {tenants_detail?.complex}</span>
                             </div>
 
-
-
                         </div>
-                        <div className="grid grid-cols-2 w-[25%]">
+                        <div className="w-[5%]">
+
+                        </div>   
+                        <div className="grid grid-cols-2 w-[20%] mr-auto">
                             <Link href={'tel:' + tenants_detail?.primary_phone}>
                                 <a>
                                     <div className="w-[100%] grid justify-items-center">
@@ -182,7 +226,7 @@ function TanantsDetailsCom() {
                             <span className="text-[15px] text-gray-500">Note</span>
                             <hr className="my-1 border-t-2" />
 
-                             <NotesData />
+                            <NotesData />
                         </div>
                     </div>
                 </div>

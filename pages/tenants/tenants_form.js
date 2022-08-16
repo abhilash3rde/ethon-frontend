@@ -9,11 +9,9 @@ import { useState, useEffect } from "react";
 import AddPhoto from '../../components/tenants/details/addPhotos'
 import { useDispatch, useSelector } from "react-redux";
 import DeletePhotoPopup from "../../components/tenants/details/deletePhotopopup";
-import { IoTrashOutline } from "react-icons/io5";
+import { IoTrashOutline, IoFlagSharp } from "react-icons/io5";
 import Link from "next/link";
-
-
-
+import { getTenantDetail } from "../../redux/action/tenants-detail";
 
 
 
@@ -165,18 +163,17 @@ function TanantsFrom() {
                     }
                     console.log(respon.data)
                     setTenantLoader(false)
-                    // toast.success(respon.data.message)
                     router.push('/tenants/tenants_list')
+                    
                 } else {
                     console.log("add tenants screen load now")
                     setTenantLoader(true)
 
                     const respon = await postTenantsAPI(values)
                     console.log(respon.data.data.tenant_id, "asadasdsd my data")
-                    const tenant_idasdasd = respon.data.data.tenant_id
+                    const tenant_idd = respon.data.data.tenant_id
                     const data = {
-                        // "post_id": "12",
-                        'post_id': '' + tenant_idasdasd,
+                        'post_id': '' + tenant_idd,
                         'author': '' + userId,
                         'photos': values.photos
                     }
@@ -299,6 +296,25 @@ function TanantsFrom() {
                             {TanantsFramik.errors.company_name &&
                                 <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.company_name}</span>
                             }
+
+
+                            {/* {userEdit ? */}
+                                {/* <div className="w-[100%]">
+                                <select
+                                    name="company_flag"
+                                    onChange={TanantsFramik.handleChange}
+                                    value={TanantsFramik.values.company_flag}
+                                    className="font-medium w-full text-[12px] h-[50px] py-[10px] px-[5px] rounded-[5px]
+                                 bg-[#FFF] border-[#cfcfcf8f]  text-theme border-2 focus:border-theme focus:outline-none"
+
+                                >
+                                    <option value="black">black Flag</option>
+                                    <option value="red">Red Flag</option>
+                                </select> 
+                                </div> */}
+                                 {/* : null
+                                
+                             } */}
 
                             <div className='grid grid-cols-1'>
                                 <input
@@ -897,7 +913,7 @@ function TanantsFrom() {
                                         }>
                                         <IoTrashOutline className="text-[25px] text-red-500 mt-[7px] ml-[8px] " />
                                     </div>
-                                   
+
                                 </div>
 
                             )}
