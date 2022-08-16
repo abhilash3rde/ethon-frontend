@@ -28,6 +28,7 @@ function ContractorsForm() {
 
    const userId = useSelector((state) => state.userActive.user?.id)
 
+
    const editContractors = useSelector(
       (state) => state.contractorsDetail.contractorsDetail?.data.data
    )
@@ -132,13 +133,13 @@ function ContractorsForm() {
             editContractors?.primary_phone && userEdit
                ? editContractors?.primary_phone
                : '',
-         primary_secondary_number:
-            editContractors?.primary_secondary_number && userEdit
-               ? editContractors?.primary_secondary_number
+         prinamy_secondary_number:
+            editContractors?.prinamy_secondary_number && userEdit
+               ? editContractors?.prinamy_secondary_number
                : '',
-         primary_secondary_number_type:
-            editContractors?.primary_secondary_number_type && userEdit
-               ? editContractors?.primary_secondary_number_type
+         prinamy_secondary_number_type:
+            editContractors?.prinamy_secondary_number_type && userEdit
+               ? editContractors?.prinamy_secondary_number_type
                : '',
          primary_email:
             editContractors?.primary_email && userEdit
@@ -153,12 +154,12 @@ function ContractorsForm() {
          try {
             if (userEdit === 'true') {
                //    console.log(values)
-               values.contractorId = userId
+               values.contractorId = editContractors.ID
                const respon = await EditContractorsAPI(values)
                console.log('res', respon)
-               //    dispatch(getContractors())
+               dispatch(getContractors())
                toast.success(respon.data.message)
-               //    router.push('/contractors/list')
+              router.push('/contractors/list')
             } else {
                setLoader(true)
 
@@ -262,7 +263,7 @@ function ContractorsForm() {
                            'Irrigation',
                            'Landscaping',
                            'Custom'
-                        ]}
+                        ]} 
                      />
 
                      <Custom
@@ -444,7 +445,7 @@ function ContractorsForm() {
                            <div className="flex gap-1">
                               <div className="w-[60%]">
                                  <Input
-                                    name={'primary_secondary_number'}
+                                    name={'prinamy_secondary_number'}
                                     placeholder={'Secondary Phone'}
                                     formik={ContractorFormik}
                                     type={'number'}
@@ -453,7 +454,7 @@ function ContractorsForm() {
 
                               <div className="w-[40%]">
                                  <Select
-                                    name={'primary_secondary_number_type'}
+                                    name={'prinamy_secondary_number_type'}
                                     formik={ContractorFormik}
                                     option={[
                                        'Mobile',

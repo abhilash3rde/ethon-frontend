@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { BsEye, BsEyeSlash } from "react-icons/bs";
@@ -16,9 +16,12 @@ import { UserActive } from '../redux/action/user-active';
 function Login() {
     
     const[showpassword, setShowpassword] = useState(false);
+    const[count, setCount] = useState(0);
     const router = useRouter()
 
     const dispatch = useDispatch()
+
+     
 
     const validate = (values) => {
         const errors = {};
@@ -42,19 +45,26 @@ function Login() {
             password: '',
           },
           validate,
-          onSubmit: async data => {
+          onSubmit: async (data, { resetForm }) => {
             try {
-              const respon = await postLoginAPI(data)
+                              const respon = await postLoginAPI(data)
               console.log(respon)
               reactLocalStorage.set("token",respon.data.data.token)
               dispatch(UserActive(respon.data.data))
               toast.success(respon.data.message)
               router.push('/dashboard');
+             
               
             } catch (error) {
+                resetForm();
+               setCount(()=> count+1)
+                console.log(count);
+                toast.error(error.response.data.message)
+                if(count == 3){
+                    console.log('forget go now')
+                    router.push('/auth/forget_password');
+                }
                 console.log(error)
-              router.push('/auth/forget_password');
-              toast.error(error.response.data.message)
             }
           },
     });

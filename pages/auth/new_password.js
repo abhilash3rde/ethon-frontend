@@ -72,7 +72,7 @@ function NewPassword() {
     if(getUserid){
         console.log('user id found')
     }else{
-        router.push('/auth/login');
+        router.push('/');
         console.log('user id not found')
     }
     
@@ -83,7 +83,7 @@ function NewPassword() {
 
 
 
-    return (
+    return ( 
         <div className="forget-page w-full h-screen overflow-x-hidden flex items-center ">
 
             <div className="w-[90%] sm:w-[50%] mx-auto">
@@ -128,7 +128,7 @@ function NewPassword() {
 
                         <div className='grid grid-cols-1 relative'>
 
-                            <label className="font-medium text-[15px] my-[7px] ">Confirm Password</label>
+                            <label className="font-medium text-[15px] my-[7px]" >Confirm Password</label>
                             <div className='relative'>
                             <input
                                 name="confirm"

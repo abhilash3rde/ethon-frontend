@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTenantDetail } from "../../../redux/action/tenants-detail";
 import { useRouter } from "next/router";
 import { IoTrashOutline } from "react-icons/io5";
+import { IoAddSharp } from "react-icons/io5";
+
 
 
 
@@ -184,14 +186,48 @@ function AddPhotoD() {
 
                                     </div>
 
-                                    {PhotoFormik.values.image &&
+                                    {/* {PhotoFormik.values.image &&
                                         <div className='h-20 w-20 rounded-md shadow-lg mb-4 group relative '>
                                             <img
                                                 src={PhotoFormik.values.image}
                                                 className="w-full object-cover rounded-md object-center h-full"
                                             />
                                         </div>
-                                     } 
+                                    } */}
+
+                                    <div className='mb-4 flex gap-2'>
+                                        <label className="w-[50px] justify-center flex flex-col items-center py-[5px] h-[50px] bg-white text-blue rounded-lg 
+                                        tracking-wide cursor-pointer border-2 border-black border-dashed">
+                                            {/* <span className="mt-1 text-[12px] leading-normal">Choose Photo</span> */}
+                                            <IoAddSharp className="text-2xl " />
+                                            <input
+                                                type='file'
+                                                accept='image/*'
+                                                name="image"
+                                                id="image"
+                                                onChange={async (e) => {
+                                                    const file = e.target.files[0];
+
+                                                    const base64 = await convertToBase64(file);
+                                                    setSelectedImage(base64)
+                                                    PhotoFormik.setFieldValue('image', base64);
+                                                }}
+                                                value={PhotoFormik.image}
+                                                className='hidden'
+                                            />
+                                        </label>
+
+
+
+                                        {PhotoFormik.values.image &&
+                                            <div className='h-[50px] w-[50px] rounded-md shadow-lg mb-4 group relative '>
+                                                <img
+                                                    src={PhotoFormik.values.image}
+                                                    className="w-full object-cover rounded-md object-center h-full"
+                                                />
+                                            </div>
+                                        }
+                                    </div>
 
 
                                     <textarea
@@ -220,7 +256,7 @@ function AddPhotoD() {
                                     </div>
 
                                     <button
-                                        onClick={()=> {
+                                        onClick={() => {
                                             PhotoFormik.handleReset()
                                             setShowPopup(true)
                                         }}

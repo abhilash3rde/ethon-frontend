@@ -3,7 +3,7 @@ import { IoCall } from "react-icons/io5";
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getContractors } from "../../redux/action/contractors";
+import { getContractors, getContractorsFilter } from "../../redux/action/contractors";
 import { getContractorsDetail } from "../../redux/action/contractors-detail";
 
 
@@ -21,12 +21,16 @@ function ConListItem() {
 
     useEffect(() => {
         dispatch(getContractors())
+        // dispatch(getContractorsFilter())
     }, [])
     
+    // const searchData = useSelector((state)=> state.contractors.contractors.data.data)
+
+    // console.log(searchData)
 
     const contractors = useSelector((state) => state.contractors.contractors.data)
 
-    //console.log(contractors);
+    console.log(contractors)
 
 
 
@@ -51,10 +55,10 @@ function ConListItem() {
                                         dispatch(getContractorsDetail(item.ID))  
                                         router.push('/contractors/details')
                                     }}>  
-                                        <h1 className="text-[15px] font-[500] uppercase">{item.primary_title}</h1>
+                                        <h1 className="text-[15px] font-[500] capitalize">{item.company_name}</h1>
                                         <div className="flex opacity-50 gap-[10px] items-center ">
-                                            <span className="text-[10px] text-[#000] uppercase ">{item.services}</span>
-                                            <span className="text-[10px] text-[#000]  uppercase">{item.account_number}</span>
+                                            <span className="text-[10px] text-[#000] capitalize ">{item.services}</span>
+                                            <span className="text-[10px] text-[#000]  capitalize">{item.account_number}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -72,11 +76,11 @@ function ConListItem() {
                     )}
 
                 </div>
-                {/* {clients?.length == 0 && (<div className="flex w-full items-center justify-center p-5">
+                {contractors?.length == 0 && (<div className="flex w-full items-center justify-center p-5">
                     <span>
                         no data
                     </span>
-                </div>)} */}
+                </div>)}
 
 
             </div>

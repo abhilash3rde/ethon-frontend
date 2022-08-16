@@ -16,17 +16,6 @@ function Resetpass() {
 
     const router = useRouter()
 
-    // const validate = (values) => {
-    //     const errors = {};
-
-    //     if (!values.password) {
-    //         errors.password = 'Please Enter Password'
-    //     }
-
-    //     return errors;
-    // };
-
-
     const validate = (values) => {
         const errors = {};
       
@@ -53,7 +42,7 @@ function Resetpass() {
                 router.push(`/auth/new_password?user_id=${respon.data.data.user_id}`)
             }
             catch(error){
-
+                console.log(error.response)
                 toast.error(error.response.data.message)
             }
         }
@@ -102,7 +91,7 @@ function Resetpass() {
                         </div>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between">
-                            <Link href="register">
+                            <Link href="/">
                             <a className="font-medium text-[#000] text-[18px] font-[600]">Sign in to Account</a>
                             </Link>
                         </div>

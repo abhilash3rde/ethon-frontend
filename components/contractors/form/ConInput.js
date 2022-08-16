@@ -11,7 +11,7 @@ function Input(props) {
             type={props?.type}
             placeholder={props?.placeholder}
             onChange={props?.formik.handleChange}
-            value={props?.formik.values.props?.name}
+            value={props.formik.values[`${props.name}`]}
             className={props?.validation ?
             "font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#FFF] text-[#000] border-2 border-red-500 focus:border-red-500 focus:outline-none"
             :
