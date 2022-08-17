@@ -13,6 +13,7 @@ import { UserActive } from '../redux/action/user-active';
 
 
 
+
 function Login() {
     
     const[showpassword, setShowpassword] = useState(false);
@@ -21,7 +22,13 @@ function Login() {
 
     const dispatch = useDispatch()
 
-     
+    useEffect(() => {
+        const tokenVaild = reactLocalStorage.get('token', true);
+        if (tokenVaild) {
+            router.push("/dashboard")
+        }
+
+    }, [])
 
     const validate = (values) => {
         const errors = {};

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 
 
-function AddNewClient(props) {
+function AddNew(props) {
     return (
         <div className="fixed bottom-24 right-2 z-50 ">
             <Link href={props.href}>
@@ -24,4 +24,4 @@ function AddNewClient(props) {
     )
 }
 
-export default AddNewClient;
+export default AddNew;

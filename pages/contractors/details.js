@@ -28,6 +28,7 @@ function ContractorsDetails(){
             <header className="z-50 bg-[#fff] pt-4 pt-2 shadow-[1px_5px_13px_2px_#0000000d] sticky top-0 overflow-hidden">
                 <SubHeader title={"Contractors Details"} backUrl={'/contractors/list'}/>
             </header>
+
             
             <ContractorsDetailsCom />
 

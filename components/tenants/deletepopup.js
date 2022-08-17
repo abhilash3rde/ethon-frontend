@@ -29,10 +29,10 @@ function DeletePopup(props) {
           console.log(respon)
           toast.success(respon.data.message)
           dispatch(getTenants())
-          router.push('/tenants/tenants_list');
+          router.push('/tenants/list');
         } catch (error) {
             //console.log(error)
-          router.push('/tenants/tenants_list');
+          router.push('/tenants/list');
           toast.error(error.response.data.message)
         }
       }

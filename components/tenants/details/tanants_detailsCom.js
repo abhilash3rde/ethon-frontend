@@ -16,7 +16,7 @@ import { useRouter } from 'next/router'
 import AddPhotoD from "./addPhotoD";
 import TanantsLightbox from "./lightbox";
 import { format } from 'date-fns'
-import {  postTenantsFlagAPI } from "../../../redux/APIS/API";
+import { postTenantsFlagAPI } from "../../../redux/APIS/API";
 import { getTenants } from "../../../redux/action/tenants";
 
 
@@ -50,14 +50,14 @@ function TanantsDetailsCom() {
 
     const tenantId = useSelector((state) => state.tenantsDetails.tenantsDetails?.data?.ID)
     const author_id = useSelector((state) => state.tenantsDetails.tenantsDetails?.data?.post_author)
-    console.log(author_id, 'author_id id vaild' )
+    console.log(author_id, 'author_id id vaild')
 
     console.log(tenants_detail)
 
     useEffect(() => {
         if (tenants_data === null) {
             console.log("null sasdas")
-            router.push('/tenants/tenants_list')
+            router.push('/tenants/list')
         }
     }, [tenants_detail])
 
@@ -91,34 +91,30 @@ function TanantsDetailsCom() {
     async function ClickIcon() {
         try {
             const respon = await postTenantsFlagAPI({
-                // "author": '' + author_id,
-                "tenant_id": '' + tenantId, 
+                "tenant_id": '' + tenantId,
                 "company_flag": "true"
             })
             console.log(respon.data.message)
             toast.success(respon.data.message)
-            router.push('/tenants/tenants_list');
+            router.push('/tenants/list');
             dispatch(getTenants())
         } catch (error) {
-            //console.log(error)
-            // router.push('/tenants/tenants_list');
-            // toast.error(error.response)
             console.log(error)
         }
     }
 
-    function companyFlag(){
+    function companyFlag() {
         const flag = tenants_detail.company_flag
-        if(flag === "true"){
-            return(
-            <IoFlagSharp className="text-lg cursor-pointer" />
+        if (flag === "true") {
+            return (
+                <IoFlagSharp className="text-lg cursor-pointer" />
             )
-        }else{
-            return(
-               <IoFlagOutline 
-                className="text-lg cursor-pointer"
-                onClick={ClickIcon}
-                /> )
+        } else {
+            return (
+                <IoFlagOutline
+                    className="text-lg cursor-pointer"
+                    onClick={ClickIcon}
+                />)
         }
     }
 
@@ -131,9 +127,9 @@ function TanantsDetailsCom() {
                         <div className="w-[75%] grid" >
                             <div className="flex items-center gap-2 ">
                                 <h1 className="text-lg font-[600]">{tenants_detail?.company_name}</h1>
-                               
+
                                 {companyFlag()}
-                               
+
                             </div>
                             <div className="flex gap-2 ">
                                 <span className="text-[10px] ">Status: {tenants_detail?.status}</span>
@@ -143,7 +139,7 @@ function TanantsDetailsCom() {
                         </div>
                         <div className="w-[5%]">
 
-                        </div>   
+                        </div>
                         <div className="grid grid-cols-2 w-[20%] mr-auto">
                             <Link href={'tel:' + tenants_detail?.primary_phone}>
                                 <a>
@@ -184,13 +180,20 @@ function TanantsDetailsCom() {
                 </div>
                 <hr />
 
-                <div className="grid w-full py-2 px-4 ">
-                    <div className="flex gap-2">
-                        <div className="w-[100%]">
-                            <span className="text-[10px] text-gray-500">Unit Location</span>
+                <div className="flex gap-2 w-full py-2 px-4 ">
+                    {/* <div className="flex gap-2"> */}
+                        <div className="w-[70%]">
                             <h1 className="text-base font-[600]">{tenants_detail?.street_address}</h1>
+                            <span className="text-[10px] text-gray-500">Unit Location</span>
                         </div>
-                    </div>
+                    {/* </div> */}
+
+                    {/* <div className="flex gap-2"> */}
+                        <div className="w-[30%]">
+                            <h1 className="text-base font-[600]">Box {tenants_detail?.mailbox}</h1>
+                            <span className="text-[10px] text-gray-500">Mailbox</span>
+                        </div>
+                    {/* </div> */}
                 </div>
                 <hr />
 

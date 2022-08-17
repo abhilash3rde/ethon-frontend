@@ -36,7 +36,7 @@ function ListItem() {
 
                                 <div className="w-[60%]" onClick={() => {
                                     dispatch(getTenantDetail(item.ID)),
-                                        router.push('/tenants/tenants_details')
+                                        router.push('/tenants/details')
                                 }}>
 
                                     <div className="w-full">

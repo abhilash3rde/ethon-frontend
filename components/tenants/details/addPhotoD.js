@@ -67,7 +67,6 @@ function AddPhotoD() {
                 dispatch(getTenantDetail(Tenants_id))
                 resetForm();
 
-                // router.push('/tenants/tenants_list')
             } catch (error) {
                 toast.error(error.response.data.message)
             }
