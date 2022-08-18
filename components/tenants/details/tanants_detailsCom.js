@@ -316,8 +316,6 @@ function TanantsDetailsCom() {
                                                     className="h-full object-cover shadow-lg rounded-md object-center w-full"
                                                 />
                                             </div>
-
-
                                         </div>
 
                                     )}

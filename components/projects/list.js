@@ -1,9 +1,13 @@
+import { useRouter } from "next/router";
 
 
 
 
 function ProjectList() {
 
+    const router = useRouter();
+    
+    
     const Project = [
         {
             date: '06/01/22',
@@ -42,6 +46,9 @@ function ProjectList() {
         },
     ]
 
+
+
+
     return (
         <div className="list">
             <div className="body">
@@ -57,7 +64,9 @@ function ProjectList() {
 
                         <div className="w-full">
                             <div
-                                className="w-full">
+                                className="w-full"
+                                onClick={()=> router.push('/projects/details')}
+                                >
                                 <span className="text-[10px] text-[#000] capitalize ">{item.date}</span>
                                 <h1 className="text-[15px] font-[500] capitalize">{item.title}</h1>
                                 <div className="flex opacity-75 gap-[10px] items-center ">

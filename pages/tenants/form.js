@@ -12,7 +12,6 @@ import DeletePhotoPopup from "../../components/tenants/details/deletePhotopopup"
 import { IoTrashOutline, IoFlagSharp } from "react-icons/io5";
 import Link from "next/link";
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { getTenantDetail } from "../../redux/action/tenants-detail";
 
 
 
