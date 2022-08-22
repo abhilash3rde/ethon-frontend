@@ -1,46 +1,44 @@
-import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getTenants, getTenantsFilter } from "../../redux/action/tenants";
-import { filterTenantsAPI } from "../../redux/APIS/API";
+import { getProjectFilter } from "../../redux/action/projectFilter";
 
 
 function Sort() {
 
-    // const [searchTitle, setSeachTitle] = useState("")
-    // const [searchOption, setSeachOption] = useState("a-z")
+    const [searchTitle, setSeachTitle] = useState("")
+    const [searchOption, setSeachOption] = useState("date")
 
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     if (searchTitle!==""||searchOption!=="a-z"){
+    useEffect(() => {
+        if (searchTitle!==""||searchOption!=="date"){
            
-    //         let data ={
-    //             posts_per_page: "100",
-    //             paged: "-1",
-    //             sort_by_field: searchOption?searchOption:"",
-    //             search_by_keyword: searchTitle?searchTitle:""
+            let data ={
+                posts_per_page: "100",
+                paged: "1",
+                sort_by_field: searchOption?searchOption:"",
+                search_by_keyword: searchTitle?searchTitle:""
             
-    //         }
-    //         const delayDebounceFn=   setTimeout(() => {
-    //             dispatch(getTenantsFilter(data))
-    //         }, 2000);
+            }
+            const delayDebounceFn =   setTimeout(() => {
+                dispatch(getProjectFilter(data))
+            }, 2000);
            
           
-    //           return () => clearTimeout(delayDebounceFn)
-    //     }else {
-    //         let data ={
-    //             posts_per_page: "-1",
-    //             paged: "1",
-    //             sort_by_field: searchOption?searchOption:"",
-    //             search_by_keyword: searchTitle?searchTitle:""
-    //         }
-    //         dispatch(getTenantsFilter(data))
+              return () => clearTimeout(delayDebounceFn)
+        }else {
+            let data ={
+                posts_per_page: "-1",
+                paged: "1",
+                sort_by_field: searchOption?searchOption:"",
+                search_by_keyword: searchTitle?searchTitle:""
+            }
+            dispatch(getProjectFilter(data))
             
-    //     }
+        }
       
         
-    // }, [dispatch, searchOption, searchTitle])
+    }, [dispatch, searchOption, searchTitle])
   
  
 
@@ -56,8 +54,8 @@ function Sort() {
                     <select
                         name='sort_by_field'
                         id='sort_by_field'
-                        // onChange={(e) => setSeachOption(e.target.value)}
-                        // value={searchOption}   
+                        onChange={(e) => setSeachOption(e.target.value)}
+                        value={searchOption}   
                         className=" w-full border-2 text-[10px] bg-white py-2 px-[2px] rounded-[10px] focus:outline-none focus:border-theme">
                          {/* <option value='none'>selectOption</option> */}
                         <option value='date'>Date</option>
@@ -71,8 +69,8 @@ function Sort() {
                     <div className='w-full'>
                         <input
                             name='search_by_keyword'
-                            // value={searchTitle}
-                            // onChange={(e)=>setSeachTitle(e.target.value)}
+                            value={searchTitle}
+                            onChange={(e)=>setSeachTitle(e.target.value)}
                             className="border-2 rounded-[10px]  w-full focus:outline-none focus:border-theme 
                             text-[10px] py-2 px-2 rounded-[10px] focus:outline-none focus:border-theme "
                             placeholder="Search than Enter" />

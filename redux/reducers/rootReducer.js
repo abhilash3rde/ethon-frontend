@@ -6,6 +6,8 @@ import storage from 'redux-persist/lib/storage';
 import { tenantsDetailsReducer } from "./TenantsDetailReducer";
 import { contractorsReducer } from "./ContractorsReducer";
 import { contractorsDetailReducer } from "./ContractorsDetailReducer";
+import { projectsReducer } from "./ProjectsReducer";
+import { ProjectDetailsReducer } from "./ProjectDetailsReducer";
 
 const persistConfig = {
   key: 'persist-store',
@@ -22,5 +24,7 @@ export const rootReducer = combineReducers({
      tenantsDetails: tenantsDetailsReducer,
      contractors: contractorsReducer,
      contractorsDetail: contractorsDetailReducer,
+     projects: projectsReducer,
+     projectDetails: ProjectDetailsReducer,
 
 });

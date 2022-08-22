@@ -51,6 +51,16 @@ function SubHeader(props) {
         setMenu(false)
     }
 
+    function Subtitle() {
+        return (
+            <div className='logo'>
+                <div className="grid grid-cols-1 items-center">
+                    <h1 className="md:text-5xl font-bold cursor-pointer text-center text-[17px]">{props.Subtitle}</h1>
+                </div>
+            </div>
+        )
+    }
+
 
     return (
         <div className='bg-white z-50'>
@@ -71,12 +81,13 @@ function SubHeader(props) {
                                 </a>
                             </Link>
                         </div>
-
                         <div className='logo'>
                             <div className="grid grid-cols-1 items-center">
-                                <h1 className="md:text-5xl font-bold cursor-pointer text-center text-xl">{props.title}</h1>
+                                <h1 className="md:text-5xl font-bold cursor-pointer text-center text-xl">{props?.title}</h1>
                             </div>
                         </div>
+                        {props?.Subtitle ? Subtitle() : null}
+
                     </div>
                 }
 

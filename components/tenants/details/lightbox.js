@@ -1,9 +1,8 @@
-import Lightbox  from 'react-image-lightbox';
+import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 
 function TanantsLightbox(props) {
 
-    console.log(props.data, 'adasdasdsad')
     const captions = [
         props.photo_detail
     ]

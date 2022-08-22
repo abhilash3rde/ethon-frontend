@@ -1,16 +1,7 @@
 import { useState } from "react";
-import TenantsList from "../../pages/tenants/list";
 import TanantsLightbox from "../tenants/details/lightbox";
-import Link from "next/link";
-import { IoCall } from "react-icons/io5";
-
-
-
-
-
-
-
-
+import { format } from 'date-fns'
+import { useSelector } from "react-redux";
 
 
 
@@ -60,51 +51,60 @@ function ProjectDetails() {
 
 
     }]
+
+    const item = useSelector((state) => state.projectDetails.details.data.data)
+
+    console.log(item);
+
+
+
     return (
         <div className="App">
-            {details.map((item, index) =>
-                <div key={index} className="grid w-full py-4 px-4 ">
-                    <div className="flex w-full items-center">
-                        <div className="w-full grid" >
-                            <div className="flex gap-2 ">
-                                <span className="text-[10px] text-gray-400  "> {item.id} </span>
-                                <span className="text-[10px] text-gray-400  "> {item.date} </span>
-                            </div>
+            {/* {ProjectD.map((item, index) => */}
+            <div key={item} className="grid w-full py-4 px-4 ">
+                <div className="flex w-full items-center">
+                    <div className="w-full grid" >
+                        <div className="flex gap-2 ">
+                            <span className="text-[10px] text-gray-400  "> #{item.ID} </span>
+                            <span className="text-[10px] text-gray-400  ">
+                                {item?.project_date && format(new Date(item?.project_date),
+                                    'dd-MM-yyyy')} </span>
+                        </div>
 
-                            <h1 className="text-lg font-[600]">{item?.title}</h1>
+                        <h1 className="text-lg font-[600]">{item?.project_name}</h1>
 
-                            <div className="flex gap-2 w-full pb-4 border-b-2 border-gray-300 mb-2">
-                                <span className="text-[10px] text-gray-400  ">Status: {item.status}</span>
-                                <span className="text-[10px] text-gray-400  ">Services: {item.services}</span>
-                            </div>
-                            <span className="text-xs  text-black-400" >
-                                {item.discription}
+                        <div className="flex gap-2 w-full pb-4 border-b-2 border-gray-300 mb-2">
+                            <span className="text-[10px] text-gray-400  ">Status: {item.status}</span>
+                            <span className="text-[10px] text-gray-400  ">Services: {item.services}</span>
+                        </div>
+                        <span className="text-xs  text-black-400" >
+                            {item.project_detail}
+                        </span>
+
+                        <div className="py-4">
+                            <span className="text-[15px] text-gray-500">
+                                Photos
                             </span>
+                            <hr className="my-1 border-t-2" />
+                        </div>
 
-                            <div className="py-4">
-                                <span className="text-[15px] text-gray-500">
-                                    Photos
-                                </span>
-                                <hr className="my-1 border-t-2" />
-                            </div>
-
-                            <div className='grid grid-cols-3 gap-1 '>
-                                {item.photos?.map((item, index) =>
-                                    <div key={index} >
-                                        <div className="w-20 h-20 ">
-                                            <img
-                                                src={item?.image}
-                                                onClick={() => OpenLight(item.image)
-                                                }
-                                                className="h-full object-cover shadow-lg rounded-md object-center w-full"
-                                            />
-                                        </div>
+                        <div className='grid grid-cols-3 gap-1 '>
+                            {item.photos?.map((item, index) =>
+                                <div key={index} >
+                                    <div className="w-20 h-20 ">
+                                        <img
+                                            src={item?.photo_src}
+                                            onClick={() => OpenLight(item.photo_src)
+                                            }
+                                            className="h-full object-cover shadow-lg rounded-md object-center w-full"
+                                        />
                                     </div>
-                                )}
-                            </div>
+                                </div>
+                            )}
+                        </div>
 
-                            {/* contractors and bids  */}
-                            <div className="my-10">
+                        {/* contractors and bids  */}
+                        {/* <div className="my-10">
                                 <span className="text-[10px] text-gray-400  ">Contractors / Bids</span>
 
                                 <div className="flex px-2 py-4 rounded-[10px] gap-2 border-2 border-gray-100  ">
@@ -215,17 +215,17 @@ function ProjectDetails() {
 
 
 
-                            </div>
+                            </div> */}
 
 
 
 
 
-                        </div>
                     </div>
                 </div>
+            </div>
 
-            )}
+            {/* )} */}
 
 
             {lightBox &&

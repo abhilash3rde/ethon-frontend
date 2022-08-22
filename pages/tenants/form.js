@@ -321,7 +321,7 @@ function TanantsFrom() {
 
                             {TanantsFramik.errors.street_address &&
                                 <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.street_address}</span>
-                            } 
+                            }
                             <div className='grid grid-cols-2 gap-2'>
                                 <input
                                     name="unit"
@@ -957,14 +957,14 @@ function TanantsFrom() {
                                 {userEdit ?
                                     <Link href='/tenants/details'>
                                         <div className="flex justify-center" >
-                                            <div className="px-4 py-2 w-full mx-auto w-full flex justify-center bg-red-100 text-red-600">
+                                            <div className="px-4 py-2 w-full mx-auto flex justify-center bg-red-100 text-red-600">
                                                 <span className="">CANCEL</span>
                                             </div>
                                         </div>
                                     </Link> :
                                     <Link href='/tenants/list'>
                                         <div className="flex justify-center" >
-                                            <div className="px-4 py-2 w-full mx-auto w-full flex justify-center bg-red-100 text-red-600">
+                                            <div className="px-4 py-2 mx-auto w-full flex justify-center bg-red-100 text-red-600">
                                                 <span className="">CANCEL</span>
                                             </div>
                                         </div>

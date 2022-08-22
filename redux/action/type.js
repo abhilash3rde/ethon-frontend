@@ -2,6 +2,10 @@ export const USER_ACTIVE = "USER_ACTIVE";
 export const GET_TENANTS = "GET_TENANTS";
 export const TENANTS_DETAIL = "TENANTS_DETAIL";
 //export const GET_SINGLE_TANANTS = "GET_SINGLE_TANANTS";
+
 // contractors
 export const GET_CONTRACTORS = "GET_CONTRACTORS";
 export const CONTRACTORS_DETAIL = "CONTRACTORS_DETAIL";
+// projects
+export const GET_PROJECTS = "GET_PROJECTS";
+export const PROJECT_DETAIL = "PROJECT_DETAIL";

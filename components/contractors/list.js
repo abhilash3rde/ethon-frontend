@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IoCall } from "react-icons/io5";
+import { IoCall, IoFlagSharp } from "react-icons/io5";
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -56,6 +56,7 @@ function ConListItem() {
                                         router.push('/contractors/details')
                                     }}>  
                                         <h1 className="text-[15px] font-[500] capitalize">{item.company_name}</h1>
+                                       
                                         <div className="flex opacity-50 gap-[10px] items-center ">
                                             <span className="text-[10px] text-[#000] capitalize ">{item.services}</span>
                                             <span className="text-[10px] text-[#000]  capitalize">{item.account_number}</span>

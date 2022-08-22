@@ -30,6 +30,7 @@ function AddPhoto(props) {
     const ProjectPhotoFormik = useFormik({
         initialValues: {
             image: '',
+            detail: ' '
         },
         onSubmit: async (values, { resetForm }) => {
             try {
@@ -66,7 +67,7 @@ function AddPhoto(props) {
                     className="w-[50%] flex justify-center ">
                     <div
                         onClick={openPopup}
-                        className="w-[100%] py-[13px] mx-auto w-full flex text-[12px] justify-center text-white bg-orange-400 
+                        className="w-[100%] py-[13px] mx-auto  flex text-[12px] justify-center text-white bg-orange-400 
                                     rounded-[10px] hover:bg-bg-orange-200 hover:text-white">
                         <span className="">ADD PHOTOS</span>
                     </div>
@@ -172,7 +173,7 @@ function AddPhoto(props) {
                                 <div
                                     onClick={() => ProjectPhotoFormik.handleSubmit()}
                                     className="bg-[#fb923c] rounded-bl-[10px] w-[50%] flex justify-center">
-                                    <button type="button" className=" py-4 w-[100%] mx-auto w-full flex justify-center text-black 
+                                    <button type="button" className=" py-4 w-[100%] mx-auto flex justify-center text-black 
                                             rounded-[10px] ">
                                         Add
                                     </button >
@@ -184,7 +185,7 @@ function AddPhoto(props) {
                                         setShowPopup(true)
                                     }}
                                     className=" bg-[#9e9e9e4f] rounded-br-[10px] w-[50%]  flex justify-center">
-                                    <div className="py-4 w-[100%] mx-auto w-full flex justify-center text-black 
+                                    <div className="py-4 w-[100%] mx-auto flex justify-center text-black 
                                             rounded-[10px]">
                                         <span className="">Cancel</span>
                                     </div>
