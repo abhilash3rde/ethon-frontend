@@ -49,14 +49,14 @@ function BottomNavigation() {
                 </div>
 
                 <div
-                    onClick={() => router.push('/tenants/tenants_list')}
-                    className={ActiveMenu('/tenants/tenants_list') ?
+                    onClick={() => router.push('/tenants/list')}
+                    className={ActiveMenu('/tenants/list') ?
                         'bg-[#9e9e9e5e] py-4' :
                         'grid cursor-pointer py-4'
                     }
                 >
                     <div className='grid justify-items-center'>
-                        {ActiveMenu('/tenants/tenants_list') ?
+                        {ActiveMenu('/tenants/list') ?
                             <IoPersonAdd className='text-2xl' /> :
                             <IoPersonAddOutline className='text-2xl' />
                         }
@@ -70,22 +70,28 @@ function BottomNavigation() {
                         'bg-[#9e9e9e5e] py-4' :
                         'grid cursor-pointer py-4'
                     }
-                    >
+                >
                     <div className='grid justify-items-center'>
-                    {ActiveMenu('/contractors/list') ?
+                        {ActiveMenu('/contractors/list') ?
                             <IoDuplicate className='text-2xl' /> :
                             <IoDuplicateOutline className='text-2xl' />
                         }
-
                         <h1 className='font-[500] text-[10px]' >Contractors</h1>
                     </div>
                 </div>
 
                 <div
-                    onClick={() => router.push('/dashboard')}
-                    className='grid cursor-pointer py-4'>
+                    onClick={() => router.push('/projects/list')}
+                    className={ActiveMenu('/projects/list') ?
+                        'bg-[#9e9e9e5e] py-4' :
+                        'grid cursor-pointer py-4'
+                    }
+                >
                     <div className='grid justify-items-center'>
+                        {ActiveMenu('/projects/list') ?
+                            <IoPerson className='text-2xl' /> :
                             <IoPersonOutline className='text-2xl' />
+                        }
                         <h1 className='font-[500] text-[10px]' >Projects</h1>
                     </div>
                 </div>
@@ -94,7 +100,7 @@ function BottomNavigation() {
                     onClick={() => router.push('/dashboard')}
                     className='grid cursor-pointer py-4'>
                     <div className='grid justify-items-center'>
-                            <IoCalendarOutline className='text-2xl' />
+                        <IoCalendarOutline className='text-2xl' />
                         <h1 className='font-[500] text-[10px]' >Schedule</h1>
                     </div>
                 </div>

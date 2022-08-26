@@ -1,39 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import toast from 'react-hot-toast';
-// import { deleteTenantsAPI } from "../../redux/APIS/API";
-// import { getTenants } from "../../redux/action/tenants";
-import { useRouter } from 'next/router';
-
 
 
 
 function DeletePhotoPopup(props) {
 
 
-    //   const tanents_id = useSelector((state)=> state.tenantsDetails.tenantsDetails.data?.ID)
-
-    //   console.log(tanents_id)
-
-
-
-
-
-    // async function deleteUser() {
-    //     // try {
-    //     //     const respon = await deleteTenantsAPI({
-    //     //         "tenent_ids": [tanents_id]
-    //     //     })
-    //     //     console.log(respon)
-    //     //     toast.success(respon.data.message)
-    //     //     dispatch(getTenants())
-    //     //     router.push('/tenants/tenants_list');
-    //     // } catch (error) {
-    //     //     //console.log(error)
-    //     //     router.push('/tenants/tenants_list');
-    //     //     toast.error(error.response.data.message)
-    //     // }
-    // }
 
 
     return (

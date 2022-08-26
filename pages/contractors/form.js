@@ -133,13 +133,13 @@ function ContractorsForm() {
             editContractors?.primary_phone && userEdit
                ? editContractors?.primary_phone
                : '',
-         prinamy_secondary_number:
-            editContractors?.prinamy_secondary_number && userEdit
-               ? editContractors?.prinamy_secondary_number
+         primary_secondary_number:
+            editContractors?.primary_secondary_number && userEdit
+               ? editContractors?.primary_secondary_number
                : '',
-         prinamy_secondary_number_type:
-            editContractors?.prinamy_secondary_number_type && userEdit
-               ? editContractors?.prinamy_secondary_number_type
+         primary_secondary_number_type:
+            editContractors?.primary_secondary_number_type && userEdit
+               ? editContractors?.primary_secondary_number_type
                : '',
          primary_email:
             editContractors?.primary_email && userEdit
@@ -159,7 +159,7 @@ function ContractorsForm() {
                console.log('res', respon)
                dispatch(getContractors())
                toast.success(respon.data.message)
-              router.push('/contractors/list')
+               router.push('/contractors/list')
             } else {
                setLoader(true)
 
@@ -176,7 +176,6 @@ function ContractorsForm() {
       }
    })
 
-   //    console.log('err', ContractorFormik)
 
    useEffect(() => {
       if (ContractorFormik.values.services === 'Custom') {
@@ -191,8 +190,8 @@ function ContractorsForm() {
          setCustom('company_secondary_phone_type')
       }
 
-      if (ContractorFormik.values.primaryfirst_number_type === 'Custom') {
-         setCustom('primaryfirst_number_type')
+      if (ContractorFormik.values.primary_phone_type === 'Custom') {
+         setCustom('primary_phone_type')
       }
 
       if (ContractorFormik.values.primary_secondary_number_type === 'Custom') {
@@ -202,13 +201,13 @@ function ContractorsForm() {
       ContractorFormik.values.services,
       ContractorFormik.values.company_primary_phone_type,
       ContractorFormik.values.company_secondary_phone_type,
-      ContractorFormik.values.primaryfirst_number_type,
+      ContractorFormik.values.primary_phone_type,
       ContractorFormik.values.primary_secondary_number_type
    ])
 
    return (
       <div className="App">
-         <header className="z-50 bg-[#fff] pt-4 pt-2 shadow-[1px_5px_13px_2px_#0000000d] overflow-hidden">
+         <header className="z-50 bg-[#fff] pt-2 shadow-[1px_5px_13px_2px_#0000000d] overflow-hidden">
             {/* <SubHeader title={"Add Contractors"} backUrl={'/contractors/list'} /> */}
 
             {userEdit ? (
@@ -263,7 +262,7 @@ function ContractorsForm() {
                            'Irrigation',
                            'Landscaping',
                            'Custom'
-                        ]} 
+                        ]}
                      />
 
                      <Custom
@@ -445,7 +444,7 @@ function ContractorsForm() {
                            <div className="flex gap-1">
                               <div className="w-[60%]">
                                  <Input
-                                    name={'prinamy_secondary_number'}
+                                    name={'primary_secondary_number'}
                                     placeholder={'Secondary Phone'}
                                     formik={ContractorFormik}
                                     type={'number'}
@@ -454,7 +453,7 @@ function ContractorsForm() {
 
                               <div className="w-[40%]">
                                  <Select
-                                    name={'prinamy_secondary_number_type'}
+                                    name={'primary_secondary_number_type'}
                                     formik={ContractorFormik}
                                     option={[
                                        'Mobile',

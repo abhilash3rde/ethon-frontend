@@ -67,7 +67,6 @@ function AddPhotoD() {
                 dispatch(getTenantDetail(Tenants_id))
                 resetForm();
 
-                // router.push('/tenants/tenants_list')
             } catch (error) {
                 toast.error(error.response.data.message)
             }
@@ -89,11 +88,6 @@ function AddPhotoD() {
     };
 
 
-    // const removeSelectedImage = () => {
-    //     setSelectedImage();
-    // };
-
-
     return (
         <div>
 
@@ -102,7 +96,7 @@ function AddPhotoD() {
                     className="w-[50%] flex justify-center ">
                     <div
                         onClick={open}
-                        className="w-[100%] py-[13px] mx-auto w-full flex text-[12px] justify-center text-white bg-orange-400 
+                        className="w-[100%] py-[13px] mx-auto flex text-[12px] justify-center text-white bg-orange-400 
                                     rounded-[10px] hover:bg-bg-orange-200 hover:text-white">
                         <span className="">ADD PHOTOS</span>
                     </div>
@@ -185,15 +179,6 @@ function AddPhotoD() {
 
 
                                     </div>
-
-                                    {/* {PhotoFormik.values.image &&
-                                        <div className='h-20 w-20 rounded-md shadow-lg mb-4 group relative '>
-                                            <img
-                                                src={PhotoFormik.values.image}
-                                                className="w-full object-cover rounded-md object-center h-full"
-                                            />
-                                        </div>
-                                    } */}
 
                                     <div className='mb-4 flex gap-2'>
                                         <label className="w-[50px] justify-center flex flex-col items-center py-[5px] h-[50px] bg-white text-blue rounded-lg 

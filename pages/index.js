@@ -13,6 +13,7 @@ import { UserActive } from '../redux/action/user-active';
 
 
 
+
 function Login() {
     
     const[showpassword, setShowpassword] = useState(false);
@@ -21,7 +22,17 @@ function Login() {
 
     const dispatch = useDispatch()
 
-     
+    useEffect(() => {
+        const tokenVaild = reactLocalStorage.get('token', true);
+
+        console.log(tokenVaild, "username")
+        if (tokenVaild == true) {
+            router.push("/")
+        }else{
+            router.push("/dashboard")
+        }
+
+    }, [])
 
     const validate = (values) => {
         const errors = {};
@@ -47,7 +58,7 @@ function Login() {
           validate,
           onSubmit: async (data, { resetForm }) => {
             try {
-                              const respon = await postLoginAPI(data)
+              const respon = await postLoginAPI(data)
               console.log(respon)
               reactLocalStorage.set("token",respon.data.data.token)
               dispatch(UserActive(respon.data.data))

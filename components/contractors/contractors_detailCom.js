@@ -116,8 +116,8 @@ function ContractorsDetailsCom() {
                                 </div>
 
                                 <div className="">
-                                    <span className="text-[10px] text-gray-500">Secondary {item?.primary_second_phone_type}</span>
-                                    <h1 className="text-[15px] font-[600]">{item?.primary_second_phone}</h1>
+                                    <span className="text-[10px] text-gray-500">Secondary {item?.primary_secondary_number_type}</span>
+                                    <h1 className="text-[15px] font-[600]">{item?.primary_secondary_number}</h1>
                                 </div>
 
                                 <div className="col-span-2">

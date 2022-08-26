@@ -11,7 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import DeletePhotoPopup from "../../components/tenants/details/deletePhotopopup";
 import { IoTrashOutline, IoFlagSharp } from "react-icons/io5";
 import Link from "next/link";
-import { getTenantDetail } from "../../redux/action/tenants-detail";
+import { reactLocalStorage } from 'reactjs-localstorage';
+import AddNotes from "../../components/tenants/details/addnotes";
 
 
 
@@ -20,6 +21,7 @@ function TanantsFrom() {
 
     const [custom, setCustom] = useState(false)
     const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [showNotesPopup, setShowNotesPopup] = useState(false);
     const [photosApi, setPhotos] = useState([]);
     const [tenantLoader, setTenantLoader] = useState(false);
     const [deleteID, setDeleteID] = useState(true);
@@ -42,6 +44,12 @@ function TanantsFrom() {
         setDeleteType(type)
         setShowDeletePopup(true)
     }
+
+    // const DeleteNotes = (id, type) => {
+    //     setDeleteID(id)
+    //     setDeleteType(type)
+    //     setShowDeletePopup(true)
+    // }
 
     const DeleteClose = () => {
         setShowDeletePopup(false)
@@ -72,7 +80,15 @@ function TanantsFrom() {
             setPhotos([...editTenants.photos])
 
         } else {
-            router.push('/tenants/tenants_form');
+            router.push('/tenants/form');
+        }
+
+    }, [])
+
+    useEffect(() => {
+        const tokenVaild = reactLocalStorage.get('token', true);
+        if (tokenVaild == true) {
+            router.push("/")
         }
 
     }, [])
@@ -110,6 +126,7 @@ function TanantsFrom() {
             company_name: editTenants?.company_name && userEdit ? editTenants?.company_name : "",
             street_address: editTenants?.street_address && userEdit ? editTenants?.street_address : "",
             unit: editTenants?.unit && userEdit ? editTenants?.unit : "",
+            mailbox: editTenants?.mailbox && userEdit ? editTenants?.mailbox : "",
             city: editTenants?.city && userEdit ? editTenants?.city : "",
             state: editTenants?.state && userEdit ? editTenants?.state : "",
             zip_code: editTenants?.zip_code && userEdit ? editTenants?.zip_code : "",
@@ -137,7 +154,7 @@ function TanantsFrom() {
             secondary_phone_type: editTenants?.secondary_phone_type && userEdit ? editTenants?.secondary_phone_type : "",
             secondary_contact_email: editTenants?.secondary_contact_email && userEdit ? editTenants?.secondary_contact_email : "",
 
-            notes: editTenants?.notes && userEdit ? editTenants?.notes : "",
+            notes: editTenants?.notes && userEdit ? editTenants?.notes : [],
             photos: []
         },
         validate,
@@ -152,7 +169,6 @@ function TanantsFrom() {
                     console.log(values)
                     const respon = await EditTenantsAPI(values)
                     toast.success(respon.data.message)
-                    //console.log("Edit tenants screen load now")
                     const data = {
                         'post_id': '' + editTenants_id,
                         'author': '' + userId,
@@ -163,8 +179,8 @@ function TanantsFrom() {
                     }
                     console.log(respon.data)
                     setTenantLoader(false)
-                    router.push('/tenants/tenants_list')
-                    
+                    router.push('/tenants/list')
+
                 } else {
                     console.log("add tenants screen load now")
                     setTenantLoader(true)
@@ -185,7 +201,7 @@ function TanantsFrom() {
                     toast.success(respon.data.message)
                     setTenantLoader(false)
                     //console.log(respon.message)
-                    router.push('/tenants/tenants_list')
+                    router.push('/tenants/list')
 
                 }
 
@@ -234,6 +250,12 @@ function TanantsFrom() {
 
 
 
+    const deleteNotes = (indexDelete) => {
+        const notes = TanantsFramik.values.notes.filter((item, index) => index !== indexDelete)
+        TanantsFramik.setFieldValue("notes", [...notes])
+        toast.success('Notes delete Successfully')
+        setShowNotesPopup(false)
+    }
     const deletePhoto = (indexDelete) => {
         const photos = TanantsFramik.values.photos.filter((item, index) => index !== indexDelete)
         TanantsFramik.setFieldValue("photos", [...photos])
@@ -264,8 +286,8 @@ function TanantsFrom() {
 
 
                 {userEdit ?
-                    <SubHeader title={'Edit Tenants'} backUrl={'/tenants/tenants_details'} /> :
-                    <SubHeader title={'Add Tenants'} backUrl={'/tenants/tenants_list'} />
+                    <SubHeader title={'Edit Tenants'} backUrl={'/tenants/details'} /> :
+                    <SubHeader title={'Add Tenants'} backUrl={'/tenants/list'} />
                 }
 
             </header>
@@ -298,24 +320,6 @@ function TanantsFrom() {
                             }
 
 
-                            {/* {userEdit ? */}
-                                {/* <div className="w-[100%]">
-                                <select
-                                    name="company_flag"
-                                    onChange={TanantsFramik.handleChange}
-                                    value={TanantsFramik.values.company_flag}
-                                    className="font-medium w-full text-[12px] h-[50px] py-[10px] px-[5px] rounded-[5px]
-                                 bg-[#FFF] border-[#cfcfcf8f]  text-theme border-2 focus:border-theme focus:outline-none"
-
-                                >
-                                    <option value="black">black Flag</option>
-                                    <option value="red">Red Flag</option>
-                                </select> 
-                                </div> */}
-                                 {/* : null
-                                
-                             } */}
-
                             <div className='grid grid-cols-1'>
                                 <input
                                     name="street_address"
@@ -331,7 +335,7 @@ function TanantsFrom() {
                             {TanantsFramik.errors.street_address &&
                                 <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.street_address}</span>
                             }
-                            <div className='grid grid-cols-1'>
+                            <div className='grid grid-cols-2 gap-2'>
                                 <input
                                     name="unit"
                                     id="unit"
@@ -339,14 +343,22 @@ function TanantsFrom() {
                                     type="number"
                                     onChange={TanantsFramik.handleChange}
                                     value={TanantsFramik.values.unit}
-                                    className="font-medium text-[15px] h-[50px] py-[10px] px-[20px] rounded-[5px]
+                                    className="font-medium text-[15px] w-full h-[50px] py-[10px] px-[20px] rounded-[5px]
+                                bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
+                                />
+
+                                <input
+                                    name="mailbox"
+                                    id="mailbox"
+                                    placeholder="Mailbox #"
+                                    type="number"
+                                    onChange={TanantsFramik.handleChange}
+                                    value={TanantsFramik.values.mailbox}
+                                    className="font-medium text-[15px] w-full h-[50px] py-[10px] px-[20px] rounded-[5px]
                                 bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
                                 />
                             </div>
 
-                            {TanantsFramik.errors.unit &&
-                                <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.unit}</span>
-                            }
                             <div className='flex gap-2'>
                                 <div className="w-[40%]">
                                     <input
@@ -432,7 +444,7 @@ function TanantsFrom() {
                                      bg-[#FFF] border-[#cfcfcf8f]  text-theme border-2 focus:border-theme focus:outline-none"
 
                                     >
-                                        <option value="Mobile">Mobile</option>
+                                        <option defaultValue="Mobile">Mobile</option>
                                         <option value="Work">Work</option>
                                         <option value="Office">Office</option>
                                         <option value="Work fax">Work fax</option>
@@ -860,26 +872,29 @@ function TanantsFrom() {
                                 </div>
                             </div>
 
-                            <div className='flex gap-2'>
-                                <div className="w-[100%]">
-                                    <textarea
-                                        name="notes"
-                                        id="notes"
-                                        placeholder="Enter Notes"
-                                        rows="4"
-                                        onChange={TanantsFramik.handleChange}
-                                        value={TanantsFramik.values.notes}
-                                        className="font-medium w-full text-[13px] py-[10px] px-[5px] rounded-[5px]
-                                        bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
-                                    >
-                                    </textarea>
+                            <AddNotes formik={TanantsFramik} />
 
+                            {TanantsFramik?.values?.notes?.map((item, index) =>
+                                <div key={index} className="flex w-full gap-1">
+                                    <div className="w-[60%]">
+                                        <span className="text-[12px] "> {item.detail}</span>
+                                    </div>
+                                    <div className="w-[20%] text-center">
+                                        <div className="bg-blue-50 px-2 py-2 border-[1px] border-blue-700 color-red-500 text-[10px]">Edit</div>
+                                    </div>
+                                    <div className="w-[20%]  text-center" onClick={DeleteNotes(index, 'deleteNotes')}>
+                                        <div className="bg-red-50 px-2 py-2 border-[1px] border-red-700 color-red-500 text-[10px]">Delete</div>
+                                    </div>
 
-                                    {TanantsFramik.errors.notes &&
-                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.notes}</span>
-                                    }
                                 </div>
-                            </div>
+                            )}
+
+
+                            <DeletePhotoPopup
+                                //deletePhoto={() => deleteNotes(deleteID)}
+                                datashow={showNotesPopup ? "block" : "hidden"}
+                                onClicked={() => setShowNotesPopup(false)}
+                            />
 
                         </div>
 
@@ -956,16 +971,16 @@ function TanantsFrom() {
                                     </div>}
 
                                 {userEdit ?
-                                    <Link href='/tenants/tenants_details'>
+                                    <Link href='/tenants/details'>
                                         <div className="flex justify-center" >
-                                            <div className="px-4 py-2 w-full mx-auto w-full flex justify-center bg-red-100 text-red-600">
+                                            <div className="px-4 py-2 w-full mx-auto flex justify-center bg-red-100 text-red-600">
                                                 <span className="">CANCEL</span>
                                             </div>
                                         </div>
                                     </Link> :
-                                    <Link href='/tenants/tenants_list'>
+                                    <Link href='/tenants/list'>
                                         <div className="flex justify-center" >
-                                            <div className="px-4 py-2 w-full mx-auto w-full flex justify-center bg-red-100 text-red-600">
+                                            <div className="px-4 py-2 mx-auto w-full flex justify-center bg-red-100 text-red-600">
                                                 <span className="">CANCEL</span>
                                             </div>
                                         </div>
@@ -992,9 +1007,7 @@ function TanantsFrom() {
                     } else {
                         deletePhotoapi(deleteID)
                     }
-                }
-
-                }
+                }}
                 datashow={showDeletePopup ? "block" : "hidden"}
                 onClicked={DeleteClose} />
 

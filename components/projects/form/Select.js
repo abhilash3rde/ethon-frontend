@@ -15,7 +15,7 @@ function Select(props) {
         >
             {props?.option.map((item, index) =>
                 <Fragment key={index}>
-                <option value={item}>{item}</option>
+                    <option value={item}>{item}</option>
                 </Fragment>
             )}
         </select>

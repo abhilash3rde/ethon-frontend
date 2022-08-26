@@ -9,36 +9,37 @@ import SubHeader from "../../components/tenants/header";
 
 
 
-function ContractorsDetails(){
+function ContractorsDetails() {
     const [showPopup, setShowPopup] = useState(false);
-    
-    const open =()=>{
+
+    const open = () => {
         setShowPopup(true)
     }
 
-    const close =()=>{
+    const close = () => {
         setShowPopup(false)
     }
 
     const router = useRouter();
 
 
-    return(
+    return (
         <div>
-            <header className="z-50 bg-[#fff] pt-4 pt-2 shadow-[1px_5px_13px_2px_#0000000d] sticky top-0 overflow-hidden">
-                <SubHeader title={"Contractors Details"} backUrl={'/contractors/list'}/>
+            <header className="z-50 bg-[#fff] pt-2 shadow-[1px_5px_13px_2px_#0000000d] sticky top-0 overflow-hidden">
+                <SubHeader title={"Contractors Details"} backUrl={'/contractors/list'} />
             </header>
-            
+
+
             <ContractorsDetailsCom />
 
-            <DeletePopup datashow={showPopup? "block" : "hidden"} onClicked={close}/>
-            <NavigationButton 
-             BtnFirst={"Edit"}
-             BtnFirstOnclick={()=>{ 
-                router.push('/contractors/form?edit=true')
-            }}
-             BtnSecond={"Delete"}
-             SecondOnClick={open}
+            <DeletePopup datashow={showPopup ? "block" : "hidden"} onClicked={close} />
+            <NavigationButton
+                BtnFirst={"Edit"}
+                BtnFirstOnclick={() => {
+                    router.push('/contractors/form?edit=true')
+                }}
+                BtnSecond={"Delete"}
+                SecondOnClick={open}
             />
         </div>
     )

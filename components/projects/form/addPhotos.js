@@ -1,12 +1,11 @@
 import { useState } from "react"
-import { useFormik } from 'formik';
+import { useFormik, setFieldValue } from 'formik';
 import { IoAddSharp } from "react-icons/io5";
 import toast from 'react-hot-toast';
 import { postTenantsAddPhotosAPI } from "../../../redux/APIS/API";
 import { useDispatch, useSelector } from "react-redux";
 import { getTenantDetail } from "../../../redux/action/tenants-detail";
 import { useRouter } from "next/router";
-import { IoTrashOutline } from "react-icons/io5";
 
 
 
@@ -16,23 +15,22 @@ function AddPhoto(props) {
     const [showPopup, setShowPopup] = useState(true);
     const [selectedImage, setSelectedImage] = useState();
 
+
     const router = useRouter()
 
-    const open = () => {
+    const openPopup = () => {
         setShowPopup(false)
-        console.log("false")
     }
 
-    const close = () => {
+    const closePopup = () => {
         setShowPopup(true)
-        console.log("true")
     }
 
 
-    const PhotoFormik = useFormik({
+    const ProjectPhotoFormik = useFormik({
         initialValues: {
             image: '',
-            detail: '',
+            detail: ' '
         },
         onSubmit: async (values, { resetForm }) => {
             try {
@@ -64,12 +62,12 @@ function AddPhoto(props) {
     return (
         <div>
 
-            <div className="flex justify-end items-center mb-[10px]">
+            <div className="flex justify-start items-center mb-[10px]">
                 <div
                     className="w-[50%] flex justify-center ">
                     <div
-                        onClick={open}
-                        className="w-[100%] py-[13px] mx-auto flex text-[12px] justify-center text-white bg-orange-400 
+                        onClick={openPopup}
+                        className="w-[100%] py-[13px] mx-auto  flex text-[12px] justify-center text-white bg-orange-400 
                                     rounded-[10px] hover:bg-bg-orange-200 hover:text-white">
                         <span className="">ADD PHOTOS</span>
                     </div>
@@ -81,7 +79,6 @@ function AddPhoto(props) {
                 <div className='h-screen transition-all bg-[#22222238] w-full fixed z-[100] top-0 left-0 overflow-hidden backdrop-blur-[1px]'>
 
 
-                    {/* <form method='POST' onSubmit={PhotoFormik.handleSubmit}> */}
 
                     <div className="">
 
@@ -103,9 +100,9 @@ function AddPhoto(props) {
                                                 const file = e.target.files[0];
                                                 const base64 = await convertToBase64(file);
                                                 setSelectedImage(base64)
-                                                PhotoFormik.setFieldValue('image', base64);
+                                                ProjectPhotoFormik.setFieldValue('image', base64);
                                             }}
-                                            value={PhotoFormik.image}
+                                            value={ProjectPhotoFormik.image}
                                             className='hidden'
                                         />
                                     </label>
@@ -125,9 +122,9 @@ function AddPhoto(props) {
 
                                                 const base64 = await convertToBase64(file);
                                                 setSelectedImage(base64)
-                                                PhotoFormik.setFieldValue('image', base64);
+                                                ProjectPhotoFormik.setFieldValue('image', base64);
                                             }}
-                                            value={PhotoFormik.image}
+                                            value={ProjectPhotoFormik.image}
                                             className='hidden'
                                         />
                                     </label>
@@ -139,7 +136,6 @@ function AddPhoto(props) {
                                 <div className='mb-4 flex gap-2'>
                                     <label className="w-[50px] justify-center flex flex-col items-center py-[5px] h-[50px] bg-white text-blue rounded-lg 
                                         tracking-wide cursor-pointer border-2 border-black border-dashed">
-                                        {/* <span className="mt-1 text-[12px] leading-normal">Choose Photo</span> */}
                                         <IoAddSharp className="text-2xl " />
                                         <input
                                             type='file'
@@ -148,38 +144,26 @@ function AddPhoto(props) {
                                             id="image"
                                             onChange={async (e) => {
                                                 const file = e.target.files[0];
-
                                                 const base64 = await convertToBase64(file);
                                                 setSelectedImage(base64)
-                                                PhotoFormik.setFieldValue('image', base64);
+                                                ProjectPhotoFormik.setFieldValue('image', base64);
                                             }}
-                                            value={PhotoFormik.image}
+                                            value={ProjectPhotoFormik.image}
                                             className='hidden'
                                         />
                                     </label>
 
 
 
-                                    {PhotoFormik.values.image &&
+                                    {ProjectPhotoFormik.values.image &&
                                         <div className='h-[50px] w-[50px] rounded-md shadow-lg mb-4 group relative '>
                                             <img
-                                                src={PhotoFormik.values.image}
+                                                src={ProjectPhotoFormik.values.image}
                                                 className="w-full object-cover rounded-md object-center h-full"
                                             />
                                         </div>
                                     }
                                 </div>
-
-                                <textarea
-                                    rows="6"
-                                    placeholder="Enter Your Details"
-                                    name="detail"
-                                    id="detail"
-                                    onChange={PhotoFormik.handleChange}
-                                    value={PhotoFormik.values.detail}
-                                    className="font-medium w-full text-[15px] py-[5px] px-[10px] rounded-[5px]
-                                      bg-[#FFF] border-[#cfcfcf8f]  text-theme border-2 focus:border-theme focus:outline-none"
-                                />
 
 
                             </div>
@@ -187,9 +171,9 @@ function AddPhoto(props) {
                             <div className="flex justify-center mt-4">
 
                                 <div
-                                    onClick={() => PhotoFormik.handleSubmit()}
+                                    onClick={() => ProjectPhotoFormik.handleSubmit()}
                                     className="bg-[#fb923c] rounded-bl-[10px] w-[50%] flex justify-center">
-                                    <button type="button" className=" py-4 w-[100%] mx-auto w-full flex justify-center text-black 
+                                    <button type="button" className=" py-4 w-[100%] mx-auto flex justify-center text-black 
                                             rounded-[10px] ">
                                         Add
                                     </button >
@@ -197,11 +181,11 @@ function AddPhoto(props) {
 
                                 <div
                                     onClick={() => {
-                                        PhotoFormik.handleReset()
+                                        ProjectPhotoFormik.handleReset()
                                         setShowPopup(true)
                                     }}
                                     className=" bg-[#9e9e9e4f] rounded-br-[10px] w-[50%]  flex justify-center">
-                                    <div className="py-4 w-[100%] mx-auto w-full flex justify-center text-black 
+                                    <div className="py-4 w-[100%] mx-auto flex justify-center text-black 
                                             rounded-[10px]">
                                         <span className="">Cancel</span>
                                     </div>
@@ -211,7 +195,6 @@ function AddPhoto(props) {
 
                     </div>
 
-                    {/* </fosrm> */}
 
                 </div>
             </div>
