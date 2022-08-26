@@ -27,7 +27,7 @@ function Details() {
 
     return (
         <div>
-            <header className="z-50 bg-[#fff] pt-4 shadow-[1px_5px_13px_2px_#0000000d] overflow-scroll ">
+            <header className="z-50 bg-[#fff] pt-2  shadow-[1px_5px_13px_2px_#0000000d] overflow-scroll ">
                 <SubHeader title={'Projects Details'} backUrl={'/projects/list'} />
             </header>
 

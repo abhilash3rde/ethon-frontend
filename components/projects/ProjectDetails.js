@@ -2,6 +2,8 @@ import { useState } from "react";
 import TanantsLightbox from "../tenants/details/lightbox";
 import { format } from 'date-fns'
 import { useSelector } from "react-redux";
+import Button from "./form/Button";
+import { useRouter } from "next/router";
 
 
 
@@ -11,6 +13,7 @@ function ProjectDetails() {
     const [lightBox, setLightBox] = useState(false);
     const [imageSrc, setImageSrc] = useState(true);
 
+    const router = useRouter();
 
 
     const OpenLight = (img) => {
@@ -103,6 +106,10 @@ function ProjectDetails() {
                             )}
                         </div>
 
+                        <div className="grid grid-cols-1 w-[70%] gap-2 my-10">
+                            <Button href={() => router.push('/projects/contractor')} name={'Add New Contractor'} />
+                            <Button href={() => router.push('/projects/tenant')} name={'Add New Tenants'} />
+                        </div>
                         {/* contractors and bids  */}
                         {/* <div className="my-10">
                                 <span className="text-[10px] text-gray-400  ">Contractors / Bids</span>
@@ -228,7 +235,8 @@ function ProjectDetails() {
             {/* )} */}
 
 
-            {lightBox &&
+            {
+                lightBox &&
                 <TanantsLightbox
                     src={imageSrc}
                     datashow={lightBox ? "block" : "hidden"}
@@ -237,7 +245,7 @@ function ProjectDetails() {
             }
 
 
-        </div>
+        </div >
     )
 }
 

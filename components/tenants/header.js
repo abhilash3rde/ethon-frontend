@@ -75,11 +75,14 @@ function SubHeader(props) {
 
                     <div className="flex items-center gap-[10px]">
                         <div className="backarrow">
-                            <Link href={props.backUrl}>
-                                <a>
-                                    <IoArrowBackOutline className='text-3xl cursor-pointer' />
-                                </a>
-                            </Link>
+                            <div onClick={() => {
+                                { props.backUrl ? router.push(props.backUrl) : null }
+                                { props.Url ? props.Url() : null }
+                            }}>
+                                {/* <a> */}
+                                <IoArrowBackOutline className='text-3xl cursor-pointer' />
+                                {/* </a> */}
+                            </div>
                         </div>
                         <div className='logo'>
                             <div className="grid grid-cols-1 items-center">

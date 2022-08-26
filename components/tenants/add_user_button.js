@@ -10,7 +10,7 @@ function AddNew(props) {
             <Link href={props.href}>
                 <a>
                     <div
-                        className="flex gap-1 items-center bg-orange-400 border-orange-400 text-white border-2 py-2 px-4 mx-2 mx-2  
+                        className="flex gap-1 items-center bg-orange-400 border-orange-400 text-white border-2 py-2 px-4 mx-2  
                         rounded-[10px] hover:border-theme">
 
                         <IoAdd />

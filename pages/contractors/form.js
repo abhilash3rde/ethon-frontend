@@ -159,7 +159,7 @@ function ContractorsForm() {
                console.log('res', respon)
                dispatch(getContractors())
                toast.success(respon.data.message)
-              router.push('/contractors/list')
+               router.push('/contractors/list')
             } else {
                setLoader(true)
 
@@ -207,7 +207,7 @@ function ContractorsForm() {
 
    return (
       <div className="App">
-         <header className="z-50 bg-[#fff] pt-4 pt-2 shadow-[1px_5px_13px_2px_#0000000d] overflow-hidden">
+         <header className="z-50 bg-[#fff] pt-2 shadow-[1px_5px_13px_2px_#0000000d] overflow-hidden">
             {/* <SubHeader title={"Add Contractors"} backUrl={'/contractors/list'} /> */}
 
             {userEdit ? (
@@ -262,7 +262,7 @@ function ContractorsForm() {
                            'Irrigation',
                            'Landscaping',
                            'Custom'
-                        ]} 
+                        ]}
                      />
 
                      <Custom

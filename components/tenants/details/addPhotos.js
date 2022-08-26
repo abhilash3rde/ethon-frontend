@@ -60,16 +60,6 @@ function AddPhoto(props) {
         });
     };
 
-    // const previewImg = (file) => {
-    //     setSelectedImage(file)
-    //     console.log(file, 'i am groot')
-    // }
-
-    // This function will be triggered when the "Remove This Image" button is clicked
-    const removeSelectedImage = () => {
-        setSelectedImage();
-    };
-
 
     return (
         <div>
@@ -79,7 +69,7 @@ function AddPhoto(props) {
                     className="w-[50%] flex justify-center ">
                     <div
                         onClick={open}
-                        className="w-[100%] py-[13px] mx-auto w-full flex text-[12px] justify-center text-white bg-orange-400 
+                        className="w-[100%] py-[13px] mx-auto flex text-[12px] justify-center text-white bg-orange-400 
                                     rounded-[10px] hover:bg-bg-orange-200 hover:text-white">
                         <span className="">ADD PHOTOS</span>
                     </div>

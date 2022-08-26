@@ -23,9 +23,9 @@ function TenantsList() {
 
     return (
         <div className="">
-            <header className="z-50 bg-[#fff] pt-4 pt-2 shadow-[1px_5px_13px_2px_#0000000d] overflow-hidden">
+            <header className="z-50 bg-[#fff] pt-2 shadow-[1px_5px_13px_2px_#0000000d] overflow-hidden">
                 <SubHeader title={"Tenants"} backUrl={'/dashboard'} />
-                <TenantsSort/>
+                <TenantsSort />
             </header>
 
             <div className='w-full bg-slate-50 raletive'>

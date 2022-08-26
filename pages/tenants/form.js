@@ -12,6 +12,7 @@ import DeletePhotoPopup from "../../components/tenants/details/deletePhotopopup"
 import { IoTrashOutline, IoFlagSharp } from "react-icons/io5";
 import Link from "next/link";
 import { reactLocalStorage } from 'reactjs-localstorage';
+import AddNotes from "../../components/tenants/details/addnotes";
 
 
 
@@ -20,6 +21,7 @@ function TanantsFrom() {
 
     const [custom, setCustom] = useState(false)
     const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [showNotesPopup, setShowNotesPopup] = useState(false);
     const [photosApi, setPhotos] = useState([]);
     const [tenantLoader, setTenantLoader] = useState(false);
     const [deleteID, setDeleteID] = useState(true);
@@ -42,6 +44,12 @@ function TanantsFrom() {
         setDeleteType(type)
         setShowDeletePopup(true)
     }
+
+    // const DeleteNotes = (id, type) => {
+    //     setDeleteID(id)
+    //     setDeleteType(type)
+    //     setShowDeletePopup(true)
+    // }
 
     const DeleteClose = () => {
         setShowDeletePopup(false)
@@ -146,7 +154,7 @@ function TanantsFrom() {
             secondary_phone_type: editTenants?.secondary_phone_type && userEdit ? editTenants?.secondary_phone_type : "",
             secondary_contact_email: editTenants?.secondary_contact_email && userEdit ? editTenants?.secondary_contact_email : "",
 
-            notes: editTenants?.notes && userEdit ? editTenants?.notes : "",
+            notes: editTenants?.notes && userEdit ? editTenants?.notes : [],
             photos: []
         },
         validate,
@@ -161,7 +169,6 @@ function TanantsFrom() {
                     console.log(values)
                     const respon = await EditTenantsAPI(values)
                     toast.success(respon.data.message)
-                    //console.log("Edit tenants screen load now")
                     const data = {
                         'post_id': '' + editTenants_id,
                         'author': '' + userId,
@@ -243,6 +250,12 @@ function TanantsFrom() {
 
 
 
+    const deleteNotes = (indexDelete) => {
+        const notes = TanantsFramik.values.notes.filter((item, index) => index !== indexDelete)
+        TanantsFramik.setFieldValue("notes", [...notes])
+        toast.success('Notes delete Successfully')
+        setShowNotesPopup(false)
+    }
     const deletePhoto = (indexDelete) => {
         const photos = TanantsFramik.values.photos.filter((item, index) => index !== indexDelete)
         TanantsFramik.setFieldValue("photos", [...photos])
@@ -431,7 +444,7 @@ function TanantsFrom() {
                                      bg-[#FFF] border-[#cfcfcf8f]  text-theme border-2 focus:border-theme focus:outline-none"
 
                                     >
-                                        <option value="Mobile">Mobile</option>
+                                        <option defaultValue="Mobile">Mobile</option>
                                         <option value="Work">Work</option>
                                         <option value="Office">Office</option>
                                         <option value="Work fax">Work fax</option>
@@ -859,26 +872,29 @@ function TanantsFrom() {
                                 </div>
                             </div>
 
-                            <div className='flex gap-2'>
-                                <div className="w-[100%]">
-                                    <textarea
-                                        name="notes"
-                                        id="notes"
-                                        placeholder="Enter Notes"
-                                        rows="4"
-                                        onChange={TanantsFramik.handleChange}
-                                        value={TanantsFramik.values.notes}
-                                        className="font-medium w-full text-[13px] py-[10px] px-[5px] rounded-[5px]
-                                        bg-[#FFF] border-[#cfcfcf8f]  text-[#000] border-2 focus:border-theme focus:outline-none"
-                                    >
-                                    </textarea>
+                            <AddNotes formik={TanantsFramik} />
 
+                            {TanantsFramik?.values?.notes?.map((item, index) =>
+                                <div key={index} className="flex w-full gap-1">
+                                    <div className="w-[60%]">
+                                        <span className="text-[12px] "> {item.detail}</span>
+                                    </div>
+                                    <div className="w-[20%] text-center">
+                                        <div className="bg-blue-50 px-2 py-2 border-[1px] border-blue-700 color-red-500 text-[10px]">Edit</div>
+                                    </div>
+                                    <div className="w-[20%]  text-center" onClick={DeleteNotes(index, 'deleteNotes')}>
+                                        <div className="bg-red-50 px-2 py-2 border-[1px] border-red-700 color-red-500 text-[10px]">Delete</div>
+                                    </div>
 
-                                    {TanantsFramik.errors.notes &&
-                                        <span className='text-red-500 text-[12px]'>{TanantsFramik.errors.notes}</span>
-                                    }
                                 </div>
-                            </div>
+                            )}
+
+
+                            <DeletePhotoPopup
+                                //deletePhoto={() => deleteNotes(deleteID)}
+                                datashow={showNotesPopup ? "block" : "hidden"}
+                                onClicked={() => setShowNotesPopup(false)}
+                            />
 
                         </div>
 
@@ -991,9 +1007,7 @@ function TanantsFrom() {
                     } else {
                         deletePhotoapi(deleteID)
                     }
-                }
-
-                }
+                }}
                 datashow={showDeletePopup ? "block" : "hidden"}
                 onClicked={DeleteClose} />
 

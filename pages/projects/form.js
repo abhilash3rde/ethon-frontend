@@ -72,9 +72,7 @@ function Projectform() {
                         'photos': values.photos
                     }
                     console.log(data)
-                    // if (data.photos.length > 0) {
                     const AddPhotos = await postProjectsPhotosAPI(data);
-                    // }
                     console.log(AddPhotos)
                     router.push('/projects/list')
                 } else {
@@ -89,9 +87,7 @@ function Projectform() {
                         'photos': values.photos
                     }
                     console.log(data)
-                    // if (data.photos.length > 0) {
                     const AddPhotos = await postProjectsPhotosAPI(data);
-                    // }
                     console.log(AddPhotos)
                     router.push('/projects/list')
                 }
@@ -129,12 +125,14 @@ function Projectform() {
 
     }
 
-
+    function data() {
+        alert('data in my world')
+    }
 
 
     return (
         <div className="App">
-            <header className="z-50 bg-[#fff] pt-4 shadow-[1px_5px_13px_2px_#0000000d] overflow-scroll ">
+            <header className="z-50 bg-[#fff] pt-2 shadow-[1px_5px_13px_2px_#0000000d] overflow-scroll ">
                 {ProjectEdit ?
                     <SubHeader title={'Edit Project'} backUrl={'/projects/details'} />
                     :
@@ -208,13 +206,25 @@ function Projectform() {
                             {/* add contractor and tenants btn */}
 
                             <div className="grid grid-cols-1 gap-2 mt-4 w-[70%]">
-
-                                <div
-                                    onClick={() => router.push('/projects/contractor')}
-                                    className="flex gap-1 justify-center bg-orange-400 border-orange-400 text-white border-2 py-2 px-4  
+                                {ProjectEdit ?
+                                    <div
+                                        // onClick={() =>
+                                        //     router.push('/projects/contractor')
+                                        // }
+                                        className="flex gap-1 justify-center bg-orange-400 border-orange-400 text-white border-2 py-2 px-4  
                                          rounded-[10px] hover:border-theme">
-                                    <h1>Add Contractor</h1>
-                                </div>
+                                        <h1>Add Contractor</h1>
+                                    </div>
+                                    :
+                                    <div
+                                        // onClick={() => router.push('/projects/contractor')}
+                                        className="flex gap-1 justify-center bg-orange-400 border-orange-400 text-white border-2 py-2 px-4  
+                                         rounded-[10px] hover:border-theme">
+                                        <h1>Add Contractor</h1>
+                                    </div>
+                                }
+
+
 
                                 <div
                                     className="flex gap-1 justify-center bg-orange-400 border-orange-400 text-white border-2 py-2 px-4  

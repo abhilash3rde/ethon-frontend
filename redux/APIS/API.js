@@ -142,3 +142,19 @@ export const EditProjectAPI = (data) => {
         token())
 }
 
+
+export const assignContractorAPI = (data) => {
+    return axios.post(baseAPIURL + `api/v1/project/assign_contractor`, data,
+        token())
+}
+
+export const assignTenantsAPI = (data) => {
+    return axios.post(baseAPIURL + `api/v1/project/assign_tenant`, data,
+        token())
+}
+
+//notes
+export const createNoteAPI = (data) => {
+    return axios.post(baseAPIURL + `api/v1/note/create`, data,
+        token())
+}
