@@ -1,13 +1,24 @@
 import { reactLocalStorage } from "reactjs-localstorage"
 
-export const token = () => {
+export const token = (data = null) => {
     try {
-        const token = reactLocalStorage.get("token", false)
-        return ({
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        if (data) {
+
+            return ({
+                headers: {
+                    'Authorization': `Bearer ${data}`
+                }
+            })
+        } else {
+            const token = reactLocalStorage.get("token", false)
+            return ({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+        }
+
 
     } catch (error) {
 
