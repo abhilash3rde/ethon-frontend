@@ -70,7 +70,7 @@ export default function bids() {
             const responPhotos = await axios.post(baseAPIURL + `api/v1/bid/add_document`, photoData, token())
             console.log(responPhotos, 'photos data')
             resetForm();
-            toast.success(respon.data.message)
+            toast.success("Proposal sent successfully")
 
          } catch (error) {
             console.log(error)
