@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getProjectFilter } from '../../redux/action/projectFilter'
 import { format } from 'date-fns'
 import Button from '../../components/projects/form/Button'
 import ProjectDecline from '../../components/projects/form/ProjectDecline'
@@ -12,7 +10,7 @@ import toast from 'react-hot-toast'
 
 const baseAPIURL = 'http://dev.getsmiapp.com/wp-json/'
 
-export default function project_view() {
+export default function Project_view() {
    const [showPopup, setShowPopup] = useState(false)
    const [isLoading, setIsLoading] = useState(true)
    const [dataID, setDataID] = useState([])

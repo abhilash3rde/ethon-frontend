@@ -1114,4 +1114,4 @@ function TanantsFrom() {
    )
 }
 
-export default TanantsFrom
+export default TanantsFrom;

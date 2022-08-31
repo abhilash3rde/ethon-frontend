@@ -6,7 +6,7 @@ import SubHeader from '../../components/tenants/header'
 
 
 
-export default function aligncontractor() {
+export default function Aligncontractor() {
 
     const router = useRouter()
 
