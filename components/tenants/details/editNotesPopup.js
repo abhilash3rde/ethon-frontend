@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useFormik } from 'formik'
 
-function editNotesPopup({ index, detail, datashow, onClick, formik }) {
+function EditNotesPopup({ index, detail, datashow, onClick, formik }) {
    const [showNotes, setShowNotes] = useState(false)
    const NoteFormik = useFormik({
       initialValues: {
@@ -103,4 +103,4 @@ function editNotesPopup({ index, detail, datashow, onClick, formik }) {
    )
 }
 
-export default editNotesPopup
+export default EditNotesPopup;

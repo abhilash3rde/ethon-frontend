@@ -11,7 +11,7 @@ import toast from 'react-hot-toast'
 
 const baseAPIURL = 'http://dev.getsmiapp.com/wp-json/'
 
-export default function bids() {
+export default function Bids() {
    const router = useRouter()
    const [dataID, setDataID] = useState([])
 

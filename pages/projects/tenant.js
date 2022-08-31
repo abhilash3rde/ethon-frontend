@@ -4,7 +4,7 @@ import AlignTenant from '../../components/projects/alignTenant'
 import NavigationButton from '../../components/tenants/details/navigation_button'
 import SubHeader from '../../components/tenants/header'
 
-export default function tenants() {
+export default function Tenants() {
 
     const router = useRouter()
 

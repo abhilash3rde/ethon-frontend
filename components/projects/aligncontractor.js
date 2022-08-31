@@ -54,7 +54,7 @@ export default function AlignContractor() {
                   checked={isOn}
                   onClick={() => setIsOn(!isOn)}
                />
-               <label for="addnew">Send to New Contractor</label>
+               <label htmlFor="addnew">Send to New Contractor</label>
             </div>
             {isOn && (
                <div>
