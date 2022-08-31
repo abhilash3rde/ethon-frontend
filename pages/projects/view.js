@@ -18,7 +18,15 @@
 //       console.log('true')
 //       setShowPopup(true)
 //    }
+import React from 'react'
 
+const view = () => {
+  return (
+    <div>view</div>
+  )
+}
+
+export default view
 //    const router = useRouter()
 
 //    const dispatch = useDispatch()

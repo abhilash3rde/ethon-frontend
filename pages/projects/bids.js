@@ -4,6 +4,19 @@
 // import { useRouter } from 'next/router'
 
 
+import React from 'react'
+
+const bids = () => {
+  return (
+    <div>
+      
+    </div>
+  )
+}
+
+export default bids
+
+
 // export default function bids() {
 
 //     const router = useRouter();
