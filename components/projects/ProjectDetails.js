@@ -1,117 +1,129 @@
-import { useState } from "react";
-import TanantsLightbox from "../tenants/details/lightbox";
+import { useState } from 'react'
+import TanantsLightbox from '../tenants/details/lightbox'
 import { format } from 'date-fns'
-import { useSelector } from "react-redux";
-import Button from "./form/Button";
-import { useRouter } from "next/router";
-
-
-
+import { useSelector } from 'react-redux'
+import Button from './form/Button'
+import { useRouter } from 'next/router'
 
 function ProjectDetails() {
+   const [lightBox, setLightBox] = useState(false)
+   const [imageSrc, setImageSrc] = useState(true)
 
-    const [lightBox, setLightBox] = useState(false);
-    const [imageSrc, setImageSrc] = useState(true);
+   const router = useRouter()
 
-    const router = useRouter();
+   const OpenLight = (img) => {
+      setImageSrc(img)
+      setLightBox(true)
+   }
 
+   const details = [
+      {
+         id: '#162',
+         date: '06/08/2022',
+         title: 'Project name',
+         status: 'In Progress',
+         services: 'parking Lot ',
+         discription:
+            'Control the opacity of an element’s text color using the color opacity modifierControl the opacity of an element’s text color using the color opacity modifier',
+         photos: [
+            {
+               image: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/d0a906c6f805b43b864ad085b237f51e_-1.png'
+            },
+            {
+               image: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/d0a906c6f805b43b864ad085b237f51e_-1.png'
+            },
 
-    const OpenLight = (img) => {
-        setImageSrc(img)
-        setLightBox(true);
-    }
+            {
+               image: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/d0a906c6f805b43b864ad085b237f51e_-1.png'
+            }
+         ],
+         bid_title: 'In Progress',
+         bid_dis:
+            'Control the opacity of an element’s text color using the color opacity',
+         bid_img:
+            'http://dev.getsmiapp.com/wp-content/uploads/2022/08/d0a906c6f805b43b864ad085b237f51e_-1.png',
+         bid_price: '4500',
+         tenants: [
+            {
+               unit: '1154',
+               company_name: 'Advenced Denstistry',
+               status: 'Oakland',
+               complex: 'Occupied',
+               primary_phone: '132456'
+            }
+         ]
+      }
+   ]
 
-    const details = [{
-        id: '#162',
-        date: '06/08/2022',
-        title: 'Project name',
-        status: 'In Progress',
-        services: 'parking Lot ',
-        discription: 'Control the opacity of an element’s text color using the color opacity modifierControl the opacity of an element’s text color using the color opacity modifier',
-        photos: [{
-            image: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/d0a906c6f805b43b864ad085b237f51e_-1.png',
-        },
-        {
-            image: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/d0a906c6f805b43b864ad085b237f51e_-1.png',
-        },
+   const item = useSelector((state) => state.projectDetails.details.data.data)
 
-        {
-            image: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/d0a906c6f805b43b864ad085b237f51e_-1.png',
-        }],
-        bid_title: 'In Progress',
-        bid_dis: 'Control the opacity of an element’s text color using the color opacity',
-        bid_img: 'http://dev.getsmiapp.com/wp-content/uploads/2022/08/d0a906c6f805b43b864ad085b237f51e_-1.png',
-        bid_price: '4500',
-        tenants: [{
-            unit: '1154',
-            company_name: 'Advenced Denstistry',
-            status: 'Oakland',
-            complex: 'Occupied',
-            primary_phone: '132456'
-        },
+   console.log(item)
 
-        ]
+   return (
+      <div className="App">
+         {/* {ProjectD.map((item, index) => */}
+         <div key={item} className="grid w-full py-4 px-4 ">
+            <div className="flex w-full items-center">
+               <div className="w-full grid">
+                  <div className="flex gap-2 ">
+                     <span className="text-[10px] text-gray-400  ">
+                        {' '}
+                        #{item.ID}{' '}
+                     </span>
+                     <span className="text-[10px] text-gray-400  ">
+                        {item?.project_date &&
+                           format(
+                              new Date(item?.project_date),
+                              'dd-MM-yyyy'
+                           )}{' '}
+                     </span>
+                  </div>
 
+                  <h1 className="text-lg font-[600]">{item?.project_name}</h1>
 
-    }]
+                  <div className="flex gap-2 w-full pb-4 border-b-2 border-gray-300 mb-2">
+                     <span className="text-[10px] text-gray-400  ">
+                        Status: {item.status}
+                     </span>
+                     <span className="text-[10px] text-gray-400  ">
+                        Services: {item.services}
+                     </span>
+                  </div>
+                  <span className="text-xs  text-black-400">
+                     {item.project_detail}
+                  </span>
 
-    const item = useSelector((state) => state.projectDetails.details.data.data)
+                  <div className="py-4">
+                     <span className="text-[15px] text-gray-500">Photos</span>
+                     <hr className="my-1 border-t-2" />
+                  </div>
 
-    console.log(item);
-
-
-
-    return (
-        <div className="App">
-            {/* {ProjectD.map((item, index) => */}
-            <div key={item} className="grid w-full py-4 px-4 ">
-                <div className="flex w-full items-center">
-                    <div className="w-full grid" >
-                        <div className="flex gap-2 ">
-                            <span className="text-[10px] text-gray-400  "> #{item.ID} </span>
-                            <span className="text-[10px] text-gray-400  ">
-                                {item?.project_date && format(new Date(item?.project_date),
-                                    'dd-MM-yyyy')} </span>
+                  <div className="grid grid-cols-3 gap-1 ">
+                     {item.photos?.map((item, index) => (
+                        <div key={index}>
+                           <div className="w-20 h-20 ">
+                              <img
+                                 src={item?.photo_src}
+                                 onClick={() => OpenLight(item.photo_src)}
+                                 className="h-full object-cover shadow-lg rounded-md object-center w-full"
+                              />
+                           </div>
                         </div>
+                     ))}
+                  </div>
 
-                        <h1 className="text-lg font-[600]">{item?.project_name}</h1>
-
-                        <div className="flex gap-2 w-full pb-4 border-b-2 border-gray-300 mb-2">
-                            <span className="text-[10px] text-gray-400  ">Status: {item.status}</span>
-                            <span className="text-[10px] text-gray-400  ">Services: {item.services}</span>
-                        </div>
-                        <span className="text-xs  text-black-400" >
-                            {item.project_detail}
-                        </span>
-
-                        <div className="py-4">
-                            <span className="text-[15px] text-gray-500">
-                                Photos
-                            </span>
-                            <hr className="my-1 border-t-2" />
-                        </div>
-
-                        <div className='grid grid-cols-3 gap-1 '>
-                            {item.photos?.map((item, index) =>
-                                <div key={index} >
-                                    <div className="w-20 h-20 ">
-                                        <img
-                                            src={item?.photo_src}
-                                            onClick={() => OpenLight(item.photo_src)
-                                            }
-                                            className="h-full object-cover shadow-lg rounded-md object-center w-full"
-                                        />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="grid grid-cols-1 w-[70%] gap-2 my-10">
-                            <Button href={() => router.push('/projects/contractor')} name={'Add New Contractor'} />
-                            <Button href={() => router.push('/projects/tenant')} name={'Add New Tenants'} />
-                        </div>
-                        {/* contractors and bids  */}
-                        {/* <div className="my-10">
+                  <div className="grid grid-cols-1 w-[70%] gap-2 my-10">
+                     <Button
+                        href={() => router.push('/projects/contractor')}
+                        name={'Add New Contractor'}
+                     />
+                     <Button
+                        href={() => router.push('/projects/tenant')}
+                        name={'Add New Tenants'}
+                     />
+                  </div>
+                  {/* contractors and bids  */}
+                  {/* <div className="my-10">
                                 <span className="text-[10px] text-gray-400  ">Contractors / Bids</span>
 
                                 <div className="flex px-2 py-4 rounded-[10px] gap-2 border-2 border-gray-100  ">
@@ -223,30 +235,21 @@ function ProjectDetails() {
 
 
                             </div> */}
-
-
-
-
-
-                    </div>
-                </div>
+               </div>
             </div>
+         </div>
 
-            {/* )} */}
+         {/* )} */}
 
-
-            {
-                lightBox &&
-                <TanantsLightbox
-                    src={imageSrc}
-                    datashow={lightBox ? "block" : "hidden"}
-                    close={() => setLightBox(false)}
-                />
-            }
-
-
-        </div >
-    )
+         {lightBox && (
+            <TanantsLightbox
+               src={imageSrc}
+               datashow={lightBox ? 'block' : 'hidden'}
+               close={() => setLightBox(false)}
+            />
+         )}
+      </div>
+   )
 }
 
-export default ProjectDetails;
+export default ProjectDetails
