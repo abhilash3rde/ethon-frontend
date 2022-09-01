@@ -4,8 +4,10 @@ import Input from '../../components/projects/form/Input'
 import { useRouter } from 'next/router'
 
 export default function bids() {
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    const router = useRouter()
 
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    const Bidformik = useFormik({
       initialValues: {
          company_name: '',

@@ -10,7 +10,9 @@ import axios from 'axios'
 const baseAPIURL = 'http://dev.getsmiapp.com/wp-json/'
 
 export default function project_view() {
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    const [showPopup, setShowPopup] = useState(false)
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    const [isLoading, setIsLoading] = useState(true)
 
    function closePopup() {
@@ -23,6 +25,7 @@ export default function project_view() {
       setShowPopup(true)
    }
 
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    const router = useRouter()
    const { access_token, access_data } = router.query
    console.log(access_data)
@@ -42,7 +45,9 @@ export default function project_view() {
    const ans = b64DecodeUnicode('MzQxQDU2')
    console.log(ans)
 
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    const dispatch = useDispatch()
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    useEffect(() => {
       dispatch(getProjectFilter())
    }, [])
@@ -91,6 +96,7 @@ export default function project_view() {
    //    fetchData()
    // }, [])
 
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    useEffect(() => {
       try {
          let data = { project_id: '' }

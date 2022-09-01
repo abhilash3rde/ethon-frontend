@@ -6,6 +6,7 @@ import SubHeader from '../../components/tenants/header'
 
 export default function tenants() {
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter()
 
     function data() {
