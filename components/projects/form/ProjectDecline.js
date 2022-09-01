@@ -1,9 +1,36 @@
 import React from 'react'
+// import {useDispatch, useSelector } from "react-redux";
 import toast from 'react-hot-toast'
+// import { deleteTenantsAPI } from "../../redux/APIS/API";
+// import { getTenants } from "../../redux/action/tenants";
 import { useRouter } from 'next/router'
-
+import { deleteProjectAPI } from '../../../redux/APIS/API'
+import { useSelector } from 'react-redux'
+// import { getProjectFilter } from "../../redux/action/projectFilter";
 
 function ProjectDecline(props) {
+   const router = useRouter()
+   console.log(props)
+   const project_ids = useSelector(
+      (state) => state.projectDetails.details.data.data?.ID
+   )
+   //console.log(project_ids)
+
+   async function deleteUser() {
+      try {
+         const respon = await deleteProjectAPI({
+            project_ids: [project_ids]
+         })
+         console.log(respon)
+         toast.success(respon.data.message)
+         dispatch(getProjectFilter())
+         router.push('/projects/list')
+      } catch (error) {
+         console.log(error)
+         //router.push('/projects/list')
+         //toast.error(error.response.data.message)
+      }
+   }
 
    return (
       <div className={props.datashow}>
@@ -21,7 +48,10 @@ function ProjectDecline(props) {
                      </p>
                      <div className="flex justify-center">
                         <div
-                           onClick={props.onDecline}
+                           onClick={() => {
+                              deleteUser()
+                              props.onClicked()
+                           }}
                            className="bg-white w-[50%] py-2 flex justify-center"
                         >
                            <div
