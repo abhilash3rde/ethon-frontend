@@ -2,21 +2,24 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { assignTenantsAPI } from '../../redux/APIS/API'
 import toast from 'react-hot-toast'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function AlignTenant() {
    const dispatch = useDispatch()
-
+   const router = useRouter()
    const tenant_list = useSelector((state) => state.tenants.tenants.data)
-   const ProjectId = useSelector(
+   const projectId = useSelector(
       (state) => state.projectDetails.details.data.data.ID
    )
+   console.log(projectId)
    const [tenantID, setTenantID] = useState('')
    const [sendBy, setSendBy] = useState('')
 
    async function getData(e) {
       e.preventDefault()
       const respon = await assignTenantsAPI({
-         project_id: '' + ProjectId,
+         project_id: '' + projectId,
          tenant_ids: [tenantID]
       })
       console.log(respon)
@@ -90,6 +93,15 @@ export default function AlignTenant() {
 
 
                 </div> */}
+            <div className="text-center py-10 underline text-blue-500">
+               <p
+                  onClick={() =>
+                     router.push(`/tenants/form?project_id=${projectId}`)
+                  }
+               >
+                  Add New Tenant
+               </p>
+            </div>
 
             <div className="grid justify-center w-full">
                <button

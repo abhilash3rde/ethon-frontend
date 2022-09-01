@@ -42,14 +42,14 @@ function Projectform() {
 
    const ProjectEdit = router.query.edit
 
-   useEffect(() => {
-      if (ProjectEdit) {
-         console.log(ProjectEdit)
-         setPhotos([...editProject.photos])
-      } else {
-         router.push('/projects/form')
-      }
-   }, [])
+   // useEffect(() => {
+   //    if (ProjectEdit) {
+   //       console.log(ProjectEdit)
+   //       setPhotos([...editProject.photos])
+   //    } else {
+   //       // router.push('/projects/form')
+   //    }
+   // }, [])
 
    const ProjectsFormik = useFormik({
       initialValues: {

@@ -106,11 +106,11 @@ function TanantsDetailsCom() {
    function companyFlag() {
       const flag = tenants_detail?.company_flag
       if (flag === 'true') {
-         return <IoFlagSharp className="text-lg cursor-pointer" />
+         return <IoFlagSharp className="text-lg cursor-pointer text-red-500" />
       } else {
          return (
             <IoFlagOutline
-               className="text-lg cursor-pointer"
+               className="text-lg cursor-pointer "
                onClick={ClickIcon}
             />
          )

@@ -8,3 +8,22 @@
 *{
     font-family: 'Montserrat',sans-serif;
 }
+
+
+.smi-logo{
+    width: 50px !important;
+    height: auto !important;
+}
+
+.Login .smi-logo,
+.register-page .smi-logo,
+.forget-page .smi-logo
+{
+    width: 80px !important;
+    height: auto !important;
+}
+
+.logo-wrapper{
+    display: flex;
+    justify-content: center;
+}
