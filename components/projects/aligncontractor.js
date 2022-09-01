@@ -36,7 +36,7 @@ export default function AlignContractor() {
       })
       console.log(respon)
       toast.success(respon.data.message)
-      router.push('/projects/view')
+      // router.push('/projects/view')
    }
 
    return (
@@ -45,6 +45,9 @@ export default function AlignContractor() {
             <h6>{`${window.location.href}/${contractorID}`}</h6>
          </div>
 
+ 
+
+=======
          <div className="py-4 px-4 bg-slate-200 border-[1px] border-dashed border-gray-400 mt-6 rounded-md grid gap-4">
             <div className="flex gap-2">
                <input
@@ -80,7 +83,7 @@ export default function AlignContractor() {
                </div>
             )}
          </div>
-
+ 
          <form onSubmit={getData}>
             <select
                onChange={(e) => setContractorID(e.target.value)}
@@ -94,6 +97,44 @@ export default function AlignContractor() {
                   </Fragment>
                ))}
             </select>
+
+            <div className="py-4 px-4 bg-slate-200 border-[1px] border-dashed border-gray-400 mt-6 rounded-md grid gap-4">
+               <div className="flex gap-2">
+                  <input
+                     type="checkbox"
+                     className=""
+                     id="addnew"
+                     checked={isOn}
+                     onClick={() => setIsOn(!isOn)}
+                  />
+                  <label htmlFor="addnew">Send to New Contractor</label>
+               </div>
+               {isOn && (
+                  <div>
+                     <div>
+                        <input
+                           name="email"
+                           id="email"
+                           placeholder="enter email address"
+                           className="font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#0000] text-[#000] 
+                         border-2 border-gray-400 focus:border-black focus:outline-none focus:bg-white"
+                        />
+                     </div>
+                     <br />
+                     <div>
+                        <input
+                           name="phone"
+                           id="phone"
+                           placeholder="enter phone number"
+                           className="font-medium w-full text-[15px] h-[50px] py-[10px] px-[10px] rounded-[5px] bg-[#0000] text-[#000] 
+                         border-2 border-gray-400 focus:border-black focus:outline-none focus:bg-white"
+                        />
+                     </div>
+                  </div>
+               )}
+            </div>
+
+
 
             <div className="py-4 px-4 grid gap-4">
                <div className="flex gap-1">
