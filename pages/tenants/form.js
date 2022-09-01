@@ -2,6 +2,7 @@
 import SubHeader from '../../components/tenants/header'
 import { useFormik, setFieldValue } from 'formik'
 import {
+   createNoteAPI,
    deleteTenantsPhotoAPI,
    EditTenantsAPI,
    postTenantsAddPhotosAPI,
@@ -245,8 +246,10 @@ function TanantsFrom() {
                   const responsive = await postTenantsAddPhotosAPI(data)
                }
                console.log(respon.data)
-               setTenantLoader(false)
-               router.push('/tenants/list')
+
+
+               // setTenantLoader(false)
+               // router.push('/tenants/list')
             } else {
                console.log('add tenants screen load now')
                setTenantLoader(true)
@@ -263,11 +266,17 @@ function TanantsFrom() {
                if (data.photos.length > 0) {
                   const responsive = await postTenantsAddPhotosAPI(data)
                }
-               // console.log(responsive)
+               const Notedata = {
+                  post_id: '' + tenant_idd,
+                  author: '' + userId,
+                  notes: values.notes
+               }
+               const responNotes = await createNoteAPI(Notedata)
+               console.log(responNotes)
                toast.success(respon.data.message)
                setTenantLoader(false)
-               //console.log(respon.message)
                router.push('/tenants/list')
+
             }
          } catch (error) {
             console.log(error)
