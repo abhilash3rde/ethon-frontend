@@ -302,7 +302,6 @@ function TanantsFrom() {
                toast.success(respon.data.message)
                setTenantLoader(false)
                router.push('/tenants/list')
-
             }
          } catch (error) {
             console.log(error)
@@ -983,7 +982,6 @@ function TanantsFrom() {
                      <AddNotes formik={TanantsFramik} />
                      {console.log(TanantsFramik?.values)}
 
-<<<<<<< HEAD
                      {TanantsFramik?.values?.notes?.map((item, index) => (
                         <div key={index} className="flex w-full gap-1">
                            <div className="w-[60%]">
@@ -1014,40 +1012,6 @@ function TanantsFrom() {
                            </div>
                         </div>
                      ))}
-=======
-                     {
-                        //    TanantsFramik?.values?.notes?.map((item, index) => (
-                        //    <div key={index} className="flex w-full gap-1">
-                        //       <div className="w-[60%]">
-                        //          <span className="text-[12px] ">
-                        //             {' '}
-                        //             {item.detail}
-                        //          </span>
-                        //       </div>
-                        //       <div
-                        //          className="w-[20%] text-center"
-                        //          onClick={() => {
-                        //             setShowEditNotesPopup(true)
-                        //             setDetail(item.detail)
-                        //             setIndex(index)
-                        //          }}
-                        //       >
-                        //          <div className="bg-blue-50 px-2 py-2 border-[1px] border-blue-700 color-red-500 text-[10px]">
-                        //             Edit
-                        //          </div>
-                        //       </div>
-                        //       <div
-                        //          className="w-[20%]  text-center"
-                        //          onClick={() => DeleteNotes(index, 'deleteNotes')}
-                        //       >
-                        //          <div className="bg-red-50 px-2 py-2 border-[1px] border-red-700 color-red-500 text-[10px]">
-                        //             Delete
-                        //          </div>
-                        //       </div>
-                        //    </div>
-                        // ))
-                     }
->>>>>>> a1df2bf531baaed4043de3bf78b750ee3d6f375b
 
                      {showEditNotesPopup && (
                         <EditNotesPopup
