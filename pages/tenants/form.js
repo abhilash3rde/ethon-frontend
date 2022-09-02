@@ -20,6 +20,7 @@ import { IoTrashOutline, IoFlagSharp } from 'react-icons/io5'
 import Link from 'next/link'
 import { reactLocalStorage } from 'reactjs-localstorage'
 import AddNotes from '../../components/tenants/details/addnotes'
+import { assignTenantsAPI } from '../../redux/APIS/API'
 
 function TanantsFrom() {
    const [custom, setCustom] = useState(false)
@@ -73,14 +74,15 @@ function TanantsFrom() {
 
    const router = useRouter()
    const userEdit = router.query.edit
-
+   const projectId = router.query.project_id
+   console.log(router.query)
    useEffect(() => {
       if (userEdit) {
          console.log('edit true')
          console.log(userEdit, 'params')
          setPhotos([...editTenants.photos])
       } else {
-         router.push('/tenants/form')
+         //router.push('/tenants/form')
       }
    }, [])
 
@@ -247,6 +249,32 @@ function TanantsFrom() {
                console.log(respon.data)
                setTenantLoader(false)
                router.push('/tenants/list')
+            } else if (projectId) {
+               setTenantLoader(true)
+
+               const respon = await postTenantsAPI(values)
+               console.log(respon.data.data.tenant_id, ' my dataaa')
+               const tenant_idd = respon.data.data.tenant_id
+               const data = {
+                  post_id: '' + tenant_idd,
+                  author: '' + userId,
+                  photos: values.photos
+               }
+
+               if (data.photos.length > 0) {
+                  const responsive = await postTenantsAddPhotosAPI(data)
+               }
+
+               const response = await assignTenantsAPI({
+                  project_id: '' + projectId,
+                  tenant_ids: [tenant_idd]
+               })
+
+               console.log('assigned tenant succesfully', response)
+               toast.success(response.data.message)
+               setTenantLoader(false)
+               //console.log(respon.message)
+               router.push('/projects/list')
             } else {
                console.log('add tenants screen load now')
                setTenantLoader(true)
@@ -333,7 +361,7 @@ function TanantsFrom() {
          setShowDeletePopup(false)
 
          setPhotos([...photos])
-      } catch (error) { }
+      } catch (error) {}
    }
    return (
       <div className="App">
@@ -977,8 +1005,7 @@ function TanantsFrom() {
                               </div>
                            </div>
                         </div>
-                     ))
-                     }
+                     ))}
 
                      {showEditNotesPopup && (
                         <EditNotesPopup
@@ -1114,4 +1141,4 @@ function TanantsFrom() {
    )
 }
 
-export default TanantsFrom;
+export default TanantsFrom
