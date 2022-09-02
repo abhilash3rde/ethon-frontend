@@ -3,10 +3,10 @@ import { useFormik } from 'formik'
 
 export default function AddNotes(props) {
    const [showNotes, setShowNotes] = useState(false)
-   console.log('this props', props)
+
    const NoteFormik = useFormik({
       initialValues: {
-         detail: ''
+         note: ''
       },
       onSubmit: (values, { resetForm }) => {
          try {

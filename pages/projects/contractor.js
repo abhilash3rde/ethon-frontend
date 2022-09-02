@@ -6,8 +6,9 @@ import SubHeader from '../../components/tenants/header'
 
 
 
-export default function Aligncontractor() {
+export default function aligncontractor() {
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter()
 
 

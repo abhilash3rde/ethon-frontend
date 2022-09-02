@@ -60,33 +60,33 @@ function TanantsDetailsCom() {
       }
    }, [tenants_detail])
 
-   const NotesData = () => {
-      if (tenants_detail?.notes !== null) {
-         return (
-            <div>
-               <div className="flex gap-4">
-                  <div className="w-[30%]">
-                     <span className=" text-[12px]">
-                        {' '}
-                        {tenants_detail?.post_date &&
-                           format(
-                              new Date(tenants_detail?.post_date),
-                              'MM-dd-yyyy'
-                           )}{' '}
-                     </span>
-                  </div>
-                  <div className="w-[70%]">
-                     <p className="text-gray-500 text-sm ">
-                        {tenants_detail?.notes}
-                     </p>
-                  </div>
-               </div>
-            </div>
-         )
-      } else {
-         return ''
-      }
-   }
+   // const NotesData = () => {
+   //    if (tenants_detail?.notes !== null) {
+   //       return (
+   //          <div>
+   //             <div className="grid gap-4">
+   //                <div className="w-[30%]">
+   //                   <span className=" text-[12px]">
+   //                      {' '}
+   //                      {tenants_detail?.post_date &&
+   //                         format(
+   //                            new Date(tenants_detail?.post_date),
+   //                            'MM-dd-yyyy'
+   //                         )}{' '}
+   //                   </span>
+   //                </div>
+   //                <div className="w-[70%]">
+   //                   <p className="text-gray-500 text-sm ">
+   //                      {tenants_detail?.notes}
+   //                   </p>
+   //                </div>
+   //             </div>
+   //          </div>
+   //       )
+   //    } else {
+   //       return ''
+   //    }
+   // }
 
    async function ClickIcon() {
       try {
@@ -252,7 +252,28 @@ function TanantsDetailsCom() {
                      <span className="text-[15px] text-gray-500">Note</span>
                      <hr className="my-1 border-t-2" />
 
-                     <NotesData />
+                     {/* <NotesData /> */}
+                     {tenants_detail?.notes?.map((item, index) => (
+                        <div key={index}>
+                           <div className="grid gap-x-2	">
+                              <div className="w-full">
+                                 <span className=" text-[12px]">
+                                    {' '}
+                                    {item?.post_date &&
+                                       format(
+                                          new Date(item?.post_date),
+                                          'MM-dd-yyyy'
+                                       )}{' '}
+                                 </span>
+                              </div>
+                              <div className="w-full">
+                                 <p className="text-gray-500 text-sm ">
+                                    {item?.post_name}
+                                 </p>
+                              </div>
+                           </div>
+                        </div>
+                     ))}
                   </div>
                </div>
             </div>

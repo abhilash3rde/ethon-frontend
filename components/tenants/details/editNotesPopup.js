@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useFormik } from 'formik'
 
-function EditNotesPopup({ index, detail, datashow, onClick, formik }) {
+function editNotesPopup({ index, detail, datashow, onClick, formik }) {
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    const [showNotes, setShowNotes] = useState(false)
+   // eslint-disable-next-line react-hooks/rules-of-hooks
    const NoteFormik = useFormik({
       initialValues: {
          detail: detail
@@ -103,4 +105,4 @@ function EditNotesPopup({ index, detail, datashow, onClick, formik }) {
    )
 }
 
-export default EditNotesPopup;
+export default editNotesPopup

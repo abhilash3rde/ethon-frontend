@@ -4,8 +4,9 @@ import AlignTenant from '../../components/projects/alignTenant'
 import NavigationButton from '../../components/tenants/details/navigation_button'
 import SubHeader from '../../components/tenants/header'
 
-export default function Tenants() {
+export default function tenants() {
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter()
 
     function data() {
